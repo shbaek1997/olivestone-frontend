@@ -65,6 +65,8 @@ export function FileLoader() {
           responseType: "blob",
         }
       );
+      setFileId("");
+      setDownloadPassword("");
       const contentType = response.headers["content-type"];
       const blob = new Blob([response.data], {
         type: contentType,
@@ -74,8 +76,6 @@ export function FileLoader() {
       link.href = window.URL.createObjectURL(blob);
       link.click();
       console.log(response);
-      setFileId("");
-      setDownloadPassword("");
     } catch (error) {
       const { data } = error.response;
       const errorInfo = JSON.parse(await data.text());
@@ -104,7 +104,9 @@ export function FileLoader() {
       resetFileInput();
       const uploadedFile = response.data.file;
       console.log(uploadedFile.originalName);
-      alert(`${uploadedFile.originalName} success!`);
+      alert(
+        `${uploadedFile.originalName} 파일이 성공적으로 업로드 되었습니다. 현재 같이 저장한 비밀번호와 파일 아이디를 기억해주세요`
+      );
       setUploadSuccess(true);
       setDownloadId(uploadedFile._id);
     } catch (error) {
@@ -141,21 +143,21 @@ export function FileLoader() {
           >
             <h3>Upload</h3>
             <label>Upload file</label>
-            <input
+            <StyledInput
               ref={fileInputRef}
               type="file"
               name="file"
               onChange={handleFileChange}
               required
-            ></input>
+            ></StyledInput>
             <label>Password</label>
-            <input
+            <StyledInput
               type="password"
               value={uploadPassword}
               onChange={handleChangeUploadPassword}
               required
-            ></input>
-            <button type="submit">Upload File</button>
+            ></StyledInput>
+            <StyledButton type="submit">Upload File</StyledButton>
             {uploadSuccess ? (
               <div>
                 <div>생성된 아이디 값과 비밀번호를 기억해주세요.</div>
@@ -169,64 +171,89 @@ export function FileLoader() {
           <StyledForm acion="/" method="post" onSubmit={handleLoginSubmit}>
             <h3>Login to upload</h3>
             <label>Username</label>
-            <input
+            <StyledInput
               type="text"
               value={username}
               onChange={handleChangeUsername}
               required
-            ></input>
+            ></StyledInput>
             <label>Password</label>
-            <input
+            <StyledInput
               type="password"
               value={password}
               onChange={handleChangePassword}
               required
-            ></input>
-            <button type="submit" onSubmit={handleLoginSubmit}>
+            ></StyledInput>
+            <StyledButton type="submit" onSubmit={handleLoginSubmit}>
               Log in
-            </button>
+            </StyledButton>
           </StyledForm>
         )}
 
         <StyledForm method="post" onSubmit={handleDownloadSubmit}>
           <h3>Download</h3>
-          <label>file ID or could be url</label>
-          <input
+          <label>File ID</label>
+          <StyledInput
             type="text"
             onChange={handleChangeFileId}
             value={fileId}
             required
-          ></input>
+          ></StyledInput>
           <label>Password</label>
-          <input
+          <StyledInput
             type="password"
             onChange={handleChangeDownloadPassword}
             value={downloadPassword}
             required
-          ></input>
-          <button type="submit">Download File</button>
+          ></StyledInput>
+          <StyledButton type="submit">Download File</StyledButton>
         </StyledForm>
-        {isLoggedIn ? <button onClick={handleLogout}>sign out</button> : <></>}
+        {isLoggedIn ? (
+          <StyledButton onClick={handleLogout}>sign out</StyledButton>
+        ) : (
+          <></>
+        )}
       </StyledFormContainer>
     </StyledContainer>
   );
 }
 
+const StyledButton = styled.button`
+  padding: 10px;
+  width: 100%;
+  margin: 10px;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  background-color: grey;
+  &:hover {
+    background-color: white;
+    cursor: pointer;
+    color: black;
+  }
+`;
+const StyledInput = styled.input`
+  width: 90%;
+  margin: 10px;
+  padding: 10px;
+`;
+
 const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: pink;
-  padding: 30px 50px;
+  color: white;
+  background-color: black;
+  padding: 40px;
   border-radius: 10px;
   align-items: center;
   justify-content: center;
-  height: 50vh;
+  width: 350px;
 `;
 
 const StyledHeader = styled.div`
   font-weight: bold;
   font-size: 24px;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 `;
 
 const StyledFormContainer = styled.div`
@@ -237,5 +264,5 @@ const StyledFormContainer = styled.div`
 const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 300px;
 `;
