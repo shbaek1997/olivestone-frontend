@@ -1,10 +1,8 @@
-import logo from './logo.svg';
-import './App.css';
-
+import { FileLoader } from "./components/FileLoader";
 function App() {
   return (
     <div className="App">
-      <h1>File Upload and download</h1>
+      <FileLoader></FileLoader>
     </div>
   );
 }
