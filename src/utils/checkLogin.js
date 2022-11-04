@@ -1,10 +1,8 @@
-import api from "./api";
-import getUserToken from "./getUserToken";
+import Api from "./api";
 
 const checkLogin = async () => {
-  const token = getUserToken();
-  if (!token) return false;
   try {
+    const api = Api();
     const res = await api.get(`/users/auth`);
     console.log("check login");
     console.log(res);
