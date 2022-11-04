@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import checkLogin from "../utils/checkLogin";
 import useInput from "../hooks/useInput";
-import api from "../utils/api";
+import Api from "../utils/api";
 
 export function FileLoader() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -12,6 +12,11 @@ export function FileLoader() {
   const [password, setPassword, handleChangePassword] = useInput("");
   const [uploadPassword, setUploadPassword, handleChangeUploadPassword] =
     useInput("");
+  const [
+    uploadPasswordRepeat,
+    setUploadPasswordRepeat,
+    handleChangeUploadPasswordRepeat,
+  ] = useInput("");
   const [fileId, setFileId, handleChangeFileId] = useInput("");
   const [downloadPassword, setDownloadPassword, handleChangeDownloadPassword] =
     useInput("");
@@ -32,6 +37,7 @@ export function FileLoader() {
   const handleLoginSubmit = async (e) => {
     try {
       e.preventDefault();
+      const api = Api();
       const response = await api.post("users/login", {
         username,
         password,
@@ -54,7 +60,7 @@ export function FileLoader() {
   const handleDownloadSubmit = async (e) => {
     try {
       e.preventDefault();
-      console.log(fileId, downloadPassword);
+      const api = Api();
       const response = await api.post(
         "files/download",
         {
@@ -65,6 +71,8 @@ export function FileLoader() {
           responseType: "blob",
         }
       );
+      console.log("hello");
+      console.log(response.headers);
       setFileId("");
       setDownloadPassword("");
       const contentType = response.headers["content-type"];
@@ -72,10 +80,23 @@ export function FileLoader() {
         type: contentType,
         encoding: "UTF-8",
       });
+      console.log("hi");
+      console.log("url", window.URL.createObjectURL(blob));
       const link = document.createElement("a");
+      const contentDisposition = response.headers["content-disposition"];
+      let fileName = "untitled";
+      if (contentDisposition) {
+        const [fileNameMatch] = contentDisposition
+          .split(";")
+          .filter((str) => str.includes("filename"));
+        if (fileNameMatch) [, fileName] = fileNameMatch.split("=");
+      }
+      const decodedFileName = decodeURI(fileName);
+      console.log(decodedFileName);
+
       link.href = window.URL.createObjectURL(blob);
+      link.download = decodedFileName;
       link.click();
-      console.log(response);
     } catch (error) {
       const { data } = error.response;
       const errorInfo = JSON.parse(await data.text());
@@ -96,12 +117,16 @@ export function FileLoader() {
       formData.append("file", file);
       console.log(file);
       formData.append("password", uploadPassword);
+      formData.append("passwordRepeat", uploadPasswordRepeat);
+      const api = Api();
+
       const response = await api.post("files/upload", formData, {
         headers: { "Content-Type": "multipart/form-data; charset=UTF-8" },
       });
       setUploadPassword("");
       setFile({});
       resetFileInput();
+      setUploadPasswordRepeat("");
       const uploadedFile = response.data.file;
       console.log(uploadedFile.originalName);
       alert(
@@ -150,18 +175,25 @@ export function FileLoader() {
               onChange={handleFileChange}
               required
             ></StyledInput>
-            <label>Password</label>
+            <label>File Password</label>
             <StyledInput
               type="password"
               value={uploadPassword}
               onChange={handleChangeUploadPassword}
               required
             ></StyledInput>
+            <label>Confirm File Password</label>
+            <StyledInput
+              type="password"
+              value={uploadPasswordRepeat}
+              onChange={handleChangeUploadPasswordRepeat}
+              required
+            ></StyledInput>
             <StyledButton type="submit">Upload File</StyledButton>
             {uploadSuccess ? (
               <div>
                 <div>생성된 아이디 값과 비밀번호를 기억해주세요.</div>
-                <div>아이디: {downloadId}</div>{" "}
+                <div>파일 아이디: {downloadId}</div>{" "}
               </div>
             ) : (
               <></>
@@ -199,7 +231,7 @@ export function FileLoader() {
             value={fileId}
             required
           ></StyledInput>
-          <label>Password</label>
+          <label>File Password</label>
           <StyledInput
             type="password"
             onChange={handleChangeDownloadPassword}
@@ -209,7 +241,7 @@ export function FileLoader() {
           <StyledButton type="submit">Download File</StyledButton>
         </StyledForm>
         {isLoggedIn ? (
-          <StyledButton onClick={handleLogout}>sign out</StyledButton>
+          <StyledButton onClick={handleLogout}>Log out</StyledButton>
         ) : (
           <></>
         )}
