@@ -7,7 +7,7 @@ import Api from "../utils/api";
 export function FileLoader() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const fileInputRef = useRef(null);
-  const [file, setFile] = useState({});
+  // const [file, setFile] = useState({});
   const [username, setUsername, handleChangeUsername] = useInput("");
   const [password, setPassword, handleChangePassword] = useInput("");
   const [uploadPassword, setUploadPassword, handleChangeUploadPassword] =
@@ -24,15 +24,12 @@ export function FileLoader() {
   const [downloadId, setDownloadId] = useState("");
 
   const resetFileInput = () => {
-    fileInputRef.current.value = null;
-  };
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-    console.log(file);
+    fileInputRef.current.value = "";
   };
   const handleLogout = () => {
     sessionStorage.clear();
     setIsLoggedIn(false);
+    setUploadSuccess(false);
   };
   const handleLoginSubmit = async (e) => {
     try {
@@ -103,6 +100,8 @@ export function FileLoader() {
   const handleUploadSubmit = async (e) => {
     try {
       e.preventDefault();
+      console.log(fileInputRef.current.files[0], "test");
+      const file = fileInputRef.current.files[0];
       let formData = new FormData();
       if (uploadPassword.length < 8) {
         throw new Error("파일 비밀번호는 최소 8글자이어야 합니다.");
@@ -118,7 +117,6 @@ export function FileLoader() {
         headers: { "Content-Type": "multipart/form-data; charset=UTF-8" },
       });
       setUploadPassword("");
-      setFile({});
       resetFileInput();
       setUploadPasswordRepeat("");
       const uploadedFile = response.data.file;
@@ -164,7 +162,6 @@ export function FileLoader() {
               ref={fileInputRef}
               type="file"
               name="file"
-              onChange={handleFileChange}
               required
             ></StyledInput>
             <label>File Password</label>
