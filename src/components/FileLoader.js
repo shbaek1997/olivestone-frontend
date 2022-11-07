@@ -45,14 +45,10 @@ export function FileLoader() {
       setUsername("");
       setPassword("");
       const { token } = response?.data;
-      console.log(token);
-      console.log(response);
       sessionStorage.setItem("token", token);
       setIsLoggedIn(true);
     } catch (error) {
-      console.log(error);
       const { data } = error.response;
-      console.log(data);
       const { reason } = data;
       alert(reason);
     }
@@ -71,7 +67,6 @@ export function FileLoader() {
           responseType: "blob",
         }
       );
-      console.log("hello");
       console.log(response.headers);
       setFileId("");
       setDownloadPassword("");
@@ -80,8 +75,6 @@ export function FileLoader() {
         type: contentType,
         encoding: "UTF-8",
       });
-      console.log("hi");
-      console.log("url", window.URL.createObjectURL(blob));
       const link = document.createElement("a");
       const contentDisposition = response.headers["content-disposition"];
       let fileName = "untitled";
@@ -92,15 +85,12 @@ export function FileLoader() {
         if (fileNameMatch) [, fileName] = fileNameMatch.split("=");
       }
       const decodedFileName = decodeURI(fileName);
-      console.log(decodedFileName);
-
       link.href = window.URL.createObjectURL(blob);
       link.download = decodedFileName;
       link.click();
     } catch (error) {
       const { data } = error.response;
       const errorInfo = JSON.parse(await data.text());
-      console.log("info", errorInfo);
       let { reason } = errorInfo;
       const mongooseErrorMessage = reason.slice(0, 23);
       if (mongooseErrorMessage === "Cast to ObjectId failed") {
@@ -113,13 +103,17 @@ export function FileLoader() {
   const handleUploadSubmit = async (e) => {
     try {
       e.preventDefault();
-      const formData = new FormData();
-      formData.append("file", file);
-      console.log(file);
+      let formData = new FormData();
+      if (uploadPassword.length < 8) {
+        throw new Error("파일 비밀번호는 최소 8글자이어야 합니다.");
+      }
+      if (uploadPassword !== uploadPasswordRepeat) {
+        throw new Error("파일 비밀번호와 비밀번호 확인이 일치 하지 않습니다.");
+      }
       formData.append("password", uploadPassword);
       formData.append("passwordRepeat", uploadPasswordRepeat);
+      formData.append("file", file);
       const api = Api();
-
       const response = await api.post("files/upload", formData, {
         headers: { "Content-Type": "multipart/form-data; charset=UTF-8" },
       });
@@ -128,19 +122,18 @@ export function FileLoader() {
       resetFileInput();
       setUploadPasswordRepeat("");
       const uploadedFile = response.data.file;
-      console.log(uploadedFile.originalName);
       alert(
         `${uploadedFile.originalName} 파일이 성공적으로 업로드 되었습니다. 현재 같이 저장한 비밀번호와 파일 아이디를 기억해주세요`
       );
       setUploadSuccess(true);
       setDownloadId(uploadedFile._id);
     } catch (error) {
-      console.log("error");
-      console.log(error);
-      const { data } = error.response;
-      console.log(data);
-      const { reason } = data;
-      alert(reason);
+      if (error.response !== undefined) {
+        const { data } = error.response;
+        const { reason } = data;
+        alert(reason);
+      }
+      alert(error.message);
     }
   };
 
@@ -151,7 +144,6 @@ export function FileLoader() {
 
   useEffect(() => {
     setLogInValue();
-    console.log("test");
   }, []);
 
   return (
