@@ -11,6 +11,7 @@ import {
 import checkLogin from "../utils/checkLogin";
 import useInput from "../hooks/useInput";
 import Api from "../utils/api";
+import { errorHandler } from "../utils/error-handler";
 
 export function Upload() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -51,9 +52,7 @@ export function Upload() {
       sessionStorage.setItem("token", token);
       setIsLoggedIn(true);
     } catch (error) {
-      const { data } = error.response;
-      const { reason } = data;
-      alert(reason);
+      errorHandler(error);
     }
   };
 
@@ -88,12 +87,7 @@ export function Upload() {
       setUploadSuccess(true);
       setDownloadId(uploadedFile._id);
     } catch (error) {
-      if (error.response !== undefined) {
-        const { data } = error.response;
-        const { reason } = data;
-        alert(reason);
-      }
-      alert(error.message);
+      errorHandler(error);
     }
   };
 

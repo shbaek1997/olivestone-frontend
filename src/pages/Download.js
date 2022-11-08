@@ -9,6 +9,7 @@ import {
   StyledHeader,
 } from "../style/style";
 import Api from "../utils/api";
+import { errorHandler } from "../utils/error-handler";
 
 export function Download() {
   const [fileId, setFileId, handleChangeFileId] = useInput("");
@@ -50,14 +51,18 @@ export function Download() {
       link.download = decodedFileName;
       link.click();
     } catch (error) {
-      const { data } = error.response;
-      const errorInfo = JSON.parse(await data.text());
-      let { reason } = errorInfo;
-      const mongooseErrorMessage = reason.slice(0, 23);
-      if (mongooseErrorMessage === "Cast to ObjectId failed") {
-        reason = "올바른 형식의 아이디가 아닙니다.";
-      }
-      alert(reason);
+      errorHandler(error);
+      // console.log(error);
+      // console.log("download", error.response.data);
+      // console.log(error.response.data instanceof Blob);
+      // const { data } = error.response;
+      // const errorInfo = JSON.parse(await data.text());
+      // let { reason } = errorInfo;
+      // const mongooseErrorMessage = reason.slice(0, 23);
+      // if (mongooseErrorMessage === "Cast to ObjectId failed") {
+      //   reason = "올바른 형식의 아이디가 아닙니다.";
+      // }
+      // alert(reason);
     }
   };
 
