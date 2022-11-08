@@ -19,6 +19,7 @@ export function Upload() {
   const [password, setPassword, handleChangePassword] = useInput("");
   const [uploadPassword, setUploadPassword, handleChangeUploadPassword] =
     useInput("");
+  const [validPeriod, setValidPeriod, handleValidPeriod] = useInput(7);
   const [
     uploadPasswordRepeat,
     setUploadPasswordRepeat,
@@ -70,6 +71,7 @@ export function Upload() {
       }
       formData.append("password", uploadPassword);
       formData.append("passwordRepeat", uploadPasswordRepeat);
+      formData.append("validPeriod", validPeriod);
       formData.append("file", file);
       const api = Api();
       const response = await api.post("files/upload", formData, {
@@ -78,6 +80,7 @@ export function Upload() {
       setUploadPassword("");
       resetFileInput();
       setUploadPasswordRepeat("");
+      setValidPeriod(7);
       const uploadedFile = response.data.file;
       alert(
         `${uploadedFile.originalName} 파일이 성공적으로 업로드 되었습니다. 현재 같이 저장한 비밀번호와 파일 아이디를 기억해주세요`
@@ -135,6 +138,14 @@ export function Upload() {
               type="password"
               value={uploadPasswordRepeat}
               onChange={handleChangeUploadPasswordRepeat}
+              required
+            ></StyledInput>
+            <label>Valid for ( in days )</label>
+            <StyledInput
+              type="number"
+              min={1}
+              value={validPeriod}
+              onChange={handleValidPeriod}
               required
             ></StyledInput>
             <StyledButton type="submit">Upload File</StyledButton>
