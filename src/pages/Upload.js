@@ -59,15 +59,15 @@ export function Upload() {
   const handleUploadSubmit = async (e) => {
     try {
       e.preventDefault();
-      console.log(fileInputRef.current.files[0], "test");
+
       const file = fileInputRef.current.files[0];
       let formData = new FormData();
-      if (uploadPassword.length < 8) {
-        throw new Error("파일 비밀번호는 최소 8글자이어야 합니다.");
-      }
-      if (uploadPassword !== uploadPasswordRepeat) {
-        throw new Error("파일 비밀번호와 비밀번호 확인이 일치 하지 않습니다.");
-      }
+      // if (uploadPassword.length < 8) {
+      //   throw new Error("파일 비밀번호는 최소 8글자이어야 합니다.");
+      // }
+      // if (uploadPassword !== uploadPasswordRepeat) {
+      //   throw new Error("파일 비밀번호와 비밀번호 확인이 일치 하지 않습니다.");
+      // }
       formData.append("password", uploadPassword);
       formData.append("passwordRepeat", uploadPasswordRepeat);
       formData.append("validPeriod", validPeriod);
@@ -95,8 +95,8 @@ export function Upload() {
     const checkValue = await checkLogin();
     setIsLoggedIn(checkValue);
   };
-
   useEffect(() => {
+    console.log("set login");
     setLogInValue();
   }, []);
 
@@ -114,12 +114,7 @@ export function Upload() {
           >
             <h3>Upload</h3>
             <label>Upload file</label>
-            <StyledInput
-              ref={fileInputRef}
-              type="file"
-              name="file"
-              required
-            ></StyledInput>
+            <StyledInput ref={fileInputRef} type="file" required></StyledInput>
             <label>File Password</label>
             <StyledInput
               type="password"
@@ -174,6 +169,7 @@ export function Upload() {
             </StyledButton>
           </StyledForm>
         )}
+
         <StyledButton
           onClick={() => {
             navigate("/download");
@@ -182,7 +178,16 @@ export function Upload() {
           Go to Download
         </StyledButton>
         {isLoggedIn ? (
-          <StyledButton onClick={handleLogout}>Log out</StyledButton>
+          <>
+            <StyledButton
+              onClick={() => {
+                navigate("/files");
+              }}
+            >
+              See all files
+            </StyledButton>
+            <StyledButton onClick={handleLogout}>Log out</StyledButton>
+          </>
         ) : (
           <></>
         )}
