@@ -117,6 +117,9 @@ export const StyledNavButton = styled.button`
   border-radius: 10px;
   border: none;
   font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   &:hover {
     background-color: grey;
     cursor: pointer;
