@@ -1,4 +1,9 @@
 import styled from "styled-components";
+// upload/download pages
+export const StyledFileInput = styled.input`
+  margin: 10px;
+  padding: 10px;
+`;
 export const StyledButton = styled.button`
   padding: 10px;
   width: 100%;
@@ -7,6 +12,8 @@ export const StyledButton = styled.button`
   font-weight: bold;
   font-size: 16px;
   background-color: grey;
+  border-radius: 10px;
+  border: none;
   &:hover {
     background-color: white;
     cursor: pointer;

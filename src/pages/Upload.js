@@ -7,6 +7,7 @@ import {
   StyledButton,
   StyledInput,
   StyledHeader,
+  StyledFileInput,
 } from "../style/style";
 import checkLogin from "../utils/checkLogin";
 import useInput from "../hooks/useInput";
@@ -62,12 +63,6 @@ export function Upload() {
 
       const file = fileInputRef.current.files[0];
       let formData = new FormData();
-      // if (uploadPassword.length < 8) {
-      //   throw new Error("파일 비밀번호는 최소 8글자이어야 합니다.");
-      // }
-      // if (uploadPassword !== uploadPasswordRepeat) {
-      //   throw new Error("파일 비밀번호와 비밀번호 확인이 일치 하지 않습니다.");
-      // }
       formData.append("password", uploadPassword);
       formData.append("passwordRepeat", uploadPasswordRepeat);
       formData.append("validPeriod", validPeriod);
@@ -113,24 +108,35 @@ export function Upload() {
             acceptCharset="UTF-8"
           >
             <h3>Upload</h3>
-            <label>Upload file</label>
-            <StyledInput ref={fileInputRef} type="file" required></StyledInput>
-            <label>File Password</label>
+
+            <label htmlFor="file-input">Upload file</label>
+            <StyledFileInput
+              id="file-input"
+              ref={fileInputRef}
+              type="file"
+              required
+            ></StyledFileInput>
+            <label htmlFor="file-password-input">File Password</label>
             <StyledInput
+              id="file-password-input"
               type="password"
               value={uploadPassword}
               onChange={handleChangeUploadPassword}
               required
             ></StyledInput>
-            <label>Confirm File Password</label>
+            <label htmlFor="file-password-repeat-input">
+              Confirm File Password
+            </label>
             <StyledInput
+              id="file-password-repeat-input"
               type="password"
               value={uploadPasswordRepeat}
               onChange={handleChangeUploadPasswordRepeat}
               required
             ></StyledInput>
-            <label>Valid for ( in days )</label>
+            <label htmlFor="valid-days-input">Valid for ( in days )</label>
             <StyledInput
+              id="valid-days-input"
               type="number"
               min={1}
               value={validPeriod}
