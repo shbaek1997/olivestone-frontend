@@ -15,6 +15,7 @@ import Api from "../utils/api";
 import { errorHandler } from "../utils/error-handler";
 
 export function Upload() {
+  const [isLoading, setIsLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const fileInputRef = useRef(null);
   const [username, setUsername, handleChangeUsername] = useInput("");
@@ -89,13 +90,15 @@ export function Upload() {
   const setLogInValue = async () => {
     const checkValue = await checkLogin();
     setIsLoggedIn(checkValue);
+    setIsLoading(false);
   };
   useEffect(() => {
-    console.log("set login");
     setLogInValue();
   }, []);
 
-  return (
+  return isLoading ? (
+    <div>Loading ...</div>
+  ) : (
     <StyledContainer>
       <StyledHeader>Upload and Download</StyledHeader>
 
