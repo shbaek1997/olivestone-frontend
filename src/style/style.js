@@ -47,3 +47,82 @@ export const StyledForm = styled.form`
   flex-direction: column;
   width: 300px;
 `;
+
+//File info .js
+export const StyledTableDiv = styled.div`
+  display: flex;
+  align-items: center;
+`;
+export const StyledFileButton = styled.button`
+  width: 150px;
+  color: white;
+  background-color: black;
+  padding: 10px;
+
+  border-radius: 10px;
+  border: none;
+  font-weight: bold;
+  &:hover {
+    background-color: grey;
+    cursor: pointer;
+  }
+`;
+
+//files.js
+export const StyledTableHeader = styled.div`
+  display: flex;
+  border-bottom: 2px solid black;
+  padding: 10px;
+  font-weight: bold;
+  font-size: 18px;
+`;
+
+export const StyledFileContainer = styled.div`
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 250px 1fr 100px 150px;
+  width: 90%;
+`;
+
+export const StyledNavBar = styled.div`
+  display: flex;
+  width: 100vw;
+  justify-content: flex-end;
+  margin-right: 150px;
+`;
+
+export const StyledFilePage = styled.div`
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
+`;
+
+export const StyledNavButton = styled.button`
+  margin: 40px 10px;
+  width: 100px;
+  height: 40px;
+  color: white;
+  background-color: black;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  font-weight: bold;
+  &:hover {
+    background-color: grey;
+    cursor: pointer;
+  }
+`;
+
+//file modal
+export const StyledFileModal = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+  border-radius: 10px;
+  padding: 40px;
+  color: white;
+`;

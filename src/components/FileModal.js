@@ -1,5 +1,9 @@
-import styled from "styled-components";
-import { StyledForm, StyledInput, StyledButton } from "../style/style";
+import {
+  StyledForm,
+  StyledInput,
+  StyledButton,
+  StyledFileModal,
+} from "../style/style";
 import Api from "../utils/api";
 import useInput from "../hooks/useInput";
 import { errorHandler } from "../utils/error-handler";
@@ -67,13 +71,3 @@ const FileModal = ({ isActive, fileId, setPropsFunc }) => {
 };
 
 export default FileModal;
-
-const StyledFileModal = styled.div`
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  background-color: black;
-  border-radius: 10px;
-  padding: 40px;
-  color: white;
-`;

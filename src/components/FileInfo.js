@@ -1,5 +1,4 @@
-import styled from "styled-components";
-
+import { StyledTableDiv, StyledFileButton } from "../style/style";
 const FileInfo = ({ originalName, _id, expireDate, setPropsFunc }) => {
   const expireDateToString = expireDate.toString().slice(0, 10);
   const handleButtonClick = (event) => {
@@ -19,22 +18,3 @@ const FileInfo = ({ originalName, _id, expireDate, setPropsFunc }) => {
 };
 
 export default FileInfo;
-
-const StyledTableDiv = styled.div`
-  display: flex;
-  align-items: center;
-`;
-const StyledFileButton = styled.button`
-  width: 150px;
-  color: white;
-  background-color: black;
-  padding: 10px;
-
-  border-radius: 10px;
-  border: none;
-  font-weight: bold;
-  &:hover {
-    background-color: grey;
-    cursor: pointer;
-  }
-`;
