@@ -8,9 +8,9 @@ const FileInfo = ({ originalName, _id, expireDate, setPropsFunc }) => {
 
   return (
     <>
-      <div>{_id}</div>
-      <div>{originalName}</div>
-      <div>{expireDateToString}</div>
+      <StyledTableDiv>{_id}</StyledTableDiv>
+      <StyledTableDiv>{originalName}</StyledTableDiv>
+      <StyledTableDiv>{expireDateToString}</StyledTableDiv>
       <StyledFileButton onClick={handleButtonClick}>
         Change Password
       </StyledFileButton>
@@ -20,6 +20,10 @@ const FileInfo = ({ originalName, _id, expireDate, setPropsFunc }) => {
 
 export default FileInfo;
 
+const StyledTableDiv = styled.div`
+  display: flex;
+  align-items: center;
+`;
 const StyledFileButton = styled.button`
   width: 150px;
   color: white;
