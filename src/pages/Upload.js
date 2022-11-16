@@ -1,3 +1,4 @@
+//import
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -14,10 +15,12 @@ import useInput from "../hooks/useInput";
 import Api from "../utils/api";
 import { errorHandler } from "../utils/error-handler";
 
+//Upload page
 export function Upload() {
+  // loading and login state
   const [isLoading, setIsLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const fileInputRef = useRef(null);
+  // set state, onChange handlers for username, password, upload password, upload password repeat, valid period
   const [username, setUsername, handleChangeUsername] = useInput("");
   const [password, setPassword, handleChangePassword] = useInput("");
   const [uploadPassword, setUploadPassword, handleChangeUploadPassword] =
@@ -28,74 +31,103 @@ export function Upload() {
     setUploadPasswordRepeat,
     handleChangeUploadPasswordRepeat,
   ] = useInput("");
-  const [uploadSuccess, setUploadSuccess] = useState(false);
-  const [downloadId, setDownloadId] = useState("");
-  const navigate = useNavigate();
 
+  //state for upload successful and to show file ID of uploaded file
+  const [uploadSuccess, setUploadSuccess] = useState(false);
+  const [uploadedFileId, setUploadedFileId] = useState("");
+
+  //use Ref for input type file
+  const fileInputRef = useRef(null);
+  // useNavigate to navigate between pages
+  const navigate = useNavigate();
+  // reset file input after file upload success
   const resetFileInput = () => {
     fileInputRef.current.value = "";
   };
+  // logout
   const handleLogout = () => {
+    //clear any jwt
     sessionStorage.clear();
+    // change login state, change upload success to remove file id
     setIsLoggedIn(false);
     setUploadSuccess(false);
   };
+
+  //login
   const handleLoginSubmit = async (e) => {
     try {
       e.preventDefault();
       const api = Api();
+      //check api response
       const response = await api.post("users/login", {
         username,
         password,
       });
+      //successful response, so reset input fields
       setUsername("");
       setPassword("");
+      // set jwt token
       const { token } = response?.data;
       sessionStorage.setItem("token", token);
+      //change login state
       setIsLoggedIn(true);
     } catch (error) {
       errorHandler(error);
     }
   };
 
+  //upload file submission
   const handleUploadSubmit = async (e) => {
     try {
+      //prevent form submit default refresh
       e.preventDefault();
-
+      //get file from file input
       const file = fileInputRef.current.files[0];
+
+      //create new form data
       let formData = new FormData();
+      // add key/value to form data as api is required
       formData.append("password", uploadPassword);
       formData.append("passwordRepeat", uploadPasswordRepeat);
       formData.append("validPeriod", validPeriod);
+      // adding file last is important for multer api to work
       formData.append("file", file);
+      // api post request
       const api = Api();
       const response = await api.post("files/upload", formData, {
         headers: { "Content-Type": "multipart/form-data; charset=UTF-8" },
       });
+      // upload success, so reset input fields
       setUploadPassword("");
       resetFileInput();
       setUploadPasswordRepeat("");
       setValidPeriod(7);
+      //get file name uploaded from response and alert user
       const uploadedFile = response.data.file;
       alert(
         `${uploadedFile.originalName} 파일이 성공적으로 업로드 되었습니다. 현재 같이 저장한 비밀번호와 파일 아이디를 기억해주세요`
       );
+      // set upload success true to show user, uploaded file id
       setUploadSuccess(true);
-      setDownloadId(uploadedFile._id);
+      setUploadedFileId(uploadedFile._id);
     } catch (error) {
       errorHandler(error);
     }
   };
-
+  //check if user was logged in using jwt token and api response
   const setLogInValue = async () => {
     const checkValue = await checkLogin();
+    //return true if logged in, return false if not logged in
     setIsLoggedIn(checkValue);
+    // set loading false
     setIsLoading(false);
   };
+  // call setLogInValue once when page is first loaded
   useEffect(() => {
     setLogInValue();
   }, []);
 
+  //if loading show "loading..." else show form
   return isLoading ? (
     <div>Loading ...</div>
   ) : (
@@ -103,6 +135,7 @@ export function Upload() {
       <StyledHeader>Upload and Download</StyledHeader>
 
       <StyledFormContainer>
+        {/* if logged in show upload form else show login form */}
         {isLoggedIn ? (
           <StyledForm
             method="post"
@@ -147,10 +180,11 @@ export function Upload() {
               required
             ></StyledInput>
             <StyledButton type="submit">Upload File</StyledButton>
+            {/* show uploaded file id to the user after successfully uploading a file */}
             {uploadSuccess ? (
               <div>
                 <div>생성된 아이디 값과 비밀번호를 기억해주세요.</div>
-                <div>파일 아이디: {downloadId}</div>{" "}
+                <div>파일 아이디: {uploadedFileId}</div>{" "}
               </div>
             ) : (
               <></>
