@@ -31,8 +31,6 @@ export function Files() {
   const setPropsFunc = (fileIdVal, clickVal) => {
     setIsActive(clickVal);
     setFileId(fileIdVal);
-    console.log("fileId", fileId);
-    console.log(isActive);
   };
   /////
   const navigate = useNavigate();
@@ -79,7 +77,14 @@ export function Files() {
                 navigate("/");
               }}
             >
-              Go Back
+              Go to Upload
+            </StyledNavButton>
+            <StyledNavButton
+              onClick={() => {
+                navigate("/download");
+              }}
+            >
+              Go to Download
             </StyledNavButton>
             <StyledNavButton
               onClick={() => {

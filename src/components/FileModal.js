@@ -3,6 +3,7 @@ import {
   StyledInput,
   StyledButton,
   StyledFileModal,
+  StyledHeader,
 } from "../style/style";
 import Api from "../utils/api";
 import useInput from "../hooks/useInput";
@@ -18,9 +19,7 @@ const FileModal = ({ isActive, fileId, setPropsFunc }) => {
   const handleModalSubmit = async (event) => {
     try {
       event.preventDefault();
-      console.log(fileId);
       const api = Api();
-      console.log("passwords:", filePassword, fileRepeatPassword);
       const response = await api.patch(
         `files/${fileId}`,
         { filePassword, fileRepeatPassword },
@@ -43,6 +42,7 @@ const FileModal = ({ isActive, fileId, setPropsFunc }) => {
       style={isActive ? { display: "flex" } : { display: "none" }}
     >
       <StyledForm onSubmit={handleModalSubmit}>
+        <StyledHeader>Change Password</StyledHeader>
         <label htmlFor="file-password-input">Enter new file password</label>
         <StyledInput
           id="file-password-input"
@@ -61,7 +61,7 @@ const FileModal = ({ isActive, fileId, setPropsFunc }) => {
           value={fileRepeatPassword}
           onChange={handleChangeFileRepeatPassword}
         ></StyledInput>
-        <StyledButton>Submit</StyledButton>
+        <StyledButton>Change</StyledButton>
       </StyledForm>
       <StyledButton
         onClick={() => {
