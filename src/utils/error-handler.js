@@ -1,6 +1,4 @@
 export const errorHandler = async (error) => {
-  console.log(error);
-  console.log(error.message);
   if (!error.response) {
     alert(error.message);
     return;
