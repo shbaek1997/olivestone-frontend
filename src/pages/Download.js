@@ -61,15 +61,17 @@ export function Download() {
       <StyledFormContainer>
         <StyledForm method="post" onSubmit={handleDownloadSubmit}>
           <h3>Download</h3>
-          <label>File ID</label>
+          <label htmlFor="file-id-input">File ID</label>
           <StyledInput
+            id="file-id-input"
             type="text"
             onChange={handleChangeFileId}
             value={fileId}
             required
           ></StyledInput>
-          <label>File Password</label>
+          <label htmlFor="file-password-input">File Password</label>
           <StyledInput
+            id="file-password-input"
             type="password"
             onChange={handleChangeDownloadPassword}
             value={downloadPassword}

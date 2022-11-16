@@ -43,15 +43,19 @@ const FileModal = ({ isActive, fileId, setPropsFunc }) => {
       style={isActive ? { display: "flex" } : { display: "none" }}
     >
       <StyledForm onSubmit={handleModalSubmit}>
-        <label>Enter new file password</label>
+        <label htmlFor="file-password-input">Enter new file password</label>
         <StyledInput
+          id="file-password-input"
           type={"password"}
           required
           value={filePassword}
           onChange={handleChangeFilePassword}
         ></StyledInput>
-        <label>Confirm new file password</label>
+        <label htmlFor="file-password-repeat-input">
+          Confirm new file password
+        </label>
         <StyledInput
+          id="file-password-repeat-input"
           type={"password"}
           required
           value={fileRepeatPassword}
