@@ -1,4 +1,6 @@
 import styled from "styled-components";
+//all css styles in a single file using styled-components
+
 // upload/download pages
 export const StyledFileInput = styled.input`
   margin: 10px;
