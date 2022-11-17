@@ -78,6 +78,26 @@ export const StyledFileButton = styled.button`
 `;
 
 //files.js
+export const StyledSelect = styled.select`
+  margin: 40px 10px;
+  width: 180px;
+  height: 40px;
+  color: white;
+  background-color: black;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  font-weight: bold;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  border: none;
+  outline: none;
+  &:hover {
+    background-color: grey;
+    cursor: pointer;
+  }
+`;
 export const StyledTableHeader = styled.div`
   display: flex;
   border-bottom: 2px solid black;
