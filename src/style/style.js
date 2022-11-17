@@ -89,7 +89,7 @@ export const StyledTableHeader = styled.div`
 export const StyledFileContainer = styled.div`
   display: grid;
   grid-gap: 20px;
-  grid-template-columns: 250px 1fr 100px 150px;
+  grid-template-columns: 250px 1fr 100px 100px 150px;
   width: 90%;
 `;
 

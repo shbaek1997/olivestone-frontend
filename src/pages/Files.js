@@ -39,10 +39,43 @@ export function Files() {
   const navigate = useNavigate();
   // api call
   const api = Api();
-
   // set loading and files state
   const [isLoading, setIsLoading] = useState(true);
   const [files, setFiles] = useState([]);
+  //sort files
+  const alphString = "Alphabetical";
+  const alphReverseString = "Alphabetical reverse";
+  const uploadDateString = "Upload date";
+  const uploadDateReverseString = "Upload date reverse";
+  const expireDateString = "Expire date";
+  const expireDateReverseString = "Expire date reverse";
+  const handleSelectChange = (event) => {
+    console.log(event.target.value);
+    const selectedValue = event.target.value;
+    switch (selectedValue) {
+      case alphString:
+        console.log("alpha");
+        break;
+      case alphReverseString:
+        console.log("alph rev");
+        break;
+      case uploadDateString:
+        console.log("up date");
+        break;
+      case uploadDateReverseString:
+        console.log("up date rev");
+        break;
+      case expireDateString:
+        console.log("exp");
+        break;
+      case expireDateReverseString:
+        console.log("exp rev");
+        break;
+
+      default:
+        console.log("idk");
+    }
+  };
   // get all non expired files from the server and set files
   const getFile = async () => {
     try {
@@ -51,6 +84,7 @@ export function Files() {
       const { data } = response;
       const responseFiles = data.files;
       // set files
+      console.log(responseFiles);
       setFiles([...responseFiles]);
       // set loading false
       setIsLoading(false);
@@ -85,6 +119,15 @@ export function Files() {
       ) : (
         <>
           <StyledNavBar>
+            <select onChange={handleSelectChange}>
+              <option>Sort</option>
+              <option>{alphString}</option>
+              <option>{alphReverseString}</option>
+              <option>{uploadDateString}</option>
+              <option>{uploadDateReverseString}</option>
+              <option>{expireDateString}</option>
+              <option>{expireDateReverseString}</option>
+            </select>
             <StyledNavButton
               onClick={() => {
                 navigate("/");
@@ -111,15 +154,17 @@ export function Files() {
           <StyledFileContainer>
             <StyledTableHeader>File ID</StyledTableHeader>
             <StyledTableHeader>File Name</StyledTableHeader>
+            <StyledTableHeader>Uploaded Date</StyledTableHeader>
             <StyledTableHeader>Expire Date</StyledTableHeader>
             <StyledTableHeader>Change Pasword</StyledTableHeader>
             {/* we render file info by using info from files array */}
-            {files.map(({ originalName, _id, expireDate }) => {
+            {files.map(({ originalName, _id, expireDate, createdAt }) => {
               return (
                 <FileInfo
                   key={_id}
                   originalName={originalName}
                   _id={_id}
+                  createdAt={createdAt}
                   expireDate={expireDate}
                   setPropsFunc={setPropsFunc}
                 ></FileInfo>
