@@ -61,6 +61,7 @@ export const StyledForm = styled.form`
 export const StyledTableDiv = styled.div`
   display: flex;
   align-items: center;
+
   &.original-name:hover {
     color: blue;
     cursor: pointer;
@@ -71,6 +72,8 @@ export const StyledFileButton = styled.button`
   color: white;
   background-color: black;
   padding: 10px;
+  height: 35px;
+  margin: auto;
 
   border-radius: 10px;
   border: none;
