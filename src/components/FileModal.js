@@ -4,6 +4,7 @@ import {
   StyledButton,
   StyledFileModal,
   StyledHeader,
+  StyledButtonContainer,
 } from "../style/style";
 import Api from "../utils/api";
 import useInput from "../hooks/useInput";
@@ -99,10 +100,12 @@ const FileModal = ({ isActive, fileId, modalMode, setPropsFunc }) => {
       {modalMode === "copy-link" && (
         <>
           <StyledHeader>Copy Link</StyledHeader>
-          <StyledInput defaultValue={COPY_URL}></StyledInput>
-          <StyledButton onClick={handleCopyButtonClick}>
-            Copy to Clipboard
-          </StyledButton>
+          <StyledForm>
+            <StyledInput readOnly value={COPY_URL}></StyledInput>
+            <StyledButton onClick={handleCopyButtonClick}>
+              Copy to Clipboard
+            </StyledButton>
+          </StyledForm>
           <StyledButton
             onClick={() => {
               setPropsFunc("", false);
@@ -114,21 +117,26 @@ const FileModal = ({ isActive, fileId, modalMode, setPropsFunc }) => {
       )}
       {modalMode === "delete-file" && (
         <>
-          <StyledHeader>Do you really want to delete this file?</StyledHeader>
-          <StyledButton
-            onClick={() => {
-              console.log(fileId);
-            }}
-          >
-            Confirm
-          </StyledButton>
-          <StyledButton
-            onClick={() => {
-              setPropsFunc("", false);
-            }}
-          >
-            Cancel
-          </StyledButton>
+          <StyledHeader>Are you sure?</StyledHeader>
+          <h3 style={{ color: "white" }}>
+            You will not be able to revert this change
+          </h3>
+          <StyledButtonContainer>
+            <StyledButton
+              onClick={() => {
+                console.log(fileId);
+              }}
+            >
+              Confirm
+            </StyledButton>
+            <StyledButton
+              onClick={() => {
+                setPropsFunc("", false);
+              }}
+            >
+              Cancel
+            </StyledButton>
+          </StyledButtonContainer>
         </>
       )}
     </StyledFileModal>

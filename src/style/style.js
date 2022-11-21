@@ -165,3 +165,8 @@ export const StyledFileModal = styled.div`
   padding: 40px;
   color: white;
 `;
+
+export const StyledButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
