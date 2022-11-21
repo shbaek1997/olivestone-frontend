@@ -17,12 +17,12 @@ import CompareFunctions from "../utils/sort";
 
 // create Modal and attach to body, so it is outside of files page
 // send file id, is modal active props, and setPropsFunc to change state of those props in the child components
-const Modal = ({ isActive, fileId, setPropsFunc, isChangePassword }) => {
+const Modal = ({ isActive, fileId, setPropsFunc, modalMode }) => {
   return ReactDOM.createPortal(
     <FileModal
       isActive={isActive}
       fileId={fileId}
-      isChangePassword={isChangePassword}
+      modalMode={modalMode}
       setPropsFunc={setPropsFunc}
     ></FileModal>,
     document.body
@@ -33,12 +33,12 @@ export function Files() {
   //set file id and is modal active state
   const [fileId, setFileId] = useState("");
   const [isActive, setIsActive] = useState(false);
-  const [isChangePassword, setIsChangePassword] = useState(true);
+  const [modalMode, setModalMode] = useState("");
   //set props func which change state of those props
-  const setPropsFunc = (fileIdVal, activeVal, setIsPasswordVal) => {
+  const setPropsFunc = (fileIdVal, activeVal, modalModeVal) => {
     setIsActive(activeVal);
     setFileId(fileIdVal);
-    setIsChangePassword(setIsPasswordVal);
+    setModalMode(modalModeVal);
   };
   //navigate to navigate between pages
   const navigate = useNavigate();
@@ -208,7 +208,7 @@ export function Files() {
       <Modal
         isActive={isActive}
         fileId={fileId}
-        isChangePassword={isChangePassword}
+        modalMode={modalMode}
         setPropsFunc={setPropsFunc}
       ></Modal>
     </StyledFilePage>

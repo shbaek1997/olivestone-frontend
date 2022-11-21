@@ -12,11 +12,9 @@ const FileInfo = ({
   const expireDateToString = expireDate.toString().slice(0, 10);
   const uploadedDateToString = createdAt.toString().slice(0, 10);
   //on button click, we set fileId value and isActive to true
-  const handleButtonChangePasswordClick = (event) => {
-    setPropsFunc(_id, true, true);
-  };
-  const handleButtonDeleteFileClick = (event) => {
-    setPropsFunc(_id, true, false);
+  const handleButtonClick = (event) => {
+    const modalMode = event.target.id;
+    setPropsFunc(_id, true, modalMode);
   };
 
   return (
@@ -33,19 +31,16 @@ const FileInfo = ({
       <StyledTableDiv>{uploadedDateToString}</StyledTableDiv>
       <StyledTableDiv>{expireDateToString}</StyledTableDiv>
       <StyledFileButton
-        className={"password-change-button"}
-        onClick={handleButtonChangePasswordClick}
+        id={"change-password"}
+        className={"change-password-button"}
+        onClick={handleButtonClick}
       >
         Change Password
       </StyledFileButton>
-      <StyledFileButton
-        onClick={() => {
-          console.log();
-        }}
-      >
-        Copy Link
+      <StyledFileButton id={"copy-link"} onClick={handleButtonClick}>
+        Share File
       </StyledFileButton>
-      <StyledFileButton onClick={handleButtonDeleteFileClick}>
+      <StyledFileButton id={"delete-file"} onClick={handleButtonClick}>
         Delete File
       </StyledFileButton>
     </>

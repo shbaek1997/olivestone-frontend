@@ -8,8 +8,11 @@ import {
 import Api from "../utils/api";
 import useInput from "../hooks/useInput";
 import { errorHandler } from "../utils/error-handler";
+
 //File Modal component
-const FileModal = ({ isActive, fileId, isChangePassword, setPropsFunc }) => {
+const FileModal = ({ isActive, fileId, modalMode, setPropsFunc }) => {
+  const HOME_PAGE = "http://localhost:3000";
+  const COPY_URL = `${HOME_PAGE}/download?fileId=${fileId}`;
   //set new file password and password repeat in modal form
   const [filePassword, setFilePassword, handleChangeFilePassword] =
     useInput("");
@@ -44,13 +47,23 @@ const FileModal = ({ isActive, fileId, isChangePassword, setPropsFunc }) => {
       errorHandler(error);
     }
   };
+  const handleCopyButtonClick = async (event) => {
+    try {
+      await window.navigator.clipboard.writeText(COPY_URL);
+      alert("클립보드에 복사하였습니다");
+      setPropsFunc("", false);
+    } catch (error) {
+      errorHandler(error);
+    }
+  };
+  //magic strings change-password, 등 다 바꿔줘야 할 듯...
   return (
     <StyledFileModal
       id="file-password-modal"
       // if modal is active we display flex else modal display is none
       style={isActive ? { display: "flex" } : { display: "none" }}
     >
-      {isChangePassword ? (
+      {modalMode === "change-password" && (
         <>
           <StyledForm onSubmit={handleModalSubmit}>
             <StyledHeader>Change Password</StyledHeader>
@@ -82,7 +95,24 @@ const FileModal = ({ isActive, fileId, isChangePassword, setPropsFunc }) => {
             Cancel
           </StyledButton>
         </>
-      ) : (
+      )}
+      {modalMode === "copy-link" && (
+        <>
+          <StyledHeader>Copy Link</StyledHeader>
+          <StyledInput defaultValue={COPY_URL}></StyledInput>
+          <StyledButton onClick={handleCopyButtonClick}>
+            Copy to Clipboard
+          </StyledButton>
+          <StyledButton
+            onClick={() => {
+              setPropsFunc("", false);
+            }}
+          >
+            Cancel
+          </StyledButton>
+        </>
+      )}
+      {modalMode === "delete-file" && (
         <>
           <StyledHeader>Do you really want to delete this file?</StyledHeader>
           <StyledButton
