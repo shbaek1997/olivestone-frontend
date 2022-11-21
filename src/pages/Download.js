@@ -15,7 +15,13 @@ import getFilename from "../utils/getFilename";
 //download page
 export function Download() {
   //set file ID, download file password state and onChange handlers.
-  const [fileId, setFileId, handleChangeFileId] = useInput("");
+
+  const downloadFileId = new URLSearchParams(window.location.search).get(
+    "fileId"
+  );
+  const [fileId, setFileId, handleChangeFileId] = useInput(
+    downloadFileId || ""
+  );
   const [downloadPassword, setDownloadPassword, handleChangeDownloadPassword] =
     useInput("");
   // to navigate between pages

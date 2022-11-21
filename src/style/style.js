@@ -79,7 +79,7 @@ export const StyledFileButton = styled.button`
     background-color: grey;
     cursor: pointer;
   }
-  &.password-change-button {
+  &.change-password-button {
     width: 150px;
   }
 `;
