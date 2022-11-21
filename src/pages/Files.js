@@ -17,11 +17,12 @@ import CompareFunctions from "../utils/sort";
 
 // create Modal and attach to body, so it is outside of files page
 // send file id, is modal active props, and setPropsFunc to change state of those props in the child components
-const Modal = ({ isActive, fileId, setPropsFunc }) => {
+const Modal = ({ isActive, fileId, setPropsFunc, isChangePassword }) => {
   return ReactDOM.createPortal(
     <FileModal
       isActive={isActive}
       fileId={fileId}
+      isChangePassword={isChangePassword}
       setPropsFunc={setPropsFunc}
     ></FileModal>,
     document.body
@@ -32,10 +33,12 @@ export function Files() {
   //set file id and is modal active state
   const [fileId, setFileId] = useState("");
   const [isActive, setIsActive] = useState(false);
+  const [isChangePassword, setIsChangePassword] = useState(true);
   //set props func which change state of those props
-  const setPropsFunc = (fileIdVal, activeVal) => {
+  const setPropsFunc = (fileIdVal, activeVal, setIsPasswordVal) => {
     setIsActive(activeVal);
     setFileId(fileIdVal);
+    setIsChangePassword(setIsPasswordVal);
   };
   //navigate to navigate between pages
   const navigate = useNavigate();
@@ -180,9 +183,11 @@ export function Files() {
           <StyledFileContainer>
             <StyledTableHeader>File ID</StyledTableHeader>
             <StyledTableHeader>File Name</StyledTableHeader>
-            <StyledTableHeader>Uploaded Date</StyledTableHeader>
+            <StyledTableHeader>Upload Date</StyledTableHeader>
             <StyledTableHeader>Expire Date</StyledTableHeader>
             <StyledTableHeader>Change Pasword</StyledTableHeader>
+            <StyledTableHeader>Share</StyledTableHeader>
+            <StyledTableHeader>Delete File</StyledTableHeader>
             {/* we render file info by using info from files array */}
             {files.map(({ originalName, _id, expireDate, createdAt }) => {
               return (
@@ -203,6 +208,7 @@ export function Files() {
       <Modal
         isActive={isActive}
         fileId={fileId}
+        isChangePassword={isChangePassword}
         setPropsFunc={setPropsFunc}
       ></Modal>
     </StyledFilePage>

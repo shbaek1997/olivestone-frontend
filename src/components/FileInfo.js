@@ -12,18 +12,41 @@ const FileInfo = ({
   const expireDateToString = expireDate.toString().slice(0, 10);
   const uploadedDateToString = createdAt.toString().slice(0, 10);
   //on button click, we set fileId value and isActive to true
-  const handleButtonClick = (event) => {
-    setPropsFunc(_id, true);
+  const handleButtonChangePasswordClick = (event) => {
+    setPropsFunc(_id, true, true);
+  };
+  const handleButtonDeleteFileClick = (event) => {
+    setPropsFunc(_id, true, false);
   };
 
   return (
     <>
       <StyledTableDiv>{_id}</StyledTableDiv>
-      <StyledTableDiv>{originalName}</StyledTableDiv>
+      <StyledTableDiv
+        className={"original-name"}
+        onClick={() => {
+          console.log(originalName);
+        }}
+      >
+        {originalName}
+      </StyledTableDiv>
       <StyledTableDiv>{uploadedDateToString}</StyledTableDiv>
       <StyledTableDiv>{expireDateToString}</StyledTableDiv>
-      <StyledFileButton onClick={handleButtonClick}>
+      <StyledFileButton
+        className={"password-change-button"}
+        onClick={handleButtonChangePasswordClick}
+      >
         Change Password
+      </StyledFileButton>
+      <StyledFileButton
+        onClick={() => {
+          console.log();
+        }}
+      >
+        Copy Link
+      </StyledFileButton>
+      <StyledFileButton onClick={handleButtonDeleteFileClick}>
+        Delete File
       </StyledFileButton>
     </>
   );

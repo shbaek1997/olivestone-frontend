@@ -61,9 +61,13 @@ export const StyledForm = styled.form`
 export const StyledTableDiv = styled.div`
   display: flex;
   align-items: center;
+  &.original-name:hover {
+    color: blue;
+    cursor: pointer;
+  }
 `;
 export const StyledFileButton = styled.button`
-  width: 150px;
+  width: 100px;
   color: white;
   background-color: black;
   padding: 10px;
@@ -74,6 +78,9 @@ export const StyledFileButton = styled.button`
   &:hover {
     background-color: grey;
     cursor: pointer;
+  }
+  &.password-change-button {
+    width: 150px;
   }
 `;
 
@@ -109,7 +116,7 @@ export const StyledTableHeader = styled.div`
 export const StyledFileContainer = styled.div`
   display: grid;
   grid-gap: 20px;
-  grid-template-columns: 250px 1fr 100px 100px 150px;
+  grid-template-columns: 250px 1fr 100px 100px 150px 100px 100px;
   width: 90%;
 `;
 

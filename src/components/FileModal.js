@@ -9,7 +9,7 @@ import Api from "../utils/api";
 import useInput from "../hooks/useInput";
 import { errorHandler } from "../utils/error-handler";
 //File Modal component
-const FileModal = ({ isActive, fileId, setPropsFunc }) => {
+const FileModal = ({ isActive, fileId, isChangePassword, setPropsFunc }) => {
   //set new file password and password repeat in modal form
   const [filePassword, setFilePassword, handleChangeFilePassword] =
     useInput("");
@@ -50,35 +50,57 @@ const FileModal = ({ isActive, fileId, setPropsFunc }) => {
       // if modal is active we display flex else modal display is none
       style={isActive ? { display: "flex" } : { display: "none" }}
     >
-      <StyledForm onSubmit={handleModalSubmit}>
-        <StyledHeader>Change Password</StyledHeader>
-        <label htmlFor="file-password-input">Enter new file password</label>
-        <StyledInput
-          id="file-password-input"
-          type={"password"}
-          required
-          value={filePassword}
-          onChange={handleChangeFilePassword}
-        ></StyledInput>
-        <label htmlFor="file-password-repeat-input">
-          Confirm new file password
-        </label>
-        <StyledInput
-          id="file-password-repeat-input"
-          type={"password"}
-          required
-          value={fileRepeatPassword}
-          onChange={handleChangeFileRepeatPassword}
-        ></StyledInput>
-        <StyledButton>Change</StyledButton>
-      </StyledForm>
-      <StyledButton
-        onClick={() => {
-          setPropsFunc("", false);
-        }}
-      >
-        Cancel
-      </StyledButton>
+      {isChangePassword ? (
+        <>
+          <StyledForm onSubmit={handleModalSubmit}>
+            <StyledHeader>Change Password</StyledHeader>
+            <label htmlFor="file-password-input">Enter new file password</label>
+            <StyledInput
+              id="file-password-input"
+              type={"password"}
+              required
+              value={filePassword}
+              onChange={handleChangeFilePassword}
+            ></StyledInput>
+            <label htmlFor="file-password-repeat-input">
+              Confirm new file password
+            </label>
+            <StyledInput
+              id="file-password-repeat-input"
+              type={"password"}
+              required
+              value={fileRepeatPassword}
+              onChange={handleChangeFileRepeatPassword}
+            ></StyledInput>
+            <StyledButton>Change</StyledButton>
+          </StyledForm>
+          <StyledButton
+            onClick={() => {
+              setPropsFunc("", false);
+            }}
+          >
+            Cancel
+          </StyledButton>
+        </>
+      ) : (
+        <>
+          <StyledHeader>Do you really want to delete this file?</StyledHeader>
+          <StyledButton
+            onClick={() => {
+              console.log(fileId);
+            }}
+          >
+            Confirm
+          </StyledButton>
+          <StyledButton
+            onClick={() => {
+              setPropsFunc("", false);
+            }}
+          >
+            Cancel
+          </StyledButton>
+        </>
+      )}
     </StyledFileModal>
   );
 };
