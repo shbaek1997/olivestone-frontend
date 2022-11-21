@@ -186,7 +186,7 @@ export function Files() {
             <StyledTableHeader>Upload Date</StyledTableHeader>
             <StyledTableHeader>Expire Date</StyledTableHeader>
             <StyledTableHeader>Change Pasword</StyledTableHeader>
-            <StyledTableHeader>Share</StyledTableHeader>
+            <StyledTableHeader>Share File</StyledTableHeader>
             <StyledTableHeader>Delete File</StyledTableHeader>
             {/* we render file info by using info from files array */}
             {files.map(({ originalName, _id, expireDate, createdAt }) => {

@@ -9,8 +9,8 @@ import {
   StyledHeader,
 } from "../style/style";
 import Api from "../utils/api";
+import downloadFile from "../utils/downloadFile";
 import { errorHandler } from "../utils/error-handler";
-import getFilename from "../utils/getFilename";
 
 //download page
 export function Download() {
@@ -47,18 +47,7 @@ export function Download() {
       setFileId("");
       setDownloadPassword("");
       //convert file downloaded to blob format
-      const contentType = response.headers["content-type"];
-      const blob = new Blob([response.data], {
-        type: contentType,
-        encoding: "UTF-8",
-      });
-      // create a tag link
-      const link = document.createElement("a");
-      //attach blob to link, set download name as decoded file name, then click the link to start downlad
-      const decodedFileName = getFilename(response);
-      link.href = window.URL.createObjectURL(blob);
-      link.download = decodedFileName;
-      link.click();
+      downloadFile(response);
     } catch (error) {
       errorHandler(error);
     }
