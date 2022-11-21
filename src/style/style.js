@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { BUTTON_MIDDLE_COLOR, DARK_COLOR } from "../config/variables";
 //all css styles in a single file using styled-components
 
 // upload/download pages
@@ -13,7 +14,7 @@ export const StyledButton = styled.button`
   color: white;
   font-weight: bold;
   font-size: 16px;
-  background-color: grey;
+  background-color: ${BUTTON_MIDDLE_COLOR};
   border-radius: 10px;
   border: none;
   &:hover {
@@ -32,7 +33,7 @@ export const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
   color: white;
-  background-color: black;
+  background-color: ${DARK_COLOR};
   padding: 40px;
   border-radius: 10px;
   align-items: center;
@@ -63,14 +64,14 @@ export const StyledTableDiv = styled.div`
   align-items: center;
 
   &.original-name:hover {
-    color: blue;
+    color: ${BUTTON_MIDDLE_COLOR};
     cursor: pointer;
   }
 `;
 export const StyledFileButton = styled.button`
   width: 100px;
   color: white;
-  background-color: black;
+  background-color: ${DARK_COLOR};
   padding: 10px;
   height: 35px;
   margin: auto;
@@ -79,7 +80,7 @@ export const StyledFileButton = styled.button`
   border: none;
   font-weight: bold;
   &:hover {
-    background-color: grey;
+    background-color: ${BUTTON_MIDDLE_COLOR};
     cursor: pointer;
   }
   &.change-password-button {
@@ -93,7 +94,7 @@ export const StyledSelect = styled.select`
   width: 180px;
   height: 40px;
   color: white;
-  background-color: black;
+  background-color: ${DARK_COLOR};
   padding: 10px;
   border-radius: 10px;
   border: none;
@@ -104,7 +105,7 @@ export const StyledSelect = styled.select`
   border: none;
   outline: none;
   &:hover {
-    background-color: grey;
+    background-color: ${BUTTON_MIDDLE_COLOR};
     cursor: pointer;
   }
 `;
@@ -144,7 +145,7 @@ export const StyledNavButton = styled.button`
   width: 100px;
   height: 40px;
   color: white;
-  background-color: black;
+  background-color: ${DARK_COLOR};
   padding: 10px;
   border-radius: 10px;
   border: none;
@@ -153,7 +154,7 @@ export const StyledNavButton = styled.button`
   align-items: center;
   justify-content: center;
   &:hover {
-    background-color: grey;
+    background-color: ${BUTTON_MIDDLE_COLOR};
     cursor: pointer;
   }
 `;
@@ -163,7 +164,7 @@ export const StyledFileModal = styled.div`
   position: absolute;
   display: flex;
   flex-direction: column;
-  background-color: black;
+  background-color: ${DARK_COLOR};
   border-radius: 10px;
   padding: 40px;
   color: white;

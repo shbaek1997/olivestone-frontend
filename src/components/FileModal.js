@@ -146,7 +146,7 @@ const FileModal = ({ isActive, fileId, modalMode, setPropsFunc, files }) => {
           </h3>
           <StyledButtonContainer>
             <StyledButton onClick={handleDeleteFileButtonClick}>
-              Confirm
+              Delete
             </StyledButton>
             <StyledButton
               onClick={() => {

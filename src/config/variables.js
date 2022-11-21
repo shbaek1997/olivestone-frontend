@@ -10,3 +10,7 @@ export const UPLOAD_DATE_REVERSE = "Upload date reverse";
 export const EXPIRE_DATE = "Expire date";
 export const EXPIRE_DATE_REVERSE = "Expire date reverse";
 export const FILE_TYPE = "File type";
+
+//
+export const DARK_COLOR = "rgb(70,30,105)";
+export const BUTTON_MIDDLE_COLOR = "rgb(200,155,200)";
