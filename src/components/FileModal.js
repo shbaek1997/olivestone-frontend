@@ -14,6 +14,7 @@ import { errorHandler } from "../utils/error-handler";
 const FileModal = ({ isActive, fileId, modalMode, setPropsFunc, files }) => {
   const HOME_PAGE = "http://localhost:3000";
   const COPY_URL = `${HOME_PAGE}/download?fileId=${fileId}`;
+  const api = Api();
   //set new file password and password repeat in modal form
   const [filePassword, setFilePassword, handleChangeFilePassword] =
     useInput("");
@@ -27,10 +28,10 @@ const FileModal = ({ isActive, fileId, modalMode, setPropsFunc, files }) => {
   const handleModalSubmit = async (event) => {
     try {
       event.preventDefault();
-      const api = Api();
+
       //patch exisiting file with new password using patch api request
       const response = await api.patch(
-        `files/${fileId}`,
+        `files/password/${fileId}`,
         { filePassword, fileRepeatPassword },
         {
           headers: { "Content-Type": "application/json" },
@@ -60,9 +61,15 @@ const FileModal = ({ isActive, fileId, modalMode, setPropsFunc, files }) => {
 
   const handleDeleteFileButtonClick = async (event) => {
     try {
+      const response = await api.patch(`files/expireDate/${fileId}`, {
+        headers: { "Content-Type": "application/json" },
+      });
+      const { originalName } = response?.data;
+
       //이제 api로 file expire시키는 부분을 하고, 확인이 되면 이 필터를 적용하면 됨..
       const newFiles = files.filter((file) => file._id !== fileId);
       console.log(newFiles);
+      alert(`${originalName} 파일이 성공적으로 삭제되었습니다.`);
       setPropsFunc("", false, "", newFiles);
     } catch (error) {
       errorHandler(error);
