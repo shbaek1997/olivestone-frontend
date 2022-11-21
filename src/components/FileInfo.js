@@ -1,3 +1,8 @@
+import {
+  CHANGE_PASSWORD_BUTTON_ID,
+  DELETE_FILE_BUTTON_ID,
+  SHARE_FILE_BUTTON_ID,
+} from "../config/variables";
 import { StyledTableDiv, StyledFileButton } from "../style/style";
 import Api from "../utils/api";
 import downloadFile from "../utils/downloadFile";
@@ -42,16 +47,16 @@ const FileInfo = ({
       <StyledTableDiv>{uploadedDateToString}</StyledTableDiv>
       <StyledTableDiv>{expireDateToString}</StyledTableDiv>
       <StyledFileButton
-        id={"change-password"}
+        id={CHANGE_PASSWORD_BUTTON_ID}
         className={"change-password-button"}
         onClick={handleButtonClick}
       >
         Change Password
       </StyledFileButton>
-      <StyledFileButton id={"copy-link"} onClick={handleButtonClick}>
+      <StyledFileButton id={SHARE_FILE_BUTTON_ID} onClick={handleButtonClick}>
         Share File
       </StyledFileButton>
-      <StyledFileButton id={"delete-file"} onClick={handleButtonClick}>
+      <StyledFileButton id={DELETE_FILE_BUTTON_ID} onClick={handleButtonClick}>
         Delete File
       </StyledFileButton>
     </>

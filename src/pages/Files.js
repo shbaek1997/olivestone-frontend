@@ -14,6 +14,15 @@ import {
   StyledSelect,
 } from "../style/style";
 import CompareFunctions from "../utils/sort";
+import {
+  ALPHABETICAL,
+  ALPHABETICAL_REVERSE,
+  EXPIRE_DATE,
+  EXPIRE_DATE_REVERSE,
+  FILE_TYPE,
+  UPLOAD_DATE,
+  UPLOAD_DATE_REVERSE,
+} from "../config/variables";
 
 // create Modal and attach to body, so it is outside of files page
 // send file id, is modal active props, and setPropsFunc to change state of those props in the child components
@@ -52,13 +61,6 @@ export function Files() {
 
   //sort files
   //sort related string for option tag and switch cases
-  const alphString = "Alphabetical";
-  const alphReverseString = "Alphabetical reverse";
-  const uploadDateString = "Upload date";
-  const uploadDateReverseString = "Upload date reverse";
-  const expireDateString = "Expire date";
-  const expireDateReverseString = "Expire date reverse";
-  const mimeTypeString = "File type";
   //use compare service for cb in sort function js
   const compareService = new CompareFunctions();
 
@@ -66,41 +68,41 @@ export function Files() {
   const handleSelectChange = (event) => {
     const selectedValue = event.target.value;
     switch (selectedValue) {
-      case alphString:
+      case ALPHABETICAL:
         const alphSortedFiles = files.sort(compareService.compareAlphFilename);
         setFiles([...alphSortedFiles]);
         break;
-      case alphReverseString:
+      case ALPHABETICAL_REVERSE:
         const alphRevSortedFiles = files.sort(
           compareService.compareAlphFilenameReverse
         );
         setFiles([...alphRevSortedFiles]);
         break;
-      case uploadDateString:
+      case UPLOAD_DATE:
         const uploadDateSortedFiles = files.sort(
           compareService.compareUploadDate
         );
         setFiles([...uploadDateSortedFiles]);
         break;
-      case uploadDateReverseString:
+      case UPLOAD_DATE_REVERSE:
         const uploadDateRevSortedFiles = files.sort(
           compareService.compareUploadDateReverse
         );
         setFiles([...uploadDateRevSortedFiles]);
         break;
-      case expireDateString:
+      case EXPIRE_DATE:
         const expireDateSortedFiles = files.sort(
           compareService.compareExpireDate
         );
         setFiles([...expireDateSortedFiles]);
         break;
-      case expireDateReverseString:
+      case EXPIRE_DATE_REVERSE:
         const expireDateRevSortedFiles = files.sort(
           compareService.compareExpireDateReverse
         );
         setFiles([...expireDateRevSortedFiles]);
         break;
-      case mimeTypeString:
+      case FILE_TYPE:
         const mimeTypeSortedFiles = files.sort(compareService.compareMimeType);
         setFiles([...mimeTypeSortedFiles]);
         break;
@@ -151,13 +153,13 @@ export function Files() {
           <StyledNavBar>
             <StyledSelect onChange={handleSelectChange}>
               <option>-- Sort --</option>
-              <option>{alphString}</option>
-              <option>{alphReverseString}</option>
-              <option>{uploadDateString}</option>
-              <option>{uploadDateReverseString}</option>
-              <option>{expireDateString}</option>
-              <option>{expireDateReverseString}</option>
-              <option>{mimeTypeString}</option>
+              <option>{ALPHABETICAL}</option>
+              <option>{ALPHABETICAL_REVERSE}</option>
+              <option>{UPLOAD_DATE}</option>
+              <option>{UPLOAD_DATE_REVERSE}</option>
+              <option>{EXPIRE_DATE}</option>
+              <option>{EXPIRE_DATE_REVERSE}</option>
+              <option>{FILE_TYPE}</option>
             </StyledSelect>
             <StyledNavButton
               onClick={() => {

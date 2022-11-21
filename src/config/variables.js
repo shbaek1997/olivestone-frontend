@@ -1,0 +1,12 @@
+export const BASE_URL = "http://localhost:5000";
+export const CHANGE_PASSWORD_BUTTON_ID = "change-password";
+export const SHARE_FILE_BUTTON_ID = "copy-link";
+export const DELETE_FILE_BUTTON_ID = "delete-file";
+export const HOME_PAGE = "http://localhost:3000";
+export const ALPHABETICAL = "Alphabetical";
+export const ALPHABETICAL_REVERSE = "Alphabetical reverse";
+export const UPLOAD_DATE = "Upload date";
+export const UPLOAD_DATE_REVERSE = "Upload date reverse";
+export const EXPIRE_DATE = "Expire date";
+export const EXPIRE_DATE_REVERSE = "Expire date reverse";
+export const FILE_TYPE = "File type";

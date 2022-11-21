@@ -1,6 +1,6 @@
 import axios from "axios";
 import getUserToken from "./getUserToken";
-const BASE_URL = "http://localhost:5000";
+import { BASE_URL } from "../config/variables";
 
 //function for using axios api
 const Api = () => {

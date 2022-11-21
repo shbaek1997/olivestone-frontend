@@ -9,10 +9,15 @@ import {
 import Api from "../utils/api";
 import useInput from "../hooks/useInput";
 import { errorHandler } from "../utils/error-handler";
+import {
+  CHANGE_PASSWORD_BUTTON_ID,
+  DELETE_FILE_BUTTON_ID,
+  SHARE_FILE_BUTTON_ID,
+  HOME_PAGE,
+} from "../config/variables";
 
 //File Modal component
 const FileModal = ({ isActive, fileId, modalMode, setPropsFunc, files }) => {
-  const HOME_PAGE = "http://localhost:3000";
   const COPY_URL = `${HOME_PAGE}/download?fileId=${fileId}`;
   const api = Api();
   //set new file password and password repeat in modal form
@@ -82,7 +87,7 @@ const FileModal = ({ isActive, fileId, modalMode, setPropsFunc, files }) => {
       // if modal is active we display flex else modal display is none
       style={isActive ? { display: "flex" } : { display: "none" }}
     >
-      {modalMode === "change-password" && (
+      {modalMode === CHANGE_PASSWORD_BUTTON_ID && (
         <>
           <StyledForm onSubmit={handleModalSubmit}>
             <StyledHeader>Change Password</StyledHeader>
@@ -115,7 +120,7 @@ const FileModal = ({ isActive, fileId, modalMode, setPropsFunc, files }) => {
           </StyledButton>
         </>
       )}
-      {modalMode === "copy-link" && (
+      {modalMode === SHARE_FILE_BUTTON_ID && (
         <>
           <StyledHeader>Copy Link</StyledHeader>
           <StyledForm>
@@ -133,7 +138,7 @@ const FileModal = ({ isActive, fileId, modalMode, setPropsFunc, files }) => {
           </StyledButton>
         </>
       )}
-      {modalMode === "delete-file" && (
+      {modalMode === DELETE_FILE_BUTTON_ID && (
         <>
           <StyledHeader>Are you sure?</StyledHeader>
           <h3 style={{ color: "white" }}>
