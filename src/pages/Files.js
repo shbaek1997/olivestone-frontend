@@ -17,13 +17,14 @@ import CompareFunctions from "../utils/sort";
 
 // create Modal and attach to body, so it is outside of files page
 // send file id, is modal active props, and setPropsFunc to change state of those props in the child components
-const Modal = ({ isActive, fileId, setPropsFunc, modalMode }) => {
+const Modal = ({ isActive, fileId, setPropsFunc, modalMode, files }) => {
   return ReactDOM.createPortal(
     <FileModal
       isActive={isActive}
       fileId={fileId}
       modalMode={modalMode}
       setPropsFunc={setPropsFunc}
+      files={files}
     ></FileModal>,
     document.body
   );
@@ -34,11 +35,13 @@ export function Files() {
   const [fileId, setFileId] = useState("");
   const [isActive, setIsActive] = useState(false);
   const [modalMode, setModalMode] = useState("");
+  const [files, setFiles] = useState([]);
   //set props func which change state of those props
-  const setPropsFunc = (fileIdVal, activeVal, modalModeVal) => {
+  const setPropsFunc = (fileIdVal, activeVal, modalModeVal, fileVal) => {
     setIsActive(activeVal);
     setFileId(fileIdVal);
     setModalMode(modalModeVal);
+    setFiles(fileVal);
   };
   //navigate to navigate between pages
   const navigate = useNavigate();
@@ -46,7 +49,6 @@ export function Files() {
   const api = Api();
   // set loading and files state
   const [isLoading, setIsLoading] = useState(true);
-  const [files, setFiles] = useState([]);
 
   //sort files
   //sort related string for option tag and switch cases
@@ -198,6 +200,7 @@ export function Files() {
                   createdAt={createdAt}
                   expireDate={expireDate}
                   setPropsFunc={setPropsFunc}
+                  files={files}
                 ></FileInfo>
               );
             })}
@@ -210,6 +213,7 @@ export function Files() {
         fileId={fileId}
         modalMode={modalMode}
         setPropsFunc={setPropsFunc}
+        files={files}
       ></Modal>
     </StyledFilePage>
   );

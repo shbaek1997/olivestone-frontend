@@ -11,7 +11,7 @@ import useInput from "../hooks/useInput";
 import { errorHandler } from "../utils/error-handler";
 
 //File Modal component
-const FileModal = ({ isActive, fileId, modalMode, setPropsFunc }) => {
+const FileModal = ({ isActive, fileId, modalMode, setPropsFunc, files }) => {
   const HOME_PAGE = "http://localhost:3000";
   const COPY_URL = `${HOME_PAGE}/download?fileId=${fileId}`;
   //set new file password and password repeat in modal form
@@ -43,7 +43,7 @@ const FileModal = ({ isActive, fileId, modalMode, setPropsFunc }) => {
       const { originalName } = response?.data;
       alert(`${originalName} 파일 비밀번호가 성공적으로 변경되었습니다.`);
       //reset fileId value and make modal inactive to clear modal
-      setPropsFunc("", false);
+      setPropsFunc("", false, "", files);
     } catch (error) {
       errorHandler(error);
     }
@@ -52,7 +52,18 @@ const FileModal = ({ isActive, fileId, modalMode, setPropsFunc }) => {
     try {
       await window.navigator.clipboard.writeText(COPY_URL);
       alert("클립보드에 복사하였습니다");
-      setPropsFunc("", false);
+      setPropsFunc("", false, "", files);
+    } catch (error) {
+      errorHandler(error);
+    }
+  };
+
+  const handleDeleteFileButtonClick = async (event) => {
+    try {
+      //이제 api로 file expire시키는 부분을 하고, 확인이 되면 이 필터를 적용하면 됨..
+      const newFiles = files.filter((file) => file._id !== fileId);
+      console.log(newFiles);
+      setPropsFunc("", false, "", newFiles);
     } catch (error) {
       errorHandler(error);
     }
@@ -90,7 +101,7 @@ const FileModal = ({ isActive, fileId, modalMode, setPropsFunc }) => {
           </StyledForm>
           <StyledButton
             onClick={() => {
-              setPropsFunc("", false);
+              setPropsFunc("", false, "", files);
             }}
           >
             Cancel
@@ -108,7 +119,7 @@ const FileModal = ({ isActive, fileId, modalMode, setPropsFunc }) => {
           </StyledForm>
           <StyledButton
             onClick={() => {
-              setPropsFunc("", false);
+              setPropsFunc("", false, "", files);
             }}
           >
             Cancel
@@ -122,16 +133,12 @@ const FileModal = ({ isActive, fileId, modalMode, setPropsFunc }) => {
             You will not be able to revert this change
           </h3>
           <StyledButtonContainer>
-            <StyledButton
-              onClick={() => {
-                console.log(fileId);
-              }}
-            >
+            <StyledButton onClick={handleDeleteFileButtonClick}>
               Confirm
             </StyledButton>
             <StyledButton
               onClick={() => {
-                setPropsFunc("", false);
+                setPropsFunc("", false, "", files);
               }}
             >
               Cancel

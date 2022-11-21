@@ -10,6 +10,7 @@ const FileInfo = ({
   expireDate,
   setPropsFunc,
   createdAt,
+  files,
 }) => {
   //convert expire date to YY-MM-DD formate
   const expireDateToString = expireDate.toString().slice(0, 10);
@@ -18,7 +19,7 @@ const FileInfo = ({
   //on button click, we set fileId value and isActive to true
   const handleButtonClick = (event) => {
     const modalMode = event.target.id;
-    setPropsFunc(_id, true, modalMode);
+    setPropsFunc(_id, true, modalMode, files);
   };
   const handleFileNameClick = async (event) => {
     try {
