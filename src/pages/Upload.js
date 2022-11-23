@@ -10,16 +10,18 @@ import {
   StyledHeader,
   StyledFileInput,
 } from "../style/style";
-import checkLogin from "../utils/checkLogin";
 import useInput from "../hooks/useInput";
 import Api from "../utils/api";
 import { errorHandler } from "../utils/error-handler";
-
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserByJWT, userLogin, userLogout } from "../context/slice";
 //Upload page
 export function Upload() {
+  const dispatch = useDispatch();
   // loading and login state
   const [isLoading, setIsLoading] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
   // set state, onChange handlers for username, password, upload password, upload password repeat, valid period
   const [username, setUsername, handleChangeUsername] = useInput("");
   const [password, setPassword, handleChangePassword] = useInput("");
@@ -46,10 +48,7 @@ export function Upload() {
   };
   // logout
   const handleLogout = () => {
-    //clear any jwt
-    sessionStorage.clear();
-    // change login state, change upload success to remove file id
-    setIsLoggedIn(false);
+    dispatch(userLogout());
     setUploadSuccess(false);
   };
 
@@ -57,22 +56,11 @@ export function Upload() {
   const handleLoginSubmit = async (e) => {
     try {
       e.preventDefault();
-      const api = Api();
-      //check api response
-      const response = await api.post("users/login", {
-        username,
-        password,
-      });
-      //successful response, so reset input fields
+      await dispatch(userLogin({ username, password })).unwrap();
       setUsername("");
       setPassword("");
-      // set jwt token
-      const { token } = response?.data;
-      sessionStorage.setItem("token", token);
-      //change login state
-      setIsLoggedIn(true);
     } catch (error) {
-      errorHandler(error);
+      alert(error);
     }
   };
 
@@ -114,18 +102,11 @@ export function Upload() {
       errorHandler(error);
     }
   };
-  //check if user was logged in using jwt token and api response
-  const setLogInValue = async () => {
-    const checkValue = await checkLogin();
-    //return true if logged in, return false if not logged in
-    setIsLoggedIn(checkValue);
-    // set loading false
-    setIsLoading(false);
-  };
   // call setLogInValue once when page is first loaded
   useEffect(() => {
-    setLogInValue();
-  }, []);
+    dispatch(fetchUserByJWT());
+    setIsLoading(false);
+  }, [dispatch]);
 
   //if loading show "loading..." else show form
   return isLoading ? (
