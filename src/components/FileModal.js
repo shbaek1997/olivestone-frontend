@@ -18,8 +18,10 @@ import {
 import { useSelector } from "react-redux";
 
 //File Modal component
-const FileModal = ({ isActive, fileId, setPropsFunc, files }) => {
+const FileModal = ({ isActive, setPropsFunc, files }) => {
   const modalMode = useSelector((state) => state.modal.modalMode);
+  const fileId = useSelector((state) => state.modal.fileId);
+  console.log(fileId, "fileId");
   const COPY_URL = `${HOME_PAGE}/download?fileId=${fileId}`;
   const api = Api();
   //set new file password and password repeat in modal form
@@ -35,7 +37,7 @@ const FileModal = ({ isActive, fileId, setPropsFunc, files }) => {
   const handleModalSubmit = async (event) => {
     try {
       event.preventDefault();
-
+      console.log(event.target);
       //patch exisiting file with new password using patch api request
       const response = await api.patch(
         `files/password/${fileId}`,
@@ -51,7 +53,7 @@ const FileModal = ({ isActive, fileId, setPropsFunc, files }) => {
       const { originalName } = response?.data;
       alert(`${originalName} 파일 비밀번호가 성공적으로 변경되었습니다.`);
       //reset fileId value and make modal inactive to clear modal
-      setPropsFunc("", false, files);
+      setPropsFunc(false, files);
     } catch (error) {
       errorHandler(error);
     }
@@ -60,7 +62,7 @@ const FileModal = ({ isActive, fileId, setPropsFunc, files }) => {
     try {
       await window.navigator.clipboard.writeText(COPY_URL);
       alert("클립보드에 복사하였습니다");
-      setPropsFunc("", false, files);
+      setPropsFunc(false, files);
     } catch (error) {
       errorHandler(error);
     }
@@ -77,7 +79,7 @@ const FileModal = ({ isActive, fileId, setPropsFunc, files }) => {
       const newFiles = files.filter((file) => file._id !== fileId);
       console.log(newFiles);
       alert(`${originalName} 파일이 성공적으로 삭제되었습니다.`);
-      setPropsFunc("", false, newFiles);
+      setPropsFunc(false, newFiles);
     } catch (error) {
       errorHandler(error);
     }
@@ -115,7 +117,7 @@ const FileModal = ({ isActive, fileId, setPropsFunc, files }) => {
           </StyledForm>
           <StyledButton
             onClick={() => {
-              setPropsFunc("", false, files);
+              setPropsFunc(false, files);
             }}
           >
             Cancel
@@ -133,7 +135,7 @@ const FileModal = ({ isActive, fileId, setPropsFunc, files }) => {
           </StyledForm>
           <StyledButton
             onClick={() => {
-              setPropsFunc("", false, files);
+              setPropsFunc(false, files);
             }}
           >
             Cancel
@@ -152,7 +154,7 @@ const FileModal = ({ isActive, fileId, setPropsFunc, files }) => {
             </StyledButton>
             <StyledButton
               onClick={() => {
-                setPropsFunc("", false, files);
+                setPropsFunc(false, files);
               }}
             >
               Cancel

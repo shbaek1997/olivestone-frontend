@@ -8,7 +8,7 @@ import Api from "../utils/api";
 import downloadFile from "../utils/downloadFile";
 import { errorHandler } from "../utils/error-handler";
 import { useDispatch } from "react-redux";
-import { setModalMode } from "../context/modalSlice";
+import { setModalMode, setFileId } from "../context/modalSlice";
 //file info component
 //get props about file and setPropsFunc for change password button
 const FileInfo = ({
@@ -28,12 +28,16 @@ const FileInfo = ({
   //on button click, we set fileId value and isActive to true
   const handleButtonClick = (event) => {
     const mode = event.target.id;
+    const fileId = _id;
+    console.log("mode,fileId", fileId);
+    dispatch(setFileId(fileId));
     dispatch(setModalMode(mode));
-    setPropsFunc(_id, true, files);
+    setPropsFunc(true, files);
   };
   const handleFileNameClick = async (event) => {
     try {
       const fileId = _id;
+      dispatch(setFileId(fileId));
       const response = await api.get(`files/download/${fileId}`, {
         responseType: "blob",
       });
