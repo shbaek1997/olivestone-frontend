@@ -26,12 +26,11 @@ import { useDispatch } from "react-redux";
 import { fetchUserByJWT, userLogout } from "../context/authSlice";
 // create Modal and attach to body, so it is outside of files page
 // send file id, is modal active props, and setPropsFunc to change state of those props in the child components
-const Modal = ({ isActive, fileId, setPropsFunc, modalMode, files }) => {
+const Modal = ({ isActive, fileId, setPropsFunc, files }) => {
   return ReactDOM.createPortal(
     <FileModal
       isActive={isActive}
       fileId={fileId}
-      modalMode={modalMode}
       setPropsFunc={setPropsFunc}
       files={files}
     ></FileModal>,
@@ -43,13 +42,11 @@ export function Files() {
   //set file id and is modal active state
   const [fileId, setFileId] = useState("");
   const [isActive, setIsActive] = useState(false);
-  const [modalMode, setModalMode] = useState("");
   const [files, setFiles] = useState([]);
   //set props func which change state of those props
-  const setPropsFunc = (fileIdVal, activeVal, modalModeVal, fileVal) => {
+  const setPropsFunc = (fileIdVal, activeVal, fileVal) => {
     setIsActive(activeVal);
     setFileId(fileIdVal);
-    setModalMode(modalModeVal);
     setFiles(fileVal);
   };
   //navigate to navigate between pages
@@ -214,7 +211,6 @@ export function Files() {
       <Modal
         isActive={isActive}
         fileId={fileId}
-        modalMode={modalMode}
         setPropsFunc={setPropsFunc}
         files={files}
       ></Modal>
