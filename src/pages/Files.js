@@ -23,7 +23,7 @@ import {
   UPLOAD_DATE_REVERSE,
 } from "../config/variables";
 import { useDispatch } from "react-redux";
-import { fetchUserByJWT, userLogout } from "../context/slice";
+import { fetchUserByJWT, userLogout } from "../context/authSlice";
 // create Modal and attach to body, so it is outside of files page
 // send file id, is modal active props, and setPropsFunc to change state of those props in the child components
 const Modal = ({ isActive, fileId, setPropsFunc, modalMode, files }) => {

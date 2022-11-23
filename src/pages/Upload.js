@@ -14,7 +14,7 @@ import useInput from "../hooks/useInput";
 import Api from "../utils/api";
 import { errorHandler } from "../utils/error-handler";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserByJWT, userLogin, userLogout } from "../context/slice";
+import { fetchUserByJWT, userLogin, userLogout } from "../context/authSlice";
 //Upload page
 export function Upload() {
   const dispatch = useDispatch();

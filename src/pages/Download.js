@@ -13,7 +13,7 @@ import Api from "../utils/api";
 import downloadFile from "../utils/downloadFile";
 import { errorHandler } from "../utils/error-handler";
 import { useDispatch, useSelector } from "react-redux";
-import { userLogout, fetchUserByJWT } from "../context/slice";
+import { userLogout, fetchUserByJWT } from "../context/authSlice";
 
 //download page
 export function Download() {
