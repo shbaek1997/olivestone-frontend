@@ -15,12 +15,16 @@ import {
   SHARE_FILE_BUTTON_ID,
   HOME_PAGE,
 } from "../config/variables";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { turnOff, setFiles } from "../context/modalSlice";
 
 //File Modal component
-const FileModal = ({ isActive, setPropsFunc, files }) => {
+const FileModal = () => {
+  const dispatch = useDispatch();
   const modalMode = useSelector((state) => state.modal.modalMode);
   const fileId = useSelector((state) => state.modal.fileId);
+  const isActive = useSelector((state) => state.modal.isActive);
+  const files = useSelector((state) => state.modal.files);
   console.log(fileId, "fileId");
   const COPY_URL = `${HOME_PAGE}/download?fileId=${fileId}`;
   const api = Api();
@@ -53,7 +57,7 @@ const FileModal = ({ isActive, setPropsFunc, files }) => {
       const { originalName } = response?.data;
       alert(`${originalName} 파일 비밀번호가 성공적으로 변경되었습니다.`);
       //reset fileId value and make modal inactive to clear modal
-      setPropsFunc(false, files);
+      dispatch(turnOff());
     } catch (error) {
       errorHandler(error);
     }
@@ -62,7 +66,7 @@ const FileModal = ({ isActive, setPropsFunc, files }) => {
     try {
       await window.navigator.clipboard.writeText(COPY_URL);
       alert("클립보드에 복사하였습니다");
-      setPropsFunc(false, files);
+      dispatch(turnOff());
     } catch (error) {
       errorHandler(error);
     }
@@ -77,9 +81,9 @@ const FileModal = ({ isActive, setPropsFunc, files }) => {
 
       //이제 api로 file expire시키는 부분을 하고, 확인이 되면 이 필터를 적용하면 됨..
       const newFiles = files.filter((file) => file._id !== fileId);
-      console.log(newFiles);
+      dispatch(setFiles(newFiles));
       alert(`${originalName} 파일이 성공적으로 삭제되었습니다.`);
-      setPropsFunc(false, newFiles);
+      dispatch(turnOff());
     } catch (error) {
       errorHandler(error);
     }
@@ -117,7 +121,7 @@ const FileModal = ({ isActive, setPropsFunc, files }) => {
           </StyledForm>
           <StyledButton
             onClick={() => {
-              setPropsFunc(false, files);
+              dispatch(turnOff());
             }}
           >
             Cancel
@@ -135,7 +139,7 @@ const FileModal = ({ isActive, setPropsFunc, files }) => {
           </StyledForm>
           <StyledButton
             onClick={() => {
-              setPropsFunc(false, files);
+              dispatch(turnOff());
             }}
           >
             Cancel
@@ -154,7 +158,7 @@ const FileModal = ({ isActive, setPropsFunc, files }) => {
             </StyledButton>
             <StyledButton
               onClick={() => {
-                setPropsFunc(false, files);
+                dispatch(turnOff());
               }}
             >
               Cancel

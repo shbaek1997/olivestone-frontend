@@ -8,17 +8,10 @@ import Api from "../utils/api";
 import downloadFile from "../utils/downloadFile";
 import { errorHandler } from "../utils/error-handler";
 import { useDispatch } from "react-redux";
-import { setModalMode, setFileId } from "../context/modalSlice";
+import { setModalMode, setFileId, turnOn } from "../context/modalSlice";
 //file info component
 //get props about file and setPropsFunc for change password button
-const FileInfo = ({
-  originalName,
-  _id,
-  expireDate,
-  setPropsFunc,
-  createdAt,
-  files,
-}) => {
+const FileInfo = ({ originalName, _id, expireDate, createdAt }) => {
   //convert expire date to YY-MM-DD formate
   const expireDateToString = expireDate.toString().slice(0, 10);
   const uploadedDateToString = createdAt.toString().slice(0, 10);
@@ -32,7 +25,7 @@ const FileInfo = ({
     console.log("mode,fileId", fileId);
     dispatch(setFileId(fileId));
     dispatch(setModalMode(mode));
-    setPropsFunc(true, files);
+    dispatch(turnOn());
   };
   const handleFileNameClick = async (event) => {
     try {

@@ -22,36 +22,28 @@ import {
   UPLOAD_DATE,
   UPLOAD_DATE_REVERSE,
 } from "../config/variables";
-import { useDispatch } from "react-redux";
 import { fetchUserByJWT, userLogout } from "../context/authSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { setFiles } from "../context/modalSlice";
 // create Modal and attach to body, so it is outside of files page
 // send file id, is modal active props, and setPropsFunc to change state of those props in the child components
-const Modal = ({ isActive, setPropsFunc, files }) => {
-  return ReactDOM.createPortal(
-    <FileModal
-      isActive={isActive}
-      setPropsFunc={setPropsFunc}
-      files={files}
-    ></FileModal>,
-    document.body
-  );
+const Modal = () => {
+  return ReactDOM.createPortal(<FileModal></FileModal>, document.body);
 };
 
 export function Files() {
   //set file id and is modal active state
-  const [isActive, setIsActive] = useState(false);
-  const [files, setFiles] = useState([]);
+  const isActive = useSelector((state) => state.modal.isActive);
+  const files = useSelector((state) => state.modal.files);
+
   //set props func which change state of those props
-  const setPropsFunc = (activeVal, fileVal) => {
-    setIsActive(activeVal);
-    setFiles(fileVal);
-  };
   //navigate to navigate between pages
   const navigate = useNavigate();
   // api call
   const api = Api();
   // set loading and files state
   const dispatch = useDispatch();
+
   const [isLoading, setIsLoading] = useState(true);
 
   //sort files
@@ -64,42 +56,46 @@ export function Files() {
     const selectedValue = event.target.value;
     switch (selectedValue) {
       case ALPHABETICAL:
-        const alphSortedFiles = files.sort(compareService.compareAlphFilename);
-        setFiles([...alphSortedFiles]);
+        const alphSortedFiles = files
+          .slice()
+          .sort(compareService.compareAlphFilename);
+        dispatch(setFiles([...alphSortedFiles]));
         break;
       case ALPHABETICAL_REVERSE:
-        const alphRevSortedFiles = files.sort(
-          compareService.compareAlphFilenameReverse
-        );
-        setFiles([...alphRevSortedFiles]);
+        const alphRevSortedFiles = files
+          .slice()
+          .sort(compareService.compareAlphFilenameReverse);
+        dispatch(setFiles([...alphRevSortedFiles]));
         break;
       case UPLOAD_DATE:
-        const uploadDateSortedFiles = files.sort(
-          compareService.compareUploadDate
-        );
-        setFiles([...uploadDateSortedFiles]);
+        const uploadDateSortedFiles = files
+          .slice()
+          .sort(compareService.compareUploadDate);
+        dispatch(setFiles([...uploadDateSortedFiles]));
         break;
       case UPLOAD_DATE_REVERSE:
-        const uploadDateRevSortedFiles = files.sort(
-          compareService.compareUploadDateReverse
-        );
-        setFiles([...uploadDateRevSortedFiles]);
+        const uploadDateRevSortedFiles = files
+          .slice()
+          .sort(compareService.compareUploadDateReverse);
+        dispatch(setFiles([...uploadDateRevSortedFiles]));
         break;
       case EXPIRE_DATE:
-        const expireDateSortedFiles = files.sort(
-          compareService.compareExpireDate
-        );
-        setFiles([...expireDateSortedFiles]);
+        const expireDateSortedFiles = files
+          .slice()
+          .sort(compareService.compareExpireDate);
+        dispatch(setFiles([...expireDateSortedFiles]));
         break;
       case EXPIRE_DATE_REVERSE:
-        const expireDateRevSortedFiles = files.sort(
-          compareService.compareExpireDateReverse
-        );
-        setFiles([...expireDateRevSortedFiles]);
+        const expireDateRevSortedFiles = files
+          .slice()
+          .sort(compareService.compareExpireDateReverse);
+        dispatch(setFiles([...expireDateRevSortedFiles]));
         break;
       case FILE_TYPE:
-        const mimeTypeSortedFiles = files.sort(compareService.compareMimeType);
-        setFiles([...mimeTypeSortedFiles]);
+        const mimeTypeSortedFiles = files
+          .slice()
+          .sort(compareService.compareMimeType);
+        dispatch(setFiles([...mimeTypeSortedFiles]));
         break;
       default:
     }
@@ -112,7 +108,7 @@ export function Files() {
       const { data } = response;
       const responseFiles = data.files;
       // set files
-      setFiles([...responseFiles]);
+      dispatch(setFiles([...responseFiles]));
       // set loading false
       setIsLoading(false);
       return;
@@ -196,8 +192,6 @@ export function Files() {
                   _id={_id}
                   createdAt={createdAt}
                   expireDate={expireDate}
-                  setPropsFunc={setPropsFunc}
-                  files={files}
                 ></FileInfo>
               );
             })}
@@ -205,11 +199,7 @@ export function Files() {
         </>
       )}
       {/* we send props to Modal component here */}
-      <Modal
-        isActive={isActive}
-        setPropsFunc={setPropsFunc}
-        files={files}
-      ></Modal>
+      <Modal></Modal>
     </StyledFilePage>
   );
 }

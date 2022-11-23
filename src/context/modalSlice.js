@@ -16,7 +16,7 @@ const modalSlice = createSlice({
     turnOff: (state) => {
       state.isActive = false;
     },
-    setFile: (state, action) => {
+    setFiles: (state, action) => {
       state.files = [...action.payload];
     },
     setFileId: (state, action) => {
@@ -29,5 +29,5 @@ const modalSlice = createSlice({
 });
 
 const { reducer, actions } = modalSlice;
-export const { turnOff, turnOn, setFile, setFileId, setModalMode } = actions;
+export const { turnOff, turnOn, setFiles, setFileId, setModalMode } = actions;
 export default reducer;
