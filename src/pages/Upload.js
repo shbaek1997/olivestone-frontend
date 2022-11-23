@@ -21,7 +21,6 @@ export function Upload() {
   // loading and login state
   const [isLoading, setIsLoading] = useState(true);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  console.log(isLoggedIn);
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
   // set state, onChange handlers for username, password, upload password, upload password repeat, valid period
   const [username, setUsername, handleChangeUsername] = useInput("");
@@ -105,7 +104,6 @@ export function Upload() {
   };
   // call setLogInValue once when page is first loaded
   useEffect(() => {
-    console.log("helloooooo");
     dispatch(fetchUserByJWT());
     setIsLoading(false);
   }, [dispatch]);
@@ -162,8 +160,6 @@ export function Upload() {
               onChange={handleValidPeriod}
               required
             ></StyledInput>
-            <StyledButton type="submit">Upload File</StyledButton>
-            {/* show uploaded file id to the user after successfully uploading a file */}
             {uploadSuccess ? (
               <div>
                 <div>생성된 아이디 값과 비밀번호를 기억해주세요.</div>
@@ -172,6 +168,8 @@ export function Upload() {
             ) : (
               <></>
             )}
+            <StyledButton type="submit">Upload File</StyledButton>
+            {/* show uploaded file id to the user after successfully uploading a file */}
           </StyledForm>
         ) : (
           <StyledForm acion="/" method="post" onSubmit={handleLoginSubmit}>

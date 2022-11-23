@@ -25,7 +25,6 @@ const FileModal = () => {
   const fileId = useSelector((state) => state.modal.fileId);
   const isActive = useSelector((state) => state.modal.isActive);
   const files = useSelector((state) => state.modal.files);
-  console.log(fileId, "fileId");
   const COPY_URL = `${HOME_PAGE}/download?fileId=${fileId}`;
   const api = Api();
   //set new file password and password repeat in modal form
@@ -41,7 +40,6 @@ const FileModal = () => {
   const handleModalSubmit = async (event) => {
     try {
       event.preventDefault();
-      console.log(event.target);
       //patch exisiting file with new password using patch api request
       const response = await api.patch(
         `files/password/${fileId}`,

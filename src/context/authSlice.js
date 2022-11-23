@@ -7,7 +7,6 @@ export const fetchUserByJWT = createAsyncThunk("auth/checkJWT", async () => {
   //밖에 인스턴스를 만들었던게 큰 버그였음...
   const api = Api();
   const response = await api.get(`/users/auth`);
-  console.log("fetch response", response);
   return response.data;
 });
 export const userLogin = createAsyncThunk(
@@ -23,7 +22,6 @@ export const userLogin = createAsyncThunk(
       sessionStorage.setItem("token", token);
       return response.data;
     } catch (error) {
-      console.log(error);
       return thunkAPI.rejectWithValue(error.response.data.reason);
     }
   }

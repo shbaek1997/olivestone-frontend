@@ -22,7 +22,6 @@ const FileInfo = ({ originalName, _id, expireDate, createdAt }) => {
   const handleButtonClick = (event) => {
     const mode = event.target.id;
     const fileId = _id;
-    console.log("mode,fileId", fileId);
     dispatch(setFileId(fileId));
     dispatch(setModalMode(mode));
     dispatch(turnOn());

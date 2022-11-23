@@ -52,6 +52,7 @@ export function Files() {
   const compareService = new CompareFunctions();
 
   // handle change for select
+  // refactor this too
   const handleSelectChange = (event) => {
     const selectedValue = event.target.value;
     switch (selectedValue) {
