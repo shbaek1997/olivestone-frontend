@@ -21,6 +21,7 @@ export function Upload() {
   // loading and login state
   const [isLoading, setIsLoading] = useState(true);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  console.log(isLoggedIn);
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
   // set state, onChange handlers for username, password, upload password, upload password repeat, valid period
   const [username, setUsername, handleChangeUsername] = useInput("");
@@ -104,6 +105,7 @@ export function Upload() {
   };
   // call setLogInValue once when page is first loaded
   useEffect(() => {
+    console.log("helloooooo");
     dispatch(fetchUserByJWT());
     setIsLoading(false);
   }, [dispatch]);

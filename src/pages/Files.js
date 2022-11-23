@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { useNavigate } from "react-router-dom";
-import checkLogin from "../utils/checkLogin";
 import Api from "../utils/api";
 import FileInfo from "../components/FileInfo";
 import FileModal from "../components/FileModal";
@@ -23,7 +22,8 @@ import {
   UPLOAD_DATE,
   UPLOAD_DATE_REVERSE,
 } from "../config/variables";
-
+import { useDispatch } from "react-redux";
+import { fetchUserByJWT, userLogout } from "../context/slice";
 // create Modal and attach to body, so it is outside of files page
 // send file id, is modal active props, and setPropsFunc to change state of those props in the child components
 const Modal = ({ isActive, fileId, setPropsFunc, modalMode, files }) => {
@@ -57,6 +57,7 @@ export function Files() {
   // api call
   const api = Api();
   // set loading and files state
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
 
   //sort files
@@ -125,19 +126,26 @@ export function Files() {
       console.log(error);
     }
   };
+  const handleLogout = () => {
+    dispatch(userLogout());
+    navigate("/");
+  };
   //when page is first rendered, check login and get file data from server
   useEffect(() => {
     // set login value async function check for user token and see if user is logged in
     // if not logged in, it redirects user back to home and "/files" route is protected
-    const setLoginValue = async () => {
-      const checkValue = await checkLogin();
-      if (!checkValue) {
-        return navigate("/");
+    const fetchUserAndGetFile = async () => {
+      try {
+        await dispatch(fetchUserByJWT()).unwrap();
+        getFile();
+        setIsLoading(false);
+      } catch (error) {
+        navigate("/");
       }
     };
-    setLoginValue();
-    getFile();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    fetchUserAndGetFile();
+
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     //if modal is active, we blur the file page
@@ -175,14 +183,7 @@ export function Files() {
             >
               Go to Download
             </StyledNavButton>
-            <StyledNavButton
-              onClick={() => {
-                sessionStorage.clear();
-                navigate("/");
-              }}
-            >
-              Logout
-            </StyledNavButton>
+            <StyledNavButton onClick={handleLogout}>Logout</StyledNavButton>
           </StyledNavBar>
           <StyledFileContainer>
             <StyledTableHeader>File ID</StyledTableHeader>
