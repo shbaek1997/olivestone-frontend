@@ -1,6 +1,11 @@
 //import
 import React, { useEffect, useState, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { fetchUserByJWT, userLogin, userLogout } from "../context/authSlice";
+import useInput from "../hooks/useInput";
+import Api from "../utils/api";
+import { errorHandler } from "../utils/error-handler";
 import {
   StyledContainer,
   StyledFormContainer,
@@ -10,11 +15,7 @@ import {
   StyledHeader,
   StyledFileInput,
 } from "../style/style";
-import useInput from "../hooks/useInput";
-import Api from "../utils/api";
-import { errorHandler } from "../utils/error-handler";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchUserByJWT, userLogin, userLogout } from "../context/authSlice";
+
 //Upload page
 export function Upload() {
   const dispatch = useDispatch();
