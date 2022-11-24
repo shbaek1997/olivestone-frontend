@@ -3,7 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 //modal initial state
 const initialState = {
   isActive: false,
-  files: [],
   fileId: "",
   modalMode: "",
 };
@@ -18,9 +17,6 @@ const modalSlice = createSlice({
     },
     turnOff: (state) => {
       state.isActive = false;
-    },
-    setFiles: (state, action) => {
-      state.files = [...action.payload];
     },
     setFileId: (state, action) => {
       state.fileId = action.payload;

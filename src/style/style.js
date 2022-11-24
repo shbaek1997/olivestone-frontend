@@ -11,6 +11,8 @@ export const StyledButton = styled.button`
   padding: 10px;
   width: 100%;
   margin: 10px;
+
+  height: 60px;
   color: white;
   font-weight: bold;
   font-size: 16px;
@@ -27,6 +29,9 @@ export const StyledInput = styled.input`
   width: 90%;
   margin: 10px;
   padding: 10px;
+  &:last-of-type {
+    margin-bottom: 40px;
+  }
 `;
 
 export const StyledContainer = styled.div`
@@ -39,12 +44,13 @@ export const StyledContainer = styled.div`
   align-items: center;
   justify-content: center;
   width: 350px;
+  margin-top: 70px;
 `;
 
 export const StyledHeader = styled.div`
   font-weight: bold;
-  font-size: 24px;
-  margin-bottom: 20px;
+  font-size: 32px;
+  margin-bottom: 50px;
 `;
 
 export const StyledFormContainer = styled.div`
@@ -131,7 +137,7 @@ export const StyledNavBar = styled.div`
   margin-right: 150px;
 `;
 
-export const StyledFilePage = styled.div`
+export const StyledPage = styled.div`
   height: 100vh;
   width: 100vw;
   display: flex;
