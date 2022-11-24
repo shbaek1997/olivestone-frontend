@@ -6,14 +6,15 @@ import {
 import Api from "../utils/api";
 import { errorHandler } from "../utils/error-handler";
 import { useSelector, useDispatch } from "react-redux";
-import { turnOff, setFiles } from "../context/modalSlice";
+import { turnOff } from "../context/modalSlice";
+import { setFiles } from "../context/fileSlice";
 
 export const ModalDeleteFile = ({ handleCancelButtonClick }) => {
   //handle delete file button
   const dispatch = useDispatch();
   // use selector to get states
   const fileId = useSelector((state) => state.modal.fileId);
-  const files = useSelector((state) => state.modal.files);
+  const files = useSelector((state) => state.files.files);
   const handleDeleteFileButtonClick = async (event) => {
     try {
       //expire file server-side also

@@ -9,9 +9,16 @@ import {
   EXPIRE_DATE_REVERSE,
   FILE_TYPE,
 } from "../config/variables";
-import CompareFunctions from "../utils/sort";
 import { userLogout } from "../context/authSlice";
-import { setFiles } from "../context/modalSlice";
+import {
+  sortFilesAlph,
+  sortFilesAlphReverse,
+  sortFilesExpireDate,
+  sortFilesExpireDateReverse,
+  sortFilesMimeType,
+  sortFilesUploadDate,
+  sortFilesUploadDateReverse,
+} from "../context/fileSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 export const NavBar = () => {
@@ -26,53 +33,32 @@ export const NavBar = () => {
     dispatch(userLogout());
     navigate("/upload");
   };
-  const files = useSelector((state) => state.modal.files);
+  const files = useSelector((state) => state.files.files);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  const compareService = new CompareFunctions();
   const handleSelectChange = (event) => {
     const selectedValue = event.target.value;
     switch (selectedValue) {
       case ALPHABETICAL:
-        const alphSortedFiles = files
-          .slice()
-          .sort(compareService.compareAlphFilename);
-        dispatch(setFiles([...alphSortedFiles]));
+        console.log(files);
+        dispatch(sortFilesAlph(files));
         break;
       case ALPHABETICAL_REVERSE:
-        const alphRevSortedFiles = files
-          .slice()
-          .sort(compareService.compareAlphFilenameReverse);
-        dispatch(setFiles([...alphRevSortedFiles]));
+        dispatch(sortFilesAlphReverse(files));
         break;
       case UPLOAD_DATE:
-        const uploadDateSortedFiles = files
-          .slice()
-          .sort(compareService.compareUploadDate);
-        dispatch(setFiles([...uploadDateSortedFiles]));
+        dispatch(sortFilesUploadDate(files));
         break;
       case UPLOAD_DATE_REVERSE:
-        const uploadDateRevSortedFiles = files
-          .slice()
-          .sort(compareService.compareUploadDateReverse);
-        dispatch(setFiles([...uploadDateRevSortedFiles]));
+        dispatch(sortFilesUploadDateReverse(files));
         break;
       case EXPIRE_DATE:
-        const expireDateSortedFiles = files
-          .slice()
-          .sort(compareService.compareExpireDate);
-        dispatch(setFiles([...expireDateSortedFiles]));
+        dispatch(sortFilesExpireDate(files));
         break;
       case EXPIRE_DATE_REVERSE:
-        const expireDateRevSortedFiles = files
-          .slice()
-          .sort(compareService.compareExpireDateReverse);
-        dispatch(setFiles([...expireDateRevSortedFiles]));
+        dispatch(sortFilesExpireDateReverse(files));
         break;
       case FILE_TYPE:
-        const mimeTypeSortedFiles = files
-          .slice()
-          .sort(compareService.compareMimeType);
-        dispatch(setFiles([...mimeTypeSortedFiles]));
+        dispatch(sortFilesMimeType(files));
         break;
       default:
     }

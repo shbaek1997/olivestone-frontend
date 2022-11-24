@@ -12,7 +12,7 @@ import {
 
 import { fetchUserByJWT } from "../context/authSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { setFiles } from "../context/modalSlice";
+import { setFiles } from "../context/fileSlice";
 import { NavBar } from "../components/Nav";
 // create Modal and attach to body, so it is outside of files page
 // send file id, is modal active props, and setPropsFunc to change state of those props in the child components
@@ -23,7 +23,7 @@ const Modal = () => {
 export function Files() {
   //set file id and is modal active state
   const isActive = useSelector((state) => state.modal.isActive);
-  const files = useSelector((state) => state.modal.files);
+  const files = useSelector((state) => state.files.files);
 
   //set props func which change state of those props
   //navigate to navigate between pages
