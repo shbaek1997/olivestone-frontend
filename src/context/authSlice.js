@@ -1,14 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-//user 정보는 사용x, 따라서 걍 isLoggedIn: true/false 정도로 해보자...
-//login async thunk 만들기..
 import Api from "../utils/api";
 
+//create async thunk to validate user using jwt token in session storage
 export const fetchUserByJWT = createAsyncThunk("auth/checkJWT", async () => {
-  //밖에 인스턴스를 만들었던게 큰 버그였음...
   const api = Api();
   const response = await api.get(`/users/auth`);
   return response.data;
 });
+
+//create async thunk for user login
 export const userLogin = createAsyncThunk(
   "auth/login",
   async ({ username, password }, thunkAPI) => {
@@ -18,22 +18,29 @@ export const userLogin = createAsyncThunk(
         username,
         password,
       });
+      //if successful , we set jwt token in sessionStorage
       const { token } = response?.data;
       sessionStorage.setItem("token", token);
       return response.data;
     } catch (error) {
+      //if fail, we reject with thunk api to show user error message
       return thunkAPI.rejectWithValue(error.response.data.reason);
     }
   }
 );
+
+//async thunk for user logout
 export const userLogout = createAsyncThunk("auth/logout", async () => {
   sessionStorage.removeItem("token");
   return;
 });
 
 const initialState = {
-  isLoggedIn: false, //맞나?
+  isLoggedIn: false,
 };
+
+//slice name: auth
+//actions: change isLoggedIn state
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -56,5 +63,6 @@ const authSlice = createSlice({
   },
 });
 
+//export reducer
 const { reducer } = authSlice;
 export default reducer;

@@ -1,11 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+//modal initial state
 const initialState = {
   isActive: false,
   files: [],
   fileId: "",
   modalMode: "",
 };
+
+//create slice
 const modalSlice = createSlice({
   name: "modal",
   initialState,
@@ -27,7 +30,7 @@ const modalSlice = createSlice({
     },
   },
 });
-
+//export reducer, actions
 const { reducer, actions } = modalSlice;
 export const { turnOff, turnOn, setFiles, setFileId, setModalMode } = actions;
 export default reducer;
