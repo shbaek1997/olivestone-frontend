@@ -11,6 +11,8 @@ export const StyledButton = styled.button`
   padding: 10px;
   width: 100%;
   margin: 10px;
+  margin-top: 40px;
+  height: 60px;
   color: white;
   font-weight: bold;
   font-size: 16px;
@@ -39,12 +41,13 @@ export const StyledContainer = styled.div`
   align-items: center;
   justify-content: center;
   width: 350px;
+  margin-top: 70px;
 `;
 
 export const StyledHeader = styled.div`
   font-weight: bold;
-  font-size: 24px;
-  margin-bottom: 20px;
+  font-size: 32px;
+  margin-bottom: 50px;
 `;
 
 export const StyledFormContainer = styled.div`

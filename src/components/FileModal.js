@@ -67,7 +67,7 @@ const FileModal = () => {
   };
 
   //copy url var for share file mode
-  const COPY_URL = `${HOME_PAGE}/download?fileId=${fileId}`;
+  const COPY_URL = `${HOME_PAGE}/?fileId=${fileId}`;
   //handle copy to clipboard button
   const handleCopyButtonClick = async (event) => {
     try {

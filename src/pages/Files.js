@@ -6,25 +6,14 @@ import FileInfo from "../components/FileInfo";
 import FileModal from "../components/FileModal";
 import {
   StyledFilePage,
-  StyledNavBar,
-  StyledNavButton,
   StyledFileContainer,
   StyledTableHeader,
-  StyledSelect,
 } from "../style/style";
-import CompareFunctions from "../utils/sort";
-import {
-  ALPHABETICAL,
-  ALPHABETICAL_REVERSE,
-  EXPIRE_DATE,
-  EXPIRE_DATE_REVERSE,
-  FILE_TYPE,
-  UPLOAD_DATE,
-  UPLOAD_DATE_REVERSE,
-} from "../config/variables";
-import { fetchUserByJWT, userLogout } from "../context/authSlice";
+
+import { fetchUserByJWT } from "../context/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { setFiles } from "../context/modalSlice";
+import { NavBar } from "../components/Nav";
 // create Modal and attach to body, so it is outside of files page
 // send file id, is modal active props, and setPropsFunc to change state of those props in the child components
 const Modal = () => {
@@ -46,61 +35,6 @@ export function Files() {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  //sort files
-  //sort related string for option tag and switch cases
-  //use compare service for cb in sort function js
-  const compareService = new CompareFunctions();
-
-  // handle change for select
-  // refactor this too
-  const handleSelectChange = (event) => {
-    const selectedValue = event.target.value;
-    switch (selectedValue) {
-      case ALPHABETICAL:
-        const alphSortedFiles = files
-          .slice()
-          .sort(compareService.compareAlphFilename);
-        dispatch(setFiles([...alphSortedFiles]));
-        break;
-      case ALPHABETICAL_REVERSE:
-        const alphRevSortedFiles = files
-          .slice()
-          .sort(compareService.compareAlphFilenameReverse);
-        dispatch(setFiles([...alphRevSortedFiles]));
-        break;
-      case UPLOAD_DATE:
-        const uploadDateSortedFiles = files
-          .slice()
-          .sort(compareService.compareUploadDate);
-        dispatch(setFiles([...uploadDateSortedFiles]));
-        break;
-      case UPLOAD_DATE_REVERSE:
-        const uploadDateRevSortedFiles = files
-          .slice()
-          .sort(compareService.compareUploadDateReverse);
-        dispatch(setFiles([...uploadDateRevSortedFiles]));
-        break;
-      case EXPIRE_DATE:
-        const expireDateSortedFiles = files
-          .slice()
-          .sort(compareService.compareExpireDate);
-        dispatch(setFiles([...expireDateSortedFiles]));
-        break;
-      case EXPIRE_DATE_REVERSE:
-        const expireDateRevSortedFiles = files
-          .slice()
-          .sort(compareService.compareExpireDateReverse);
-        dispatch(setFiles([...expireDateRevSortedFiles]));
-        break;
-      case FILE_TYPE:
-        const mimeTypeSortedFiles = files
-          .slice()
-          .sort(compareService.compareMimeType);
-        dispatch(setFiles([...mimeTypeSortedFiles]));
-        break;
-      default:
-    }
-  };
   // get all non expired files from the server and set files
   const getFile = async () => {
     try {
@@ -116,10 +50,6 @@ export function Files() {
     } catch (error) {
       console.log(error);
     }
-  };
-  const handleLogout = () => {
-    dispatch(userLogout());
-    navigate("/");
   };
   //when page is first rendered, check login and get file data from server
   useEffect(() => {
@@ -149,33 +79,7 @@ export function Files() {
         <div>Loading....</div>
       ) : (
         <>
-          <StyledNavBar>
-            <StyledSelect onChange={handleSelectChange}>
-              <option>-- Sort --</option>
-              <option>{ALPHABETICAL}</option>
-              <option>{ALPHABETICAL_REVERSE}</option>
-              <option>{UPLOAD_DATE}</option>
-              <option>{UPLOAD_DATE_REVERSE}</option>
-              <option>{EXPIRE_DATE}</option>
-              <option>{EXPIRE_DATE_REVERSE}</option>
-              <option>{FILE_TYPE}</option>
-            </StyledSelect>
-            <StyledNavButton
-              onClick={() => {
-                navigate("/");
-              }}
-            >
-              Go to Upload
-            </StyledNavButton>
-            <StyledNavButton
-              onClick={() => {
-                navigate("/download");
-              }}
-            >
-              Go to Download
-            </StyledNavButton>
-            <StyledNavButton onClick={handleLogout}>Logout</StyledNavButton>
-          </StyledNavBar>
+          <NavBar></NavBar>
           <StyledFileContainer>
             <StyledTableHeader>File ID</StyledTableHeader>
             <StyledTableHeader>File Name</StyledTableHeader>
@@ -199,7 +103,7 @@ export function Files() {
           </StyledFileContainer>
         </>
       )}
-      {/* we send props to Modal component here */}
+      {/*Modal component here */}
       <Modal></Modal>
     </StyledFilePage>
   );

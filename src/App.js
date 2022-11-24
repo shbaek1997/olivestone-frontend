@@ -8,8 +8,8 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Upload></Upload>}></Route>
-          <Route path="/download" element={<Download></Download>}></Route>
+          <Route path="/" element={<Download></Download>}></Route>
+          <Route path="/upload" element={<Upload></Upload>}></Route>
           <Route path="/files" element={<Files></Files>}></Route>
           <Route path="*" element={<NotFound></NotFound>}></Route>
         </Routes>

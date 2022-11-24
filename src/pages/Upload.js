@@ -1,11 +1,11 @@
 //import
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { fetchUserByJWT, userLogin, userLogout } from "../context/authSlice";
+import { fetchUserByJWT, userLogin } from "../context/authSlice";
 import useInput from "../hooks/useInput";
 import Api from "../utils/api";
 import { errorHandler } from "../utils/error-handler";
+import { NavBar } from "../components/Nav";
 import {
   StyledContainer,
   StyledFormContainer,
@@ -14,6 +14,7 @@ import {
   StyledInput,
   StyledHeader,
   StyledFileInput,
+  StyledFilePage,
 } from "../style/style";
 
 //Upload page
@@ -41,18 +42,10 @@ export function Upload() {
 
   //use Ref for input type file
   const fileInputRef = useRef(null);
-  // useNavigate to navigate between pages
-  const navigate = useNavigate();
   // reset file input after file upload success
   const resetFileInput = () => {
     fileInputRef.current.value = "";
   };
-  // logout
-  const handleLogout = () => {
-    dispatch(userLogout());
-    setUploadSuccess(false);
-  };
-
   //login
   const handleLoginSubmit = async (e) => {
     try {
@@ -113,110 +106,88 @@ export function Upload() {
   return isLoading ? (
     <div>Loading ...</div>
   ) : (
-    <StyledContainer>
-      <StyledHeader>Upload and Download</StyledHeader>
+    <StyledFilePage>
+      <NavBar></NavBar>
+      <StyledContainer>
+        <StyledHeader>{isLoggedIn ? "Upload" : "Login"}</StyledHeader>
 
-      <StyledFormContainer>
-        {/* if logged in show upload form else show login form */}
-        {isLoggedIn ? (
-          <StyledForm
-            method="post"
-            encType="multipart/form-data"
-            onSubmit={handleUploadSubmit}
-            acceptCharset="UTF-8"
-          >
-            <h3>Upload</h3>
-
-            <label htmlFor="file-input">Upload file</label>
-            <StyledFileInput
-              id="file-input"
-              ref={fileInputRef}
-              type="file"
-              required
-            ></StyledFileInput>
-            <label htmlFor="file-password-input">File Password</label>
-            <StyledInput
-              id="file-password-input"
-              type="password"
-              value={uploadPassword}
-              onChange={handleChangeUploadPassword}
-              required
-            ></StyledInput>
-            <label htmlFor="file-password-repeat-input">
-              Confirm File Password
-            </label>
-            <StyledInput
-              id="file-password-repeat-input"
-              type="password"
-              value={uploadPasswordRepeat}
-              onChange={handleChangeUploadPasswordRepeat}
-              required
-            ></StyledInput>
-            <label htmlFor="valid-days-input">Valid for ( in days )</label>
-            <StyledInput
-              id="valid-days-input"
-              type="number"
-              min={1}
-              value={validPeriod}
-              onChange={handleValidPeriod}
-              required
-            ></StyledInput>
-            {uploadSuccess ? (
-              <div>
-                <div>생성된 아이디 값과 비밀번호를 기억해주세요.</div>
-                <div>파일 아이디: {uploadedFileId}</div>{" "}
-              </div>
-            ) : (
-              <></>
-            )}
-            <StyledButton type="submit">Upload File</StyledButton>
-            {/* show uploaded file id to the user after successfully uploading a file */}
-          </StyledForm>
-        ) : (
-          <StyledForm acion="/" method="post" onSubmit={handleLoginSubmit}>
-            <h3>Login to upload</h3>
-            <label>Username</label>
-            <StyledInput
-              type="text"
-              value={username}
-              onChange={handleChangeUsername}
-              required
-            ></StyledInput>
-            <label>Password</label>
-            <StyledInput
-              type="password"
-              value={password}
-              onChange={handleChangePassword}
-              required
-            ></StyledInput>
-            <StyledButton type="submit" onSubmit={handleLoginSubmit}>
-              Log in
-            </StyledButton>
-          </StyledForm>
-        )}
-
-        <StyledButton
-          onClick={() => {
-            navigate("/download");
-          }}
-        >
-          Go to Download
-        </StyledButton>
-        {isLoggedIn ? (
-          <>
-            <StyledButton
-              onClick={() => {
-                navigate("/files");
-              }}
+        <StyledFormContainer>
+          {/* if logged in show upload form else show login form */}
+          {isLoggedIn ? (
+            <StyledForm
+              method="post"
+              encType="multipart/form-data"
+              onSubmit={handleUploadSubmit}
+              acceptCharset="UTF-8"
             >
-              See all files
-            </StyledButton>
-            <StyledButton onClick={handleLogout}>Log out</StyledButton>
-          </>
-        ) : (
-          <></>
-        )}
-      </StyledFormContainer>
-    </StyledContainer>
+              <label htmlFor="file-input">Upload file</label>
+              <StyledFileInput
+                id="file-input"
+                ref={fileInputRef}
+                type="file"
+                required
+              ></StyledFileInput>
+              <label htmlFor="file-password-input">File Password</label>
+              <StyledInput
+                id="file-password-input"
+                type="password"
+                value={uploadPassword}
+                onChange={handleChangeUploadPassword}
+                required
+              ></StyledInput>
+              <label htmlFor="file-password-repeat-input">
+                Confirm File Password
+              </label>
+              <StyledInput
+                id="file-password-repeat-input"
+                type="password"
+                value={uploadPasswordRepeat}
+                onChange={handleChangeUploadPasswordRepeat}
+                required
+              ></StyledInput>
+              <label htmlFor="valid-days-input">Valid for ( in days )</label>
+              <StyledInput
+                id="valid-days-input"
+                type="number"
+                min={1}
+                value={validPeriod}
+                onChange={handleValidPeriod}
+                required
+              ></StyledInput>
+              {uploadSuccess ? (
+                <div>
+                  <div>생성된 아이디 값과 비밀번호를 기억해주세요.</div>
+                  <div>파일 아이디: {uploadedFileId}</div>{" "}
+                </div>
+              ) : (
+                <></>
+              )}
+              <StyledButton type="submit">Upload File</StyledButton>
+              {/* show uploaded file id to the user after successfully uploading a file */}
+            </StyledForm>
+          ) : (
+            <StyledForm acion="/" method="post" onSubmit={handleLoginSubmit}>
+              <label>Username</label>
+              <StyledInput
+                type="text"
+                value={username}
+                onChange={handleChangeUsername}
+                required
+              ></StyledInput>
+              <label>Password</label>
+              <StyledInput
+                type="password"
+                value={password}
+                onChange={handleChangePassword}
+                required
+              ></StyledInput>
+              <StyledButton type="submit" onSubmit={handleLoginSubmit}>
+                Log in
+              </StyledButton>
+            </StyledForm>
+          )}
+        </StyledFormContainer>
+      </StyledContainer>
+    </StyledFilePage>
   );
 }
