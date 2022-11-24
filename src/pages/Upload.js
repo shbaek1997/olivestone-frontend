@@ -1,11 +1,13 @@
 //import
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { UploadPageForm } from "../components/UploadPageForm";
 import { fetchUserByJWT } from "../context/authSlice";
 
 import { PageLayout } from "../components/PageLayout";
+import { UploadForm } from "../components/UploadForm";
+import { LogInForm } from "../components/LoginForm";
 
+//Upload page
 //Upload page
 export function Upload() {
   const dispatch = useDispatch();
@@ -26,7 +28,7 @@ export function Upload() {
     <div>Loading ...</div>
   ) : (
     <PageLayout headerTitle={headerTitle}>
-      <UploadPageForm></UploadPageForm>
+      {isLoggedIn ? <UploadForm></UploadForm> : <LogInForm></LogInForm>}
     </PageLayout>
   );
 }
