@@ -1,3 +1,15 @@
+import { useSelector, useDispatch } from "react-redux";
+
+import Api from "../utils/api";
+import useInput from "../hooks/useInput";
+import { turnOff, setFiles } from "../context/modalSlice";
+import { errorHandler } from "../utils/error-handler";
+import {
+  CHANGE_PASSWORD_BUTTON_ID,
+  DELETE_FILE_BUTTON_ID,
+  SHARE_FILE_BUTTON_ID,
+  HOME_PAGE,
+} from "../config/variables";
 import {
   StyledForm,
   StyledInput,
@@ -6,20 +18,19 @@ import {
   StyledHeader,
   StyledButtonContainer,
 } from "../style/style";
-import Api from "../utils/api";
-import useInput from "../hooks/useInput";
-import { errorHandler } from "../utils/error-handler";
-import {
-  CHANGE_PASSWORD_BUTTON_ID,
-  DELETE_FILE_BUTTON_ID,
-  SHARE_FILE_BUTTON_ID,
-  HOME_PAGE,
-} from "../config/variables";
 
 //File Modal component
-const FileModal = ({ isActive, fileId, modalMode, setPropsFunc, files }) => {
-  const COPY_URL = `${HOME_PAGE}/download?fileId=${fileId}`;
-  const api = Api();
+const FileModal = () => {
+  //dispatch for redux
+  const dispatch = useDispatch();
+
+  // use selector to get states
+  const modalMode = useSelector((state) => state.modal.modalMode);
+  const fileId = useSelector((state) => state.modal.fileId);
+  const isActive = useSelector((state) => state.modal.isActive);
+  const files = useSelector((state) => state.modal.files);
+
+  //states and handler for password form submission
   //set new file password and password repeat in modal form
   const [filePassword, setFilePassword, handleChangeFilePassword] =
     useInput("");
@@ -29,12 +40,12 @@ const FileModal = ({ isActive, fileId, modalMode, setPropsFunc, files }) => {
     handleChangeFileRepeatPassword,
   ] = useInput("");
 
-  //handle modal submit
-  const handleModalSubmit = async (event) => {
+  //handle modal submit for change password
+  const handleModalPasswordSubmit = async (event) => {
     try {
       event.preventDefault();
-
       //patch exisiting file with new password using patch api request
+      const api = Api();
       const response = await api.patch(
         `files/password/${fileId}`,
         { filePassword, fileRepeatPassword },
@@ -49,38 +60,52 @@ const FileModal = ({ isActive, fileId, modalMode, setPropsFunc, files }) => {
       const { originalName } = response?.data;
       alert(`${originalName} 파일 비밀번호가 성공적으로 변경되었습니다.`);
       //reset fileId value and make modal inactive to clear modal
-      setPropsFunc("", false, "", files);
-    } catch (error) {
-      errorHandler(error);
-    }
-  };
-  const handleCopyButtonClick = async (event) => {
-    try {
-      await window.navigator.clipboard.writeText(COPY_URL);
-      alert("클립보드에 복사하였습니다");
-      setPropsFunc("", false, "", files);
+      dispatch(turnOff());
     } catch (error) {
       errorHandler(error);
     }
   };
 
+  //copy url var for share file mode
+  const COPY_URL = `${HOME_PAGE}/download?fileId=${fileId}`;
+  //handle copy to clipboard button
+  const handleCopyButtonClick = async (event) => {
+    try {
+      //copy url to clipboard
+      await window.navigator.clipboard.writeText(COPY_URL);
+      //alert user
+      alert("클립보드에 복사하였습니다");
+      //make modal inactive
+      dispatch(turnOff());
+    } catch (error) {
+      errorHandler(error);
+    }
+  };
+
+  //handle delete file button
   const handleDeleteFileButtonClick = async (event) => {
     try {
+      //expire file server-side also
+      const api = Api();
       const response = await api.patch(`files/expireDate/${fileId}`, {
         headers: { "Content-Type": "application/json" },
       });
-      const { originalName } = response?.data;
-
-      //이제 api로 file expire시키는 부분을 하고, 확인이 되면 이 필터를 적용하면 됨..
+      //filter files after deleting
       const newFiles = files.filter((file) => file._id !== fileId);
-      console.log(newFiles);
+      dispatch(setFiles(newFiles));
+      //alert user
+      const { originalName } = response?.data;
       alert(`${originalName} 파일이 성공적으로 삭제되었습니다.`);
-      setPropsFunc("", false, "", newFiles);
+      //turn off modal
+      dispatch(turnOff());
     } catch (error) {
       errorHandler(error);
     }
   };
-  //magic strings change-password, 등 다 바꿔줘야 할 듯...
+  //any button click on cancel makes modal inactive
+  const handleCancelButtonClick = () => {
+    dispatch(turnOff());
+  };
   return (
     <StyledFileModal
       id="file-password-modal"
@@ -89,7 +114,7 @@ const FileModal = ({ isActive, fileId, modalMode, setPropsFunc, files }) => {
     >
       {modalMode === CHANGE_PASSWORD_BUTTON_ID && (
         <>
-          <StyledForm onSubmit={handleModalSubmit}>
+          <StyledForm onSubmit={handleModalPasswordSubmit}>
             <StyledHeader>Change Password</StyledHeader>
             <label htmlFor="file-password-input">Enter new file password</label>
             <StyledInput
@@ -111,31 +136,19 @@ const FileModal = ({ isActive, fileId, modalMode, setPropsFunc, files }) => {
             ></StyledInput>
             <StyledButton>Change</StyledButton>
           </StyledForm>
-          <StyledButton
-            onClick={() => {
-              setPropsFunc("", false, "", files);
-            }}
-          >
-            Cancel
-          </StyledButton>
+          <StyledButton onClick={handleCancelButtonClick}>Cancel</StyledButton>
         </>
       )}
       {modalMode === SHARE_FILE_BUTTON_ID && (
         <>
-          <StyledHeader>Copy Link</StyledHeader>
           <StyledForm>
+            <StyledHeader>Copy Link</StyledHeader>
             <StyledInput readOnly value={COPY_URL}></StyledInput>
             <StyledButton onClick={handleCopyButtonClick}>
               Copy to Clipboard
             </StyledButton>
           </StyledForm>
-          <StyledButton
-            onClick={() => {
-              setPropsFunc("", false, "", files);
-            }}
-          >
-            Cancel
-          </StyledButton>
+          <StyledButton onClick={handleCancelButtonClick}>Cancel</StyledButton>
         </>
       )}
       {modalMode === DELETE_FILE_BUTTON_ID && (
@@ -148,11 +161,7 @@ const FileModal = ({ isActive, fileId, modalMode, setPropsFunc, files }) => {
             <StyledButton onClick={handleDeleteFileButtonClick}>
               Delete
             </StyledButton>
-            <StyledButton
-              onClick={() => {
-                setPropsFunc("", false, "", files);
-              }}
-            >
+            <StyledButton onClick={handleCancelButtonClick}>
               Cancel
             </StyledButton>
           </StyledButtonContainer>

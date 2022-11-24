@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { useNavigate } from "react-router-dom";
-import checkLogin from "../utils/checkLogin";
 import Api from "../utils/api";
 import FileInfo from "../components/FileInfo";
 import FileModal from "../components/FileModal";
@@ -23,40 +22,28 @@ import {
   UPLOAD_DATE,
   UPLOAD_DATE_REVERSE,
 } from "../config/variables";
-
+import { fetchUserByJWT, userLogout } from "../context/authSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { setFiles } from "../context/modalSlice";
 // create Modal and attach to body, so it is outside of files page
 // send file id, is modal active props, and setPropsFunc to change state of those props in the child components
-const Modal = ({ isActive, fileId, setPropsFunc, modalMode, files }) => {
-  return ReactDOM.createPortal(
-    <FileModal
-      isActive={isActive}
-      fileId={fileId}
-      modalMode={modalMode}
-      setPropsFunc={setPropsFunc}
-      files={files}
-    ></FileModal>,
-    document.body
-  );
+const Modal = () => {
+  return ReactDOM.createPortal(<FileModal></FileModal>, document.body);
 };
 
 export function Files() {
   //set file id and is modal active state
-  const [fileId, setFileId] = useState("");
-  const [isActive, setIsActive] = useState(false);
-  const [modalMode, setModalMode] = useState("");
-  const [files, setFiles] = useState([]);
+  const isActive = useSelector((state) => state.modal.isActive);
+  const files = useSelector((state) => state.modal.files);
+
   //set props func which change state of those props
-  const setPropsFunc = (fileIdVal, activeVal, modalModeVal, fileVal) => {
-    setIsActive(activeVal);
-    setFileId(fileIdVal);
-    setModalMode(modalModeVal);
-    setFiles(fileVal);
-  };
   //navigate to navigate between pages
   const navigate = useNavigate();
   // api call
   const api = Api();
   // set loading and files state
+  const dispatch = useDispatch();
+
   const [isLoading, setIsLoading] = useState(true);
 
   //sort files
@@ -65,46 +52,51 @@ export function Files() {
   const compareService = new CompareFunctions();
 
   // handle change for select
+  // refactor this too
   const handleSelectChange = (event) => {
     const selectedValue = event.target.value;
     switch (selectedValue) {
       case ALPHABETICAL:
-        const alphSortedFiles = files.sort(compareService.compareAlphFilename);
-        setFiles([...alphSortedFiles]);
+        const alphSortedFiles = files
+          .slice()
+          .sort(compareService.compareAlphFilename);
+        dispatch(setFiles([...alphSortedFiles]));
         break;
       case ALPHABETICAL_REVERSE:
-        const alphRevSortedFiles = files.sort(
-          compareService.compareAlphFilenameReverse
-        );
-        setFiles([...alphRevSortedFiles]);
+        const alphRevSortedFiles = files
+          .slice()
+          .sort(compareService.compareAlphFilenameReverse);
+        dispatch(setFiles([...alphRevSortedFiles]));
         break;
       case UPLOAD_DATE:
-        const uploadDateSortedFiles = files.sort(
-          compareService.compareUploadDate
-        );
-        setFiles([...uploadDateSortedFiles]);
+        const uploadDateSortedFiles = files
+          .slice()
+          .sort(compareService.compareUploadDate);
+        dispatch(setFiles([...uploadDateSortedFiles]));
         break;
       case UPLOAD_DATE_REVERSE:
-        const uploadDateRevSortedFiles = files.sort(
-          compareService.compareUploadDateReverse
-        );
-        setFiles([...uploadDateRevSortedFiles]);
+        const uploadDateRevSortedFiles = files
+          .slice()
+          .sort(compareService.compareUploadDateReverse);
+        dispatch(setFiles([...uploadDateRevSortedFiles]));
         break;
       case EXPIRE_DATE:
-        const expireDateSortedFiles = files.sort(
-          compareService.compareExpireDate
-        );
-        setFiles([...expireDateSortedFiles]);
+        const expireDateSortedFiles = files
+          .slice()
+          .sort(compareService.compareExpireDate);
+        dispatch(setFiles([...expireDateSortedFiles]));
         break;
       case EXPIRE_DATE_REVERSE:
-        const expireDateRevSortedFiles = files.sort(
-          compareService.compareExpireDateReverse
-        );
-        setFiles([...expireDateRevSortedFiles]);
+        const expireDateRevSortedFiles = files
+          .slice()
+          .sort(compareService.compareExpireDateReverse);
+        dispatch(setFiles([...expireDateRevSortedFiles]));
         break;
       case FILE_TYPE:
-        const mimeTypeSortedFiles = files.sort(compareService.compareMimeType);
-        setFiles([...mimeTypeSortedFiles]);
+        const mimeTypeSortedFiles = files
+          .slice()
+          .sort(compareService.compareMimeType);
+        dispatch(setFiles([...mimeTypeSortedFiles]));
         break;
       default:
     }
@@ -117,7 +109,7 @@ export function Files() {
       const { data } = response;
       const responseFiles = data.files;
       // set files
-      setFiles([...responseFiles]);
+      dispatch(setFiles([...responseFiles]));
       // set loading false
       setIsLoading(false);
       return;
@@ -125,19 +117,26 @@ export function Files() {
       console.log(error);
     }
   };
+  const handleLogout = () => {
+    dispatch(userLogout());
+    navigate("/");
+  };
   //when page is first rendered, check login and get file data from server
   useEffect(() => {
     // set login value async function check for user token and see if user is logged in
     // if not logged in, it redirects user back to home and "/files" route is protected
-    const setLoginValue = async () => {
-      const checkValue = await checkLogin();
-      if (!checkValue) {
-        return navigate("/");
+    const fetchUserAndGetFile = async () => {
+      try {
+        await dispatch(fetchUserByJWT()).unwrap();
+        getFile();
+        setIsLoading(false);
+      } catch (error) {
+        navigate("/");
       }
     };
-    setLoginValue();
-    getFile();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    fetchUserAndGetFile();
+
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     //if modal is active, we blur the file page
@@ -175,14 +174,7 @@ export function Files() {
             >
               Go to Download
             </StyledNavButton>
-            <StyledNavButton
-              onClick={() => {
-                sessionStorage.clear();
-                navigate("/");
-              }}
-            >
-              Logout
-            </StyledNavButton>
+            <StyledNavButton onClick={handleLogout}>Logout</StyledNavButton>
           </StyledNavBar>
           <StyledFileContainer>
             <StyledTableHeader>File ID</StyledTableHeader>
@@ -201,8 +193,6 @@ export function Files() {
                   _id={_id}
                   createdAt={createdAt}
                   expireDate={expireDate}
-                  setPropsFunc={setPropsFunc}
-                  files={files}
                 ></FileInfo>
               );
             })}
@@ -210,13 +200,7 @@ export function Files() {
         </>
       )}
       {/* we send props to Modal component here */}
-      <Modal
-        isActive={isActive}
-        fileId={fileId}
-        modalMode={modalMode}
-        setPropsFunc={setPropsFunc}
-        files={files}
-      ></Modal>
+      <Modal></Modal>
     </StyledFilePage>
   );
 }

@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import useInput from "../hooks/useInput";
-import checkLogin from "../utils/checkLogin";
 import {
   StyledContainer,
   StyledFormContainer,
@@ -13,30 +12,24 @@ import {
 import Api from "../utils/api";
 import downloadFile from "../utils/downloadFile";
 import { errorHandler } from "../utils/error-handler";
+import { useDispatch, useSelector } from "react-redux";
+import { userLogout, fetchUserByJWT } from "../context/authSlice";
 
 //download page
 export function Download() {
   //set file ID, download file password state and onChange handlers.
   /////////////
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const handleLogout = () => {
-    //clear any jwt
-    sessionStorage.clear();
-    // change login state, change upload success to remove file id
-    setIsLoggedIn(false);
-  };
-  const setLogInValue = async () => {
-    const checkValue = await checkLogin();
-    //return true if logged in, return false if not logged in
-    setIsLoggedIn(checkValue);
-    // set loading false
-    setIsLoading(false);
+    dispatch(userLogout());
   };
   // call setLogInValue once when page is first loaded
   useEffect(() => {
-    setLogInValue();
-  }, []);
+    dispatch(fetchUserByJWT());
+    setIsLoading(false);
+  }, [dispatch]);
   ///////////////
   const downloadFileId = new URLSearchParams(window.location.search).get(
     "fileId"
