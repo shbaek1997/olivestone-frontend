@@ -5,7 +5,7 @@ import Api from "../utils/api";
 import FileInfo from "../components/FileInfo";
 import FileModal from "../components/FileModal";
 import {
-  StyledFilePage,
+  StyledPage,
   StyledFileContainer,
   StyledTableHeader,
 } from "../style/style";
@@ -29,7 +29,6 @@ export function Files() {
   //navigate to navigate between pages
   const navigate = useNavigate();
   // api call
-  const api = Api();
   // set loading and files state
   const dispatch = useDispatch();
 
@@ -39,6 +38,7 @@ export function Files() {
   const getFile = async () => {
     try {
       // api get request to get all valid files
+      const api = Api();
       const response = await api.get("/files/files");
       const { data } = response;
       const responseFiles = data.files;
@@ -70,7 +70,7 @@ export function Files() {
   }, []);
   return (
     //if modal is active, we blur the file page
-    <StyledFilePage
+    <StyledPage
       id="file-page"
       style={isActive ? { opacity: "0.1" } : { opacity: "1" }}
     >
@@ -105,6 +105,6 @@ export function Files() {
       )}
       {/*Modal component here */}
       <Modal></Modal>
-    </StyledFilePage>
+    </StyledPage>
   );
 }

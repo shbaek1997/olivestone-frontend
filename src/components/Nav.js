@@ -109,19 +109,21 @@ export const NavBar = () => {
           Go to Download
         </StyledNavButton>
       )}
+      {!isPathFiles && (
+        <StyledNavButton
+          onClick={() => {
+            navigate("/files");
+          }}
+        >
+          See all files
+        </StyledNavButton>
+      )}
 
-      <StyledNavButton
-        onClick={() => {
-          navigate("/files");
-        }}
-      >
-        See all files
-      </StyledNavButton>
       <StyledNavButton onClick={handleLogout}>Logout</StyledNavButton>
     </StyledNavBar>
   ) : (
     <StyledNavBar>
-      {isPathUpload && (
+      {!isPathDownload && (
         <StyledNavButton
           onClick={() => {
             navigate("/");
@@ -130,7 +132,7 @@ export const NavBar = () => {
           Go to Download
         </StyledNavButton>
       )}
-      {isPathDownload && (
+      {!isPathUpload && (
         <StyledNavButton
           onClick={() => {
             navigate("/upload");

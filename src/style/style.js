@@ -11,7 +11,7 @@ export const StyledButton = styled.button`
   padding: 10px;
   width: 100%;
   margin: 10px;
-  margin-top: 40px;
+
   height: 60px;
   color: white;
   font-weight: bold;
@@ -29,6 +29,9 @@ export const StyledInput = styled.input`
   width: 90%;
   margin: 10px;
   padding: 10px;
+  &:last-of-type {
+    margin-bottom: 40px;
+  }
 `;
 
 export const StyledContainer = styled.div`
@@ -134,7 +137,7 @@ export const StyledNavBar = styled.div`
   margin-right: 150px;
 `;
 
-export const StyledFilePage = styled.div`
+export const StyledPage = styled.div`
   height: 100vh;
   width: 100vw;
   display: flex;
