@@ -39,7 +39,6 @@ export const NavBar = () => {
     const selectedValue = event.target.value;
     switch (selectedValue) {
       case ALPHABETICAL:
-        console.log(files);
         dispatch(sortFilesAlph(files));
         break;
       case ALPHABETICAL_REVERSE:

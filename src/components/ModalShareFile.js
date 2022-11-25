@@ -21,6 +21,7 @@ export const ModalShareFile = ({ handleCancelButtonClick }) => {
   //handle copy to clipboard button
   const handleCopyButtonClick = async (event) => {
     try {
+      event.preventDefault();
       //copy url to clipboard
       await window.navigator.clipboard.writeText(COPY_URL);
       //alert user
