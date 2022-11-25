@@ -14,6 +14,8 @@ import { fetchUserByJWT } from "../context/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { setFiles } from "../context/fileSlice";
 import { NavBar } from "../components/Nav";
+import Pagination from "../components/Pagination";
+import "../style/pagination.css";
 // create Modal and attach to body, so it is outside of files page
 // send file id, is modal active props, and setPropsFunc to change state of those props in the child components
 const Modal = () => {
@@ -24,7 +26,13 @@ export function Files() {
   //set file id and is modal active state
   const isActive = useSelector((state) => state.modal.isActive);
   const files = useSelector((state) => state.files.files);
+  const [page, setPage] = useState(1);
+  const itemsCountPerPage = 10;
 
+  const handlePagination = (event) => {
+    console.log(event);
+    setPage(event);
+  };
   //set props func which change state of those props
   //navigate to navigate between pages
   const navigate = useNavigate();
@@ -89,18 +97,26 @@ export function Files() {
             <StyledTableHeader>Share File</StyledTableHeader>
             <StyledTableHeader>Delete File</StyledTableHeader>
             {/* we render file info by using info from files array */}
-            {files.map(({ originalName, _id, expireDate, createdAt }) => {
-              return (
-                <FileInfo
-                  key={_id}
-                  originalName={originalName}
-                  _id={_id}
-                  createdAt={createdAt}
-                  expireDate={expireDate}
-                ></FileInfo>
-              );
-            })}
+            {files
+              .map(({ originalName, _id, expireDate, createdAt }) => {
+                return (
+                  <FileInfo
+                    key={_id}
+                    originalName={originalName}
+                    _id={_id}
+                    createdAt={createdAt}
+                    expireDate={expireDate}
+                  ></FileInfo>
+                );
+              })
+              .slice((page - 1) * itemsCountPerPage, page * itemsCountPerPage)}
           </StyledFileContainer>
+          <Pagination
+            page={page}
+            itemsCountPerPage={itemsCountPerPage}
+            setOnChangeHandler={handlePagination}
+            count={files.length}
+          ></Pagination>
         </>
       )}
       {/*Modal component here */}
