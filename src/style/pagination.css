@@ -36,7 +36,7 @@
   
   ul.pagination li a {
     text-decoration: none;
-    color: var(--MIDDLE_COLOR);
+    color: var(--DARK_COLOR);
     font-size: 1rem;
   }
   
@@ -45,16 +45,16 @@
   }
 
   ul.pagination li.active {
-    background-color: var(--MIDDLE_COLOR);
+    background-color: var(--DARK_COLOR);
   }
   
   ul.pagination li a:hover,
   ul.pagination li a.active {
-    color: var(--DARK_COLOR)
+    color: var(--MIDDLE_COLOR)
   }
   
   .page-selection {
     width: 48px;
     height: 30px;
-    color: var(--MIDDLE_COLOR);
+    color: var(--DARK_COLOR);
   }
