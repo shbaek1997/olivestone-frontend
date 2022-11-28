@@ -24,7 +24,8 @@ export const userLogin = createAsyncThunk(
       return response.data;
     } catch (error) {
       //if fail, we reject with thunk api to show user error message
-      return thunkAPI.rejectWithValue(error.response.data.reason);
+      const errorMessage = error.response?.data.reason || error.message;
+      return thunkAPI.rejectWithValue(errorMessage);
     }
   }
 );
