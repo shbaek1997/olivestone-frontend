@@ -6,6 +6,7 @@
 - 이러한 서비스의 Frontend 클라이언트 Repository
 - 브라우저에서 뿐만 아니라, POST 요청으로 터미널에서도 파일 다운로드 가능 (curl command 활용)
 - 서버 Repository는 이 [링크](http://swrnd.olivestonelab.com:32790/shbaek1997/project-upload-download-server/-/blob/develop/README.md)를 참조
+- Docker와 nginx를 활용한 배포는 이 [링크](http://swrnd.olivestonelab.com:32790/shbaek1997/project-upload-download-deploy)를 참조
 
 ## 서비스 설명
 
