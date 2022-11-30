@@ -8,7 +8,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 
 import Api from "../utils/api";
-
+import { changeFilePasswordSchema } from "../validation/validationSchema";
 import { turnOff } from "../context/modalSlice";
 import { errorHandler } from "../utils/error-handler";
 
@@ -32,6 +32,10 @@ export const ModalChangePassword = ({ handleCancelButtonClick }) => {
   const handleModalPasswordSubmit = async (event) => {
     try {
       event.preventDefault();
+      await changeFilePasswordSchema.validate({
+        filePassword,
+        filePasswordRepeat: fileRepeatPassword,
+      });
       //patch exisiting file with new password using patch api request
       const api = Api();
       const response = await api.patch(

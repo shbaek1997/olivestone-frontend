@@ -2,6 +2,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { userLogin } from "../context/authSlice";
+import { loginSchema } from "../validation/validationSchema";
 import useInput from "../hooks/useInput";
 
 import { StyledForm, StyledButton, StyledInput } from "../style/style";
@@ -13,6 +14,7 @@ export const LogInForm = () => {
   const handleLoginSubmit = async (e) => {
     try {
       e.preventDefault();
+      await loginSchema.validate({ username, password });
       await dispatch(userLogin({ username, password })).unwrap();
       setUsername("");
       setPassword("");
@@ -27,14 +29,12 @@ export const LogInForm = () => {
         type="text"
         value={username}
         onChange={handleChangeUsername}
-        required
       ></StyledInput>
       <label>Password</label>
       <StyledInput
         type="password"
         value={password}
         onChange={handleChangePassword}
-        required
       ></StyledInput>
       <StyledButton type="submit" onSubmit={handleLoginSubmit}>
         Log in

@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import useInput from "../hooks/useInput";
 import Api from "../utils/api";
 import { errorHandler } from "../utils/error-handler";
-
+import { uploadFileSchema } from "../validation/validationSchema";
 import {
   StyledForm,
   StyledButton,
@@ -35,7 +35,12 @@ export const UploadForm = () => {
       e.preventDefault();
       //get file from file input
       const file = fileInputRef.current.files[0];
-
+      await uploadFileSchema.validate({
+        file,
+        uploadPassword,
+        uploadPasswordRepeat,
+        validPeriod,
+      });
       //create new form data
       let formData = new FormData();
       // add key/value to form data as api is required

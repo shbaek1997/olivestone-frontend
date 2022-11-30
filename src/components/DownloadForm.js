@@ -2,6 +2,7 @@ import useInput from "../hooks/useInput";
 import { StyledForm, StyledButton, StyledInput } from "../style/style";
 import Api from "../utils/api";
 import downloadFile from "../utils/downloadFile";
+import { downloadFileSchema } from "../validation/validationSchema";
 import { errorHandler } from "../utils/error-handler";
 
 //download page
@@ -19,6 +20,10 @@ export function DownloadForm() {
   const handleDownloadSubmit = async (e) => {
     try {
       e.preventDefault();
+      await downloadFileSchema.validate({
+        fileId,
+        filePassword: downloadPassword,
+      });
       //request post api for downloading the file
       const api = Api();
       const response = await api.post(
@@ -49,7 +54,6 @@ export function DownloadForm() {
         type="text"
         onChange={handleChangeFileId}
         value={fileId}
-        required
       ></StyledInput>
       <label htmlFor="file-password-input">File Password</label>
       <StyledInput
@@ -57,7 +61,6 @@ export function DownloadForm() {
         type="password"
         onChange={handleChangeDownloadPassword}
         value={downloadPassword}
-        required
       ></StyledInput>
       <StyledButton type="submit">Download File</StyledButton>
     </StyledForm>
