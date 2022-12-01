@@ -50,7 +50,7 @@ export function Files() {
       try {
         // api get request to get all valid files
         const api = Api();
-        const response = await api.get("/files/files");
+        const response = await api.get("/files/all");
         const { data } = response;
         const responseFiles = data.files;
         // set files
