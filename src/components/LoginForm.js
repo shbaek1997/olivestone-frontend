@@ -19,7 +19,7 @@ export const LogInForm = () => {
       setUsername("");
       setPassword("");
     } catch (error) {
-      alert(error);
+      typeof error === "string" ? alert(error) : alert(error.message);
     }
   };
   return (
