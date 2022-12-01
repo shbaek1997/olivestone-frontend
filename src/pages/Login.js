@@ -2,13 +2,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { fetchUserByJWT } from "../context/authSlice";
-import { useNavigate } from "react-router-dom";
-import { PageLayout } from "../components/PageLayout";
-import { UploadForm } from "../components/UploadForm";
 
-//Upload page
-//Upload page
-export function Upload() {
+import { PageLayout } from "../components/PageLayout";
+import { LogInForm } from "../components/LoginForm";
+import { useNavigate } from "react-router-dom";
+
+//Login page
+export function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // loading and login state
@@ -21,22 +21,22 @@ export function Upload() {
       try {
         //dispatch no error => loggedin
         await dispatch(fetchUserByJWT()).unwrap();
-        setIsLoading(false);
+        navigate("/upload");
       } catch (error) {
         //not loggedIn
-        navigate("/login");
+        setIsLoading(false);
       }
     };
     checkUserLogin();
   }, [dispatch, navigate]);
-  const headerTitle = "Upload";
+  const headerTitle = " Login";
 
   //if loading show "loading..." else show form
   return isLoading ? (
     <div>Loading ...</div>
   ) : (
     <PageLayout headerTitle={headerTitle}>
-      <UploadForm></UploadForm>
+      <LogInForm></LogInForm>
     </PageLayout>
   );
 }

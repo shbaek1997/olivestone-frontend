@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Login } from "./pages/Login";
 import { Upload } from "./pages/Upload";
 import { Download } from "./pages/Download";
 import { Files } from "./pages/Files";
@@ -9,6 +10,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Download></Download>}></Route>
+          <Route path="/login" element={<Login></Login>}></Route>
           <Route path="/upload" element={<Upload></Upload>}></Route>
           <Route path="/files" element={<Files></Files>}></Route>
           <Route path="*" element={<NotFound></NotFound>}></Route>

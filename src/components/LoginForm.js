@@ -6,10 +6,12 @@ import { loginSchema } from "../validation/validationSchema";
 import useInput from "../hooks/useInput";
 
 import { StyledForm, StyledButton, StyledInput } from "../style/style";
+import { useNavigate } from "react-router-dom";
 export const LogInForm = () => {
   const [username, setUsername, handleChangeUsername] = useInput("");
   const [password, setPassword, handleChangePassword] = useInput("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   //login
   const handleLoginSubmit = async (e) => {
     try {
@@ -18,6 +20,7 @@ export const LogInForm = () => {
       await dispatch(userLogin({ username, password })).unwrap();
       setUsername("");
       setPassword("");
+      navigate("/upload");
     } catch (error) {
       typeof error === "string" ? alert(error) : alert(error.message);
     }

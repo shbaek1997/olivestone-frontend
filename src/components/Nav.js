@@ -28,10 +28,11 @@ export const NavBar = () => {
   const isPathFiles = pathName === "/files";
   const isPathUpload = pathName === "/upload";
   const isPathDownload = pathName === "/";
+  const isPathLogin = pathName === "/login";
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(userLogout());
-    navigate("/upload");
+    navigate("/login");
   };
   const files = useSelector((state) => state.files.files);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -117,10 +118,10 @@ export const NavBar = () => {
           Go to Download
         </StyledNavButton>
       )}
-      {!isPathUpload && (
+      {!isPathLogin && (
         <StyledNavButton
           onClick={() => {
-            navigate("/upload");
+            navigate("/login");
           }}
         >
           Log in
