@@ -41,27 +41,27 @@ export function Files() {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  // get all non expired files from the server and set files
-  const getFile = async () => {
-    try {
-      // api get request to get all valid files
-      const api = Api();
-      const response = await api.get("/files/files");
-      const { data } = response;
-      const responseFiles = data.files;
-      // set files
-      dispatch(setFiles([...responseFiles]));
-      // set loading false
-      setIsLoading(false);
-      return;
-    } catch (error) {
-      console.log(error);
-    }
-  };
   //when page is first rendered, check login and get file data from server
   useEffect(() => {
     // set login value async function check for user token and see if user is logged in
     // if not logged in, it redirects user back to home and "/files" route is protected
+    // get all non expired files from the server and set files
+    const getFile = async () => {
+      try {
+        // api get request to get all valid files
+        const api = Api();
+        const response = await api.get("/files/files");
+        const { data } = response;
+        const responseFiles = data.files;
+        // set files
+        dispatch(setFiles([...responseFiles]));
+        // set loading false
+        setIsLoading(false);
+        return;
+      } catch (error) {
+        console.log(error);
+      }
+    };
     const fetchUserAndGetFile = async () => {
       try {
         await dispatch(fetchUserByJWT()).unwrap();
@@ -72,9 +72,7 @@ export function Files() {
       }
     };
     fetchUserAndGetFile();
-
-    //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch, navigate]);
   return (
     //if modal is active, we blur the file page
     <StyledPage
