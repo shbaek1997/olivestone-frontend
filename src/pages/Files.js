@@ -68,7 +68,7 @@ export function Files() {
         getFile();
         setIsLoading(false);
       } catch (error) {
-        navigate("/");
+        navigate("/login");
       }
     };
     fetchUserAndGetFile();
