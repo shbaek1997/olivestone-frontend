@@ -30,7 +30,6 @@ export function Files() {
   const itemsCountPerPage = 10;
 
   const handlePagination = (event) => {
-    console.log(event);
     setPage(event);
   };
   //set props func which change state of those props
