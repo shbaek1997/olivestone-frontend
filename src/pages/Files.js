@@ -8,6 +8,7 @@ import {
   StyledPage,
   StyledFileContainer,
   StyledTableHeader,
+  StyledPaginationContainer,
 } from "../style/style";
 
 import { fetchUserByJWT } from "../context/authSlice";
@@ -16,7 +17,6 @@ import { setFiles } from "../context/fileSlice";
 import { NavBar } from "../components/Nav";
 import { Loading } from "../components/Loading";
 import Pagination from "../components/Pagination";
-import "../style/pagination.css";
 // create Modal and attach to body, so it is outside of files page
 // send file id, is modal active props, and setPropsFunc to change state of those props in the child components
 const Modal = () => {
@@ -126,12 +126,14 @@ export function Files() {
               })
               .slice((page - 1) * itemsCountPerPage, page * itemsCountPerPage)}
           </StyledFileContainer>
-          <Pagination
-            page={page}
-            itemsCountPerPage={itemsCountPerPage}
-            setOnChangeHandler={handlePagination}
-            count={files.length}
-          ></Pagination>
+          <StyledPaginationContainer className={isDarkMode && "dark"}>
+            <Pagination
+              page={page}
+              itemsCountPerPage={itemsCountPerPage}
+              setOnChangeHandler={handlePagination}
+              count={files.length}
+            ></Pagination>
+          </StyledPaginationContainer>
         </>
       )}
       {/*Modal component here */}
