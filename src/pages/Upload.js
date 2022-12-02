@@ -5,6 +5,7 @@ import { fetchUserByJWT } from "../context/authSlice";
 import { useNavigate } from "react-router-dom";
 import { PageLayout } from "../components/PageLayout";
 import { UploadForm } from "../components/UploadForm";
+import { Loading } from "../components/Loading";
 
 //Upload page
 //Upload page
@@ -33,7 +34,7 @@ export function Upload() {
 
   //if loading show "loading..." else show form
   return isLoading ? (
-    <div>Loading ...</div>
+    <Loading></Loading>
   ) : (
     <PageLayout headerTitle={headerTitle}>
       <UploadForm></UploadForm>

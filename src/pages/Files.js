@@ -14,6 +14,7 @@ import { fetchUserByJWT } from "../context/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { setFiles } from "../context/fileSlice";
 import { NavBar } from "../components/Nav";
+import { Loading } from "../components/Loading";
 import Pagination from "../components/Pagination";
 import "../style/pagination.css";
 // create Modal and attach to body, so it is outside of files page
@@ -55,6 +56,7 @@ export function Files() {
         const responseFiles = data.files;
         // set files
         dispatch(setFiles([...responseFiles]));
+        setIsLoading(false);
         return;
       } catch (error) {
         console.log(error);
@@ -64,7 +66,6 @@ export function Files() {
       try {
         await dispatch(fetchUserByJWT()).unwrap();
         getFile();
-        setIsLoading(false);
       } catch (error) {
         navigate("/login");
       }
@@ -81,7 +82,7 @@ export function Files() {
     >
       {/* if loading we show "loading..." else we show file page */}
       {isLoading ? (
-        <div>Loading....</div>
+        <Loading></Loading>
       ) : (
         <>
           <NavBar></NavBar>

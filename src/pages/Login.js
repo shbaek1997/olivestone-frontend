@@ -6,6 +6,7 @@ import { fetchUserByJWT } from "../context/authSlice";
 import { PageLayout } from "../components/PageLayout";
 import { LogInForm } from "../components/LoginForm";
 import { useNavigate } from "react-router-dom";
+import { Loading } from "../components/Loading";
 
 //Login page
 export function Login() {
@@ -33,7 +34,7 @@ export function Login() {
 
   //if loading show "loading..." else show form
   return isLoading ? (
-    <div>Loading ...</div>
+    <Loading></Loading>
   ) : (
     <PageLayout headerTitle={headerTitle}>
       <LogInForm></LogInForm>
