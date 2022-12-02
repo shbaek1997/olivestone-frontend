@@ -83,6 +83,7 @@ export const UploadForm = () => {
       <StyledFileInput
         id="file-input"
         ref={fileInputRef}
+        style={{ backgroundColor: "transparent", border: "none" }}
         type="file"
         required
       ></StyledFileInput>

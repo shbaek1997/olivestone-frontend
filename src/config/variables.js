@@ -19,5 +19,5 @@ export const EXPIRE_DATE_REVERSE = "Expire date reverse";
 export const FILE_TYPE = "File type";
 
 //style color
-export const DARK_COLOR = "rgb(70,30,105)";
-export const BUTTON_MIDDLE_COLOR = "rgb(200,155,200)";
+export const DARK_COLOR = "#557153";
+export const MIDDLE_COLOR = "#E5D9B6";

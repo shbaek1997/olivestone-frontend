@@ -8,14 +8,15 @@ import {
   StyledPage,
   StyledFileContainer,
   StyledTableHeader,
+  StyledPaginationContainer,
 } from "../style/style";
 
 import { fetchUserByJWT } from "../context/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { setFiles } from "../context/fileSlice";
 import { NavBar } from "../components/Nav";
+import { Loading } from "../components/Loading";
 import Pagination from "../components/Pagination";
-import "../style/pagination.css";
 // create Modal and attach to body, so it is outside of files page
 // send file id, is modal active props, and setPropsFunc to change state of those props in the child components
 const Modal = () => {
@@ -26,6 +27,7 @@ export function Files() {
   //set file id and is modal active state
   const isActive = useSelector((state) => state.modal.isActive);
   const files = useSelector((state) => state.files.files);
+  const isDarkMode = useSelector((state) => state.darkMode.isActive);
   const [page, setPage] = useState(1);
   const itemsCountPerPage = 10;
 
@@ -40,7 +42,6 @@ export function Files() {
   const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState(true);
-
   //when page is first rendered, check login and get file data from server
   useEffect(() => {
     // set login value async function check for user token and see if user is logged in
@@ -55,7 +56,6 @@ export function Files() {
         const responseFiles = data.files;
         // set files
         dispatch(setFiles([...responseFiles]));
-        // set loading false
         setIsLoading(false);
         return;
       } catch (error) {
@@ -66,33 +66,51 @@ export function Files() {
       try {
         await dispatch(fetchUserByJWT()).unwrap();
         getFile();
-        setIsLoading(false);
       } catch (error) {
         navigate("/login");
       }
     };
     fetchUserAndGetFile();
   }, [dispatch, navigate]);
+  let classList = [];
+  if (isDarkMode) {
+    classList.push("dark");
+  }
+  if (isActive) {
+    classList.push("active");
+  }
+  const classes = classList.join(" ");
   return (
     //if modal is active, we blur the file page
-    <StyledPage
-      id="file-page"
-      style={isActive ? { opacity: "0.1" } : { opacity: "1" }}
-    >
+    <StyledPage id="file-page" className={classes}>
       {/* if loading we show "loading..." else we show file page */}
       {isLoading ? (
-        <div>Loading....</div>
+        <Loading></Loading>
       ) : (
         <>
           <NavBar></NavBar>
           <StyledFileContainer>
-            <StyledTableHeader>File ID</StyledTableHeader>
-            <StyledTableHeader>File Name</StyledTableHeader>
-            <StyledTableHeader>Upload Date</StyledTableHeader>
-            <StyledTableHeader>Expire Date</StyledTableHeader>
-            <StyledTableHeader>Change Pasword</StyledTableHeader>
-            <StyledTableHeader>Share File</StyledTableHeader>
-            <StyledTableHeader>Delete File</StyledTableHeader>
+            <StyledTableHeader className={isDarkMode && "dark-header"}>
+              File ID
+            </StyledTableHeader>
+            <StyledTableHeader className={isDarkMode && "dark-header"}>
+              File Name
+            </StyledTableHeader>
+            <StyledTableHeader className={isDarkMode && "dark-header"}>
+              Upload Date
+            </StyledTableHeader>
+            <StyledTableHeader className={isDarkMode && "dark-header"}>
+              Expire Date
+            </StyledTableHeader>
+            <StyledTableHeader className={isDarkMode && "dark-header"}>
+              Change Pasword
+            </StyledTableHeader>
+            <StyledTableHeader className={isDarkMode && "dark-header"}>
+              Share File
+            </StyledTableHeader>
+            <StyledTableHeader className={isDarkMode && "dark-header"}>
+              Delete File
+            </StyledTableHeader>
             {/* we render file info by using info from files array */}
             {files
               .map(({ originalName, _id, expireDate, createdAt }) => {
@@ -108,12 +126,14 @@ export function Files() {
               })
               .slice((page - 1) * itemsCountPerPage, page * itemsCountPerPage)}
           </StyledFileContainer>
-          <Pagination
-            page={page}
-            itemsCountPerPage={itemsCountPerPage}
-            setOnChangeHandler={handlePagination}
-            count={files.length}
-          ></Pagination>
+          <StyledPaginationContainer className={isDarkMode && "dark"}>
+            <Pagination
+              page={page}
+              itemsCountPerPage={itemsCountPerPage}
+              setOnChangeHandler={handlePagination}
+              count={files.length}
+            ></Pagination>
+          </StyledPaginationContainer>
         </>
       )}
       {/*Modal component here */}
