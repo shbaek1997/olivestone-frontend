@@ -29,6 +29,7 @@ export const StyledInput = styled.input`
   width: 90%;
   margin: 10px;
   padding: 10px;
+  border: 2px solid white;
   &:last-of-type {
     margin-bottom: 40px;
   }
@@ -121,6 +122,9 @@ export const StyledTableHeader = styled.div`
   padding: 10px;
   font-weight: bold;
   font-size: 18px;
+  &.dark-header {
+    border-bottom: white solid 2px;
+  }
 `;
 
 export const StyledFileContainer = styled.div`
@@ -144,6 +148,25 @@ export const StyledPage = styled.div`
   align-items: center;
   flex-direction: column;
   padding: 20px;
+  &.dark {
+    background-color: rgb(30, 30, 30);
+    color: white;
+  }
+  &.dark button,
+  &.dark select {
+    background-color: ${BUTTON_MIDDLE_COLOR};
+    color: ${DARK_COLOR};
+  }
+  &.dark button:hover {
+    background-color: white;
+    cursor: pointer;
+    color: ${DARK_COLOR};
+  }
+  &.dark input {
+    background-color: rgb(60, 60, 60);
+    border: rgb(60, 60, 60) 2px solid;
+    color: white;
+  }
 `;
 
 export const StyledNavButton = styled.button`
@@ -174,6 +197,14 @@ export const StyledFileModal = styled.div`
   border-radius: 10px;
   padding: 40px;
   color: white;
+  &.dark input {
+    background-color: rgb(60, 60, 60);
+    border: rgb(60, 60, 60) 2px solid;
+    color: white;
+  }
+  &.dark button {
+    color: ${DARK_COLOR};
+  }
 `;
 
 export const StyledButtonContainer = styled.div`
