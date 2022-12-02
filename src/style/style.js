@@ -165,12 +165,13 @@ export const StyledPage = styled.div`
   &.dark select {
     background-color: ${MIDDLE_COLOR};
     color: ${DARK_COLOR};
+    &:hover {
+      background-color: white;
+      cursor: pointer;
+      color: ${DARK_COLOR};
+    }
   }
-  &.dark button:hover {
-    background-color: white;
-    cursor: pointer;
-    color: ${DARK_COLOR};
-  }
+
   &.dark input {
     background-color: rgb(60, 60, 60);
     border: rgb(60, 60, 60) 4px solid;
