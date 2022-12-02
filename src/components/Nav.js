@@ -19,6 +19,7 @@ import {
   sortFilesUploadDate,
   sortFilesUploadDateReverse,
 } from "../context/fileSlice";
+import { toggleDarkMode } from "../context/darkModeSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 export const NavBar = () => {
@@ -36,6 +37,7 @@ export const NavBar = () => {
   };
   const files = useSelector((state) => state.files.files);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const isDarkMode = useSelector((state) => state.darkMode.isActive);
   const handleSelectChange = (event) => {
     const selectedValue = event.target.value;
     switch (selectedValue) {
@@ -65,6 +67,14 @@ export const NavBar = () => {
   };
   return isLoggedIn ? (
     <StyledNavBar>
+      <StyledNavButton
+        onClick={() => {
+          dispatch(toggleDarkMode());
+        }}
+      >
+        {isDarkMode ? "Light Mode" : "Dark Mode"}
+      </StyledNavButton>
+
       {isPathFiles && (
         <StyledSelect onChange={handleSelectChange}>
           <option>-- Sort --</option>
@@ -109,6 +119,13 @@ export const NavBar = () => {
     </StyledNavBar>
   ) : (
     <StyledNavBar>
+      <StyledNavButton
+        onClick={() => {
+          dispatch(toggleDarkMode());
+        }}
+      >
+        {isDarkMode ? "Light Mode" : "Dark Mode"}
+      </StyledNavButton>
       {!isPathDownload && (
         <StyledNavButton
           onClick={() => {
