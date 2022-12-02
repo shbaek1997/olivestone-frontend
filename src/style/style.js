@@ -148,6 +148,10 @@ export const StyledPage = styled.div`
   align-items: center;
   flex-direction: column;
   padding: 20px;
+  &.active {
+    filter: blur(10px);
+    pointer-events: none;
+  }
   &.dark {
     background-color: rgb(30, 30, 30);
     color: white;
@@ -197,6 +201,7 @@ export const StyledFileModal = styled.div`
   border-radius: 10px;
   padding: 40px;
   color: white;
+  z-index: 2;
   &.dark input {
     background-color: rgb(60, 60, 60);
     border: rgb(60, 60, 60) 2px solid;

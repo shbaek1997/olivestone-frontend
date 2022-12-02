@@ -72,14 +72,17 @@ export function Files() {
     };
     fetchUserAndGetFile();
   }, [dispatch, navigate]);
-
+  let classList = [];
+  if (isDarkMode) {
+    classList.push("dark");
+  }
+  if (isActive) {
+    classList.push("active");
+  }
+  const classes = classList.join(" ");
   return (
     //if modal is active, we blur the file page
-    <StyledPage
-      id="file-page"
-      style={isActive ? { opacity: "0.1" } : { opacity: "1" }}
-      className={isDarkMode && "dark"}
-    >
+    <StyledPage id="file-page" className={classes}>
       {/* if loading we show "loading..." else we show file page */}
       {isLoading ? (
         <Loading></Loading>
