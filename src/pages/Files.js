@@ -23,25 +23,23 @@ const Modal = () => {
 };
 
 export function Files() {
-  //set file id and is modal active state
+  //set file id and modal active, dark mode state
   const isActive = useSelector((state) => state.modal.isActive);
   const files = useSelector((state) => state.files.files);
   const isDarkMode = useSelector((state) => state.darkMode.isActive);
+  // settings for pagination
   const [page, setPage] = useState(1);
   const itemsCountPerPage = 10;
-
   const handlePagination = (event) => {
     setPage(event);
   };
-  //set props func which change state of those props
   //navigate to navigate between pages
   const navigate = useNavigate();
-  // api call
-  // set loading and files state
+  //dispatch
   const dispatch = useDispatch();
-
+  // set is loading state
   const [isLoading, setIsLoading] = useState(true);
-  //when page is first rendered, check login and get file data from server
+
   useEffect(() => {
     // set login value async function check for user token and see if user is logged in
     // if not logged in, it redirects user back to home and "/files" route is protected
@@ -53,8 +51,9 @@ export function Files() {
         const response = await api.get("/files/all");
         const { data } = response;
         const responseFiles = data.files;
-        // set files
+        // set files by dispatching action
         dispatch(setFiles([...responseFiles]));
+        //set loading false
         setIsLoading(false);
         return;
       } catch (error) {
@@ -63,14 +62,18 @@ export function Files() {
     };
     const fetchUserAndGetFile = async () => {
       try {
+        //check user log in
         await dispatch(fetchUserByJWT()).unwrap();
+        // get file
         getFile();
       } catch (error) {
+        //failure redirects to login
         navigate("/login");
       }
     };
     fetchUserAndGetFile();
   }, [dispatch, navigate]);
+  // dark-light mode class and active class for modal
   let classList = [];
   if (isDarkMode) {
     classList.push("dark");
@@ -78,9 +81,20 @@ export function Files() {
   if (isActive) {
     classList.push("active");
   }
+  //get combined classes for dark mode and modal active
+  //styled page classes change page blur and colors
   const classes = classList.join(" ");
+  // table header inner content as an array
+  const tableHeaderTitles = [
+    "File ID",
+    "File Name",
+    "Upload Date",
+    "Expire Date",
+    "Change Password",
+    "Share File",
+    "Delete File",
+  ];
   return (
-    //if modal is active, we blur the file page
     <StyledPage id="file-page" className={classes}>
       {/* if loading we show "loading..." else we show file page */}
       {isLoading ? (
@@ -88,29 +102,19 @@ export function Files() {
       ) : (
         <>
           <NavBar></NavBar>
+
           <StyledFileContainer>
-            <StyledTableHeader className={isDarkMode && "dark-header"}>
-              File ID
-            </StyledTableHeader>
-            <StyledTableHeader className={isDarkMode && "dark-header"}>
-              File Name
-            </StyledTableHeader>
-            <StyledTableHeader className={isDarkMode && "dark-header"}>
-              Upload Date
-            </StyledTableHeader>
-            <StyledTableHeader className={isDarkMode && "dark-header"}>
-              Expire Date
-            </StyledTableHeader>
-            <StyledTableHeader className={isDarkMode && "dark-header"}>
-              Change Pasword
-            </StyledTableHeader>
-            <StyledTableHeader className={isDarkMode && "dark-header"}>
-              Share File
-            </StyledTableHeader>
-            <StyledTableHeader className={isDarkMode && "dark-header"}>
-              Delete File
-            </StyledTableHeader>
-            {/* we render file info by using info from files array */}
+            {tableHeaderTitles.map((title) => {
+              return (
+                <StyledTableHeader
+                  key={title}
+                  className={isDarkMode && "dark-header"}
+                >
+                  {title}
+                </StyledTableHeader>
+              );
+            })}
+            {/* we render file info by using info from files array, slice part is pagination logic */}
             {files
               .map(({ originalName, _id, expireDate, createdAt }) => {
                 return (
