@@ -10,11 +10,12 @@ import {
   StyledButton,
   StyledHeader,
 } from "../style/style";
+
+//modal content for change file password
 export const ModalChangePassword = ({ handleCancelButtonClick }) => {
   //dispatch for redux
   const dispatch = useDispatch();
-
-  // use selector to get states
+  // use selector to get file Id
   const fileId = useSelector((state) => state.modal.fileId);
 
   //states and handler for password form submission
@@ -30,6 +31,7 @@ export const ModalChangePassword = ({ handleCancelButtonClick }) => {
   const handleModalPasswordSubmit = async (event) => {
     try {
       event.preventDefault();
+      //validate password, repeat password formats
       await changeFilePasswordSchema.validate({
         filePassword,
         filePasswordRepeat: fileRepeatPassword,

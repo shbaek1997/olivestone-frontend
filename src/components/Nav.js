@@ -21,24 +21,38 @@ import {
   FILE_TYPE,
 } from "../config/variables";
 import { StyledNavBar, StyledSelect, StyledNavButton } from "../style/style";
+// navigation bar for all pages
 export const NavBar = () => {
+  //navigate
   const navigate = useNavigate();
+  // location to know which page we are in
   const location = useLocation();
+  // Get path
   const pathName = location.pathname;
+  //Check path booleans
   const isPathFiles = pathName === "/files";
   const isPathUpload = pathName === "/upload";
   const isPathDownload = pathName === "/";
   const isPathLogin = pathName === "/login";
+  // dispatch
   const dispatch = useDispatch();
+  // handle logout button click
   const handleLogout = () => {
+    //dispatch logout action
     dispatch(userLogout());
+    // go to login page
     navigate("/login");
   };
+  //get states - files, isLoggedIn, isDarkMode
   const files = useSelector((state) => state.files.files);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const isDarkMode = useSelector((state) => state.darkMode.isActive);
+
+  //handle select change for sorting files
   const handleSelectChange = (event) => {
+    //selected value in select options
     const selectedValue = event.target.value;
+    // for each value, sort files with the chosen method
     switch (selectedValue) {
       case ALPHABETICAL:
         dispatch(sortFilesAlph(files));
@@ -61,9 +75,16 @@ export const NavBar = () => {
       case FILE_TYPE:
         dispatch(sortFilesMimeType(files));
         break;
+      //do nothing for default
       default:
     }
   };
+  // actual nav bar structure
+  //check login, dark mode and path of the page
+  //if logged in - dark mode button, sort button, upload button, download button, logout button
+  //not logged in -dark mode button , download button, login button
+  // the boolean checks for the current page,
+  // so if you are in download page, the download button does not show in the nav bar
   return isLoggedIn ? (
     <StyledNavBar>
       <StyledNavButton

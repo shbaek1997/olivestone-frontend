@@ -18,12 +18,16 @@ const FileModal = () => {
   const isActive = useSelector((state) => state.modal.isActive);
   const isDarkMode = useSelector((state) => state.darkMode.isActive);
 
+  //click on cancel button on modal turns off modal
   const handleCancelButtonClick = () => {
     dispatch(turnOff());
   };
+  //if modal is active, we display modal, else we display none
+  // depending on the mode of modal, the content of modal changes..
   return (
     <StyledFileModal
       id="file-password-modal"
+      // if darkmode, modal gets class "dark"
       className={isDarkMode && "dark"}
       // if modal is active we display flex else modal display is none
       style={isActive ? { display: "flex" } : { display: "none" }}

@@ -9,15 +9,16 @@ import {
   StyledButton,
 } from "../style/style";
 
+// Modal content for deleting file
 export const ModalDeleteFile = ({ handleCancelButtonClick }) => {
-  //handle delete file button
+  //dispatch for redux
   const dispatch = useDispatch();
-  // use selector to get states
+  // use selector to get states- file id, files
   const fileId = useSelector((state) => state.modal.fileId);
   const files = useSelector((state) => state.files.files);
   const handleDeleteFileButtonClick = async (event) => {
     try {
-      //expire file server-side also
+      //expire file on the server-side
       const api = Api();
       const response = await api.patch(`files/expireDate/${fileId}`, {
         headers: { "Content-Type": "application/json" },

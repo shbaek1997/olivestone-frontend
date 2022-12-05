@@ -10,13 +10,15 @@ import {
 } from "../style/style";
 //dispatch for redux
 
+//Modal content for share files
 export const ModalShareFile = ({ handleCancelButtonClick }) => {
+  //dispatch for redux
   const dispatch = useDispatch();
 
-  // use selector to get states
+  // use selector to get file Id
   const fileId = useSelector((state) => state.modal.fileId);
 
-  //copy url var for share file mode
+  //copy url variable for share file mode
   const COPY_URL = `${HOME_PAGE}/?fileId=${fileId}`;
   //handle copy to clipboard button
   const handleCopyButtonClick = async (event) => {

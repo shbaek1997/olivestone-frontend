@@ -14,12 +14,12 @@ import { StyledTableDiv, StyledFileButton } from "../style/style";
 const FileInfo = ({ originalName, _id, expireDate, createdAt }) => {
   //dispatch to handle actions for modal
   const dispatch = useDispatch();
-
   //handle table button click (password, share, delete),
-  // mode is id of
+  // mode is the name of the button
   const handleButtonClick = (event) => {
     const mode = event.target.name;
     const fileId = _id;
+    //dispatch file Id, mode of modal, and turn on the modal
     dispatch(setFileId(fileId));
     dispatch(setModalMode(mode));
     dispatch(turnOn());
@@ -38,8 +38,8 @@ const FileInfo = ({ originalName, _id, expireDate, createdAt }) => {
       errorHandler(error);
     }
   };
-  //data editing for dates..
-  //convert expire date to YY-MM-DD formate
+  //data editing for dates
+  //convert expire date and upload date to YY-MM-DD format
   const expireDateToString = expireDate.toString().slice(0, 10);
   const uploadedDateToString = createdAt.toString().slice(0, 10);
 

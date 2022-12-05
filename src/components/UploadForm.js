@@ -9,7 +9,10 @@ import {
   StyledInput,
   StyledFileInput,
 } from "../style/style";
+
+//Upload Form
 export const UploadForm = () => {
+  // set password , password repeat, valid period for upload file +on change handlers
   const [uploadPassword, setUploadPassword, handleChangeUploadPassword] =
     useInput("");
   const [validPeriod, setValidPeriod, handleValidPeriod] = useInput(7);
@@ -29,12 +32,13 @@ export const UploadForm = () => {
   const resetFileInput = () => {
     fileInputRef.current.value = "";
   };
+  // handle uploda submit
   const handleUploadSubmit = async (e) => {
     try {
-      //prevent form submit default refresh
       e.preventDefault();
       //get file from file input
       const file = fileInputRef.current.files[0];
+      // validate upload password, password repeat, valid period
       await uploadFileSchema.validate({
         file,
         uploadPassword,
@@ -47,7 +51,7 @@ export const UploadForm = () => {
       formData.append("password", uploadPassword);
       formData.append("passwordRepeat", uploadPasswordRepeat);
       formData.append("validPeriod", validPeriod);
-      // adding file last is important for multer api to work
+      // adding file last is important for multer middleware to work
       formData.append("file", file);
       // api post request
       const api = Api();

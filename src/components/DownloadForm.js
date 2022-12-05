@@ -6,24 +6,29 @@ import { downloadFileSchema } from "../validation/validationSchema";
 import { StyledForm, StyledButton, StyledInput } from "../style/style";
 //download page
 export function DownloadForm() {
-  //set file ID, download file password state and onChange handlers.
+  //first search if file Id is present in uri query
   const downloadFileId = new URLSearchParams(window.location.search).get(
     "fileId"
   );
+  //set file ID state and onChange handlers.
+  //set file id as uri query param or as empty string;
   const [fileId, setFileId, handleChangeFileId] = useInput(
-    downloadFileId || ""
+    downloadFileId ?? ""
   );
+  //set download password state, onChange handler
   const [downloadPassword, setDownloadPassword, handleChangeDownloadPassword] =
     useInput("");
+
   // download submit logic
   const handleDownloadSubmit = async (e) => {
     try {
       e.preventDefault();
+      //validate id and password format
       await downloadFileSchema.validate({
         fileId,
         filePassword: downloadPassword,
       });
-      //request post api for downloading the file
+      //request post api for downloading the file, response should be blob
       const api = Api();
       const response = await api.post(
         "files/download",
