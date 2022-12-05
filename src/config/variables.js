@@ -2,9 +2,9 @@
 export const BASE_URL = "http://localhost:80/api";
 
 //Modal ID values
-export const CHANGE_PASSWORD_BUTTON_ID = "change-password";
-export const SHARE_FILE_BUTTON_ID = "copy-link";
-export const DELETE_FILE_BUTTON_ID = "delete-file";
+export const CHANGE_PASSWORD_BUTTON_NAME = "change-password";
+export const SHARE_FILE_BUTTON_NAME = "copy-link";
+export const DELETE_FILE_BUTTON_NAME = "delete-file";
 
 //copy clipboard
 export const HOME_PAGE = "http://localhost:80";

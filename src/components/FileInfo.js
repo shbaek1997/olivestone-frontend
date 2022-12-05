@@ -4,23 +4,21 @@ import Api from "../utils/api";
 import downloadFile from "../utils/downloadFile";
 import { errorHandler } from "../utils/error-handler";
 import {
-  CHANGE_PASSWORD_BUTTON_ID,
-  DELETE_FILE_BUTTON_ID,
-  SHARE_FILE_BUTTON_ID,
+  CHANGE_PASSWORD_BUTTON_NAME,
+  DELETE_FILE_BUTTON_NAME,
+  SHARE_FILE_BUTTON_NAME,
 } from "../config/variables";
 import { StyledTableDiv, StyledFileButton } from "../style/style";
 
-//file info component
-//file info shown on table
+//file info component shown on table
 const FileInfo = ({ originalName, _id, expireDate, createdAt }) => {
-  //use dispatch for redux-toolkit to handle fileId, modalMode, isActive state
+  //dispatch to handle actions for modal
   const dispatch = useDispatch();
 
-  //on table button click (password, share, delete),
-  // we set fileId value and isActive to true and set modal mode
-
+  //handle table button click (password, share, delete),
+  // mode is id of
   const handleButtonClick = (event) => {
-    const mode = event.target.id;
+    const mode = event.target.name;
     const fileId = _id;
     dispatch(setFileId(fileId));
     dispatch(setModalMode(mode));
@@ -54,16 +52,22 @@ const FileInfo = ({ originalName, _id, expireDate, createdAt }) => {
       <StyledTableDiv>{uploadedDateToString}</StyledTableDiv>
       <StyledTableDiv>{expireDateToString}</StyledTableDiv>
       <StyledFileButton
-        id={CHANGE_PASSWORD_BUTTON_ID}
+        name={CHANGE_PASSWORD_BUTTON_NAME}
         className={"change-password-button"}
         onClick={handleButtonClick}
       >
         Change Password
       </StyledFileButton>
-      <StyledFileButton id={SHARE_FILE_BUTTON_ID} onClick={handleButtonClick}>
+      <StyledFileButton
+        name={SHARE_FILE_BUTTON_NAME}
+        onClick={handleButtonClick}
+      >
         Share File
       </StyledFileButton>
-      <StyledFileButton id={DELETE_FILE_BUTTON_ID} onClick={handleButtonClick}>
+      <StyledFileButton
+        name={DELETE_FILE_BUTTON_NAME}
+        onClick={handleButtonClick}
+      >
         Delete File
       </StyledFileButton>
     </>

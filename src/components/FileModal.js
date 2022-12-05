@@ -4,9 +4,9 @@ import { ModalChangePassword } from "./ModalChangePassword";
 import { ModalShareFile } from "./ModalShareFile";
 import { ModalDeleteFile } from "./ModalDeleteFile";
 import {
-  CHANGE_PASSWORD_BUTTON_ID,
-  DELETE_FILE_BUTTON_ID,
-  SHARE_FILE_BUTTON_ID,
+  CHANGE_PASSWORD_BUTTON_NAME,
+  DELETE_FILE_BUTTON_NAME,
+  SHARE_FILE_BUTTON_NAME,
 } from "../config/variables";
 import { StyledFileModal } from "../style/style";
 //File Modal component
@@ -28,17 +28,17 @@ const FileModal = () => {
       // if modal is active we display flex else modal display is none
       style={isActive ? { display: "flex" } : { display: "none" }}
     >
-      {modalMode === CHANGE_PASSWORD_BUTTON_ID && (
+      {modalMode === CHANGE_PASSWORD_BUTTON_NAME && (
         <ModalChangePassword
           handleCancelButtonClick={handleCancelButtonClick}
         ></ModalChangePassword>
       )}
-      {modalMode === SHARE_FILE_BUTTON_ID && (
+      {modalMode === SHARE_FILE_BUTTON_NAME && (
         <ModalShareFile
           handleCancelButtonClick={handleCancelButtonClick}
         ></ModalShareFile>
       )}
-      {modalMode === DELETE_FILE_BUTTON_ID && (
+      {modalMode === DELETE_FILE_BUTTON_NAME && (
         <ModalDeleteFile
           handleCancelButtonClick={handleCancelButtonClick}
         ></ModalDeleteFile>
