@@ -1,11 +1,11 @@
 import { useSelector } from "react-redux";
+import { NavBar } from "./Nav";
 import {
   StyledPage,
   StyledContainer,
   StyledHeader,
   StyledFormContainer,
 } from "../style/style";
-import { NavBar } from "./Nav";
 export const PageLayout = ({ children, headerTitle }) => {
   const isDarkMode = useSelector((state) => state.darkMode.isActive);
   return (

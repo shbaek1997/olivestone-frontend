@@ -1,10 +1,9 @@
 import useInput from "../hooks/useInput";
-import { StyledForm, StyledButton, StyledInput } from "../style/style";
 import Api from "../utils/api";
 import downloadFile from "../utils/downloadFile";
-import { downloadFileSchema } from "../validation/validationSchema";
 import { errorHandler } from "../utils/error-handler";
-
+import { downloadFileSchema } from "../validation/validationSchema";
+import { StyledForm, StyledButton, StyledInput } from "../style/style";
 //download page
 export function DownloadForm() {
   //set file ID, download file password state and onChange handlers.

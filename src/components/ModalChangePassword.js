@@ -1,17 +1,15 @@
+import { useSelector, useDispatch } from "react-redux";
 import useInput from "../hooks/useInput";
+import { turnOff } from "../context/modalSlice";
+import Api from "../utils/api";
+import { errorHandler } from "../utils/error-handler";
+import { changeFilePasswordSchema } from "../validation/validationSchema";
 import {
   StyledForm,
   StyledInput,
   StyledButton,
   StyledHeader,
 } from "../style/style";
-import { useSelector, useDispatch } from "react-redux";
-
-import Api from "../utils/api";
-import { changeFilePasswordSchema } from "../validation/validationSchema";
-import { turnOff } from "../context/modalSlice";
-import { errorHandler } from "../utils/error-handler";
-
 export const ModalChangePassword = ({ handleCancelButtonClick }) => {
   //dispatch for redux
   const dispatch = useDispatch();

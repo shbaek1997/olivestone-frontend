@@ -1,13 +1,13 @@
+import { useDispatch, useSelector } from "react-redux";
+import { turnOff } from "../context/modalSlice";
+import { errorHandler } from "../utils/error-handler";
+import { HOME_PAGE } from "../config/variables";
 import {
   StyledForm,
   StyledHeader,
   StyledInput,
   StyledButton,
 } from "../style/style";
-import { useDispatch, useSelector } from "react-redux";
-import { turnOff } from "../context/modalSlice";
-import { HOME_PAGE } from "../config/variables";
-import { errorHandler } from "../utils/error-handler";
 //dispatch for redux
 
 export const ModalShareFile = ({ handleCancelButtonClick }) => {

@@ -1,15 +1,14 @@
 import { useSelector, useDispatch } from "react-redux";
 import { turnOff } from "../context/modalSlice";
+import { ModalChangePassword } from "./ModalChangePassword";
+import { ModalShareFile } from "./ModalShareFile";
+import { ModalDeleteFile } from "./ModalDeleteFile";
 import {
   CHANGE_PASSWORD_BUTTON_ID,
   DELETE_FILE_BUTTON_ID,
   SHARE_FILE_BUTTON_ID,
 } from "../config/variables";
 import { StyledFileModal } from "../style/style";
-import { ModalChangePassword } from "./ModalChangePassword";
-import { ModalShareFile } from "./ModalShareFile";
-import { ModalDeleteFile } from "./ModalDeleteFile";
-
 //File Modal component
 const FileModal = () => {
   //dispatch for redux

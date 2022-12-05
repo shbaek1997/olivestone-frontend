@@ -1,22 +1,21 @@
-import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchUserByJWT } from "../context/authSlice";
+import { setFiles } from "../context/fileSlice";
 import Api from "../utils/api";
 import FileInfo from "../components/FileInfo";
 import FileModal from "../components/FileModal";
+import { NavBar } from "../components/Nav";
+import { Loading } from "../components/Loading";
+import Pagination from "../components/Pagination";
 import {
   StyledPage,
   StyledFileContainer,
   StyledTableHeader,
   StyledPaginationContainer,
 } from "../style/style";
-
-import { fetchUserByJWT } from "../context/authSlice";
-import { useSelector, useDispatch } from "react-redux";
-import { setFiles } from "../context/fileSlice";
-import { NavBar } from "../components/Nav";
-import { Loading } from "../components/Loading";
-import Pagination from "../components/Pagination";
 // create Modal and attach to body, so it is outside of files page
 // send file id, is modal active props, and setPropsFunc to change state of those props in the child components
 const Modal = () => {

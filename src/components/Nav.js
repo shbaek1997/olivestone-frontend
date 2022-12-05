@@ -1,15 +1,7 @@
-import { StyledNavBar, StyledSelect, StyledNavButton } from "../style/style";
 import { useNavigate, useLocation } from "react-router-dom";
-import {
-  ALPHABETICAL,
-  ALPHABETICAL_REVERSE,
-  UPLOAD_DATE,
-  UPLOAD_DATE_REVERSE,
-  EXPIRE_DATE,
-  EXPIRE_DATE_REVERSE,
-  FILE_TYPE,
-} from "../config/variables";
+import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from "../context/authSlice";
+import { toggleDarkMode } from "../context/darkModeSlice";
 import {
   sortFilesAlph,
   sortFilesAlphReverse,
@@ -19,9 +11,16 @@ import {
   sortFilesUploadDate,
   sortFilesUploadDateReverse,
 } from "../context/fileSlice";
-import { toggleDarkMode } from "../context/darkModeSlice";
-import { useDispatch, useSelector } from "react-redux";
-
+import {
+  ALPHABETICAL,
+  ALPHABETICAL_REVERSE,
+  UPLOAD_DATE,
+  UPLOAD_DATE_REVERSE,
+  EXPIRE_DATE,
+  EXPIRE_DATE_REVERSE,
+  FILE_TYPE,
+} from "../config/variables";
+import { StyledNavBar, StyledSelect, StyledNavButton } from "../style/style";
 export const NavBar = () => {
   const navigate = useNavigate();
   const location = useLocation();

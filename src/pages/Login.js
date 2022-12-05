@@ -1,13 +1,11 @@
 //import
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { fetchUserByJWT } from "../context/authSlice";
-
+import { useNavigate } from "react-router-dom";
 import { PageLayout } from "../components/PageLayout";
 import { LogInForm } from "../components/LoginForm";
-import { useNavigate } from "react-router-dom";
 import { Loading } from "../components/Loading";
-
+import { fetchUserByJWT } from "../context/authSlice";
 //Login page
 export function Login() {
   const dispatch = useDispatch();

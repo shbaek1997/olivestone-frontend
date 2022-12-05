@@ -1,13 +1,13 @@
+import { useSelector, useDispatch } from "react-redux";
+import { turnOff } from "../context/modalSlice";
+import { setFiles } from "../context/fileSlice";
+import Api from "../utils/api";
+import { errorHandler } from "../utils/error-handler";
 import {
   StyledHeader,
   StyledButtonContainer,
   StyledButton,
 } from "../style/style";
-import Api from "../utils/api";
-import { errorHandler } from "../utils/error-handler";
-import { useSelector, useDispatch } from "react-redux";
-import { turnOff } from "../context/modalSlice";
-import { setFiles } from "../context/fileSlice";
 
 export const ModalDeleteFile = ({ handleCancelButtonClick }) => {
   //handle delete file button

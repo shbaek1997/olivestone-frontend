@@ -1,12 +1,10 @@
-//import
-import React from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import useInput from "../hooks/useInput";
 import { userLogin } from "../context/authSlice";
 import { loginSchema } from "../validation/validationSchema";
-import useInput from "../hooks/useInput";
-
 import { StyledForm, StyledButton, StyledInput } from "../style/style";
-import { useNavigate } from "react-router-dom";
+
 export const LogInForm = () => {
   const [username, setUsername, handleChangeUsername] = useInput("");
   const [password, setPassword, handleChangePassword] = useInput("");

@@ -1,13 +1,12 @@
 //import
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { fetchUserByJWT } from "../context/authSlice";
 import { useNavigate } from "react-router-dom";
 import { PageLayout } from "../components/PageLayout";
 import { UploadForm } from "../components/UploadForm";
 import { Loading } from "../components/Loading";
+import { fetchUserByJWT } from "../context/authSlice";
 
-//Upload page
 //Upload page
 export function Upload() {
   const dispatch = useDispatch();
