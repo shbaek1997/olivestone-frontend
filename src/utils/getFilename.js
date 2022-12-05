@@ -1,3 +1,4 @@
+//Decode file name from reponse header
 const getFilename = (response) => {
   // file name is in content disposition of header
   const contentDisposition = response.headers["content-disposition"];

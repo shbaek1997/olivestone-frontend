@@ -5,6 +5,8 @@ import { Download } from "./pages/Download";
 import { Files } from "./pages/Files";
 import { NotFound } from "./pages/NotFound";
 function App() {
+  //default home = download page
+  // use browser router to switch between pages
   return (
     <div className="App">
       <BrowserRouter>

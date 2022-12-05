@@ -1,3 +1,4 @@
+//Compare functions for JS in built array sort function
 export default class CompareFunctions {
   compareAlphFilename = (a, b) => {
     if (a.originalName > b.originalName) {

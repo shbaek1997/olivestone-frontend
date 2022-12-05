@@ -8,6 +8,7 @@ import reportWebVitals from "./reportWebVitals";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
+  // Provider for redux-toolkit store for state management
   <React.StrictMode>
     <Provider store={store}>
       <App />
