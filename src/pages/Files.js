@@ -94,6 +94,10 @@ export function Files() {
     "Share File",
     "Delete File",
   ];
+  //inside styled page, we have two classes that impact style of file page
+  // if loading, we show loading page
+  // else we show nav bar + table headers + file info + pagination at bottom
+  // the modal is outside of styled page and is attached to body - portal component
   return (
     <StyledPage id="file-page" className={classes}>
       {/* if loading we show "loading..." else we show file page */}

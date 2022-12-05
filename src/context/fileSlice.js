@@ -1,18 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
 import CompareFunctions from "../utils/sort";
-//modal initial state
+//files initial state
 const initialState = {
   files: [],
 };
+//compare functions for js in built sort function
 const compareService = new CompareFunctions();
 //create slice
 const filesSlice = createSlice({
   name: "files",
   initialState,
   reducers: {
+    //set files
     setFiles: (state, action) => {
       state.files = [...action.payload];
     },
+    // sorting methods....
     sortFilesAlph: (state, action) => {
       const alphSortedFiles = [...action.payload].sort(
         compareService.compareAlphFilename

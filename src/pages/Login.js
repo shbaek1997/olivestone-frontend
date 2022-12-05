@@ -10,11 +10,10 @@ import { fetchUserByJWT } from "../context/authSlice";
 export function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // loading and login state
+  // loading state
   const [isLoading, setIsLoading] = useState(true);
-  // set state, onChange handlers for username, password, upload password, upload password repeat, valid period
-
-  // call setLogInValue once when page is first loaded
+  // check for user login and redirect to upload if logged in
+  // else set loading to false
   useEffect(() => {
     const checkUserLogin = async () => {
       try {
@@ -30,7 +29,7 @@ export function Login() {
   }, [dispatch, navigate]);
   const headerTitle = " Login";
 
-  //if loading show "loading..." else show form
+  //if loading show loading component else show log in form
   return isLoading ? (
     <Loading></Loading>
   ) : (

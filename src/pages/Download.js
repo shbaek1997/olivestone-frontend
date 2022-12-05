@@ -6,10 +6,9 @@ import { fetchUserByJWT } from "../context/authSlice";
 
 //download page
 export function Download() {
-  //set file ID, download file password state and onChange handlers.
-  /////////////
+  //dispatch
   const dispatch = useDispatch();
-  // call setLogInValue once when page is first loaded
+  // check user login by checking jwt for nav bar
   useEffect(() => {
     dispatch(fetchUserByJWT());
   }, [dispatch]);

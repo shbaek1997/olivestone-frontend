@@ -36,6 +36,7 @@ export const userLogout = createAsyncThunk("auth/logout", async () => {
   return;
 });
 
+// set initial state
 const initialState = {
   isLoggedIn: false,
 };
