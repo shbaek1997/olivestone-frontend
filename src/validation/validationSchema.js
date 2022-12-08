@@ -2,7 +2,7 @@ import * as yup from "yup";
 //schemas using yup validation library
 // login ,download, upload, change password schemas
 const loginSchema = yup.object({
-  username: yup.string().required("username이 입력되지 않았습니다."),
+  email: yup.string().required("email이 입력되지 않았습니다."),
   password: yup.string().required("비밀번호가 입력되지 않았습니다."),
 });
 
