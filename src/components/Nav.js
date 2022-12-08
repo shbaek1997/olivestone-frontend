@@ -40,6 +40,7 @@ export const NavBar = () => {
   const isPathUpload = pathName === "/upload";
   const isPathDownload = pathName === "/";
   const isPathLogin = pathName === "/login";
+  const isPathRegister = pathName === "/register";
   // dispatch
   const dispatch = useDispatch();
   // handle logout button click
@@ -52,6 +53,9 @@ export const NavBar = () => {
   //get states - files, isLoggedIn, isDarkMode
   const files = useSelector((state) => state.files.files);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const isAdmin = useSelector(
+    (state) => state.auth.role === "admin" || state.auth.role === "super-user"
+  );
   const isDarkMode = useSelector((state) => state.darkMode.isActive);
 
   //handle select change for sorting files
@@ -94,6 +98,7 @@ export const NavBar = () => {
   return isLoggedIn ? (
     <StyledNavBar>
       <PopupModal></PopupModal>
+
       <StyledNavButton
         onClick={() => {
           dispatch(toggleDarkMode());
@@ -101,6 +106,15 @@ export const NavBar = () => {
       >
         {isDarkMode ? "Light Mode" : "Dark Mode"}
       </StyledNavButton>
+      {isAdmin && !isPathRegister && (
+        <StyledNavButton
+          onClick={() => {
+            navigate("/register");
+          }}
+        >
+          Register a new user
+        </StyledNavButton>
+      )}
 
       {isPathFiles && (
         <StyledSelect onChange={handleSelectChange}>
