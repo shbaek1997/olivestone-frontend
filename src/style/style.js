@@ -224,6 +224,33 @@ export const StyledFileModal = styled.div`
     color: ${DARK_COLOR};
   }
 `;
+export const StyledAlertModal = styled.div`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${DARK_COLOR};
+  border: 5px dashed ${MIDDLE_COLOR};
+  border-radius: 10px;
+  top: 100px;
+  flex-direction: column;
+  width: 450px;
+  padding: 40px;
+  color: white;
+  z-index: 3;
+  &.dark input {
+    background-color: rgb(60, 60, 60);
+    border: rgb(60, 60, 60) 4px solid;
+    color: white;
+    &:focus {
+      outline: none;
+      border-color: ${MIDDLE_COLOR};
+    }
+  }
+  &.dark button {
+    color: ${DARK_COLOR};
+  }
+`;
 
 export const StyledButtonContainer = styled.div`
   display: flex;
