@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { turnOff } from "../context/modalSlice";
+import { turnOff, turnAlertOn } from "../context/modalSlice";
 import { setFiles } from "../context/fileSlice";
 import Api from "../utils/api";
 import { errorHandler } from "../utils/error-handler";
@@ -28,11 +28,14 @@ export const ModalDeleteFile = ({ handleCancelButtonClick }) => {
       dispatch(setFiles(newFiles));
       //alert user
       const { originalName } = response?.data;
-      alert(`${originalName} 파일이 성공적으로 삭제되었습니다.`);
+      dispatch(
+        turnAlertOn(`${originalName} 파일이 성공적으로 삭제되었습니다.`)
+      );
       //turn off modal
       dispatch(turnOff());
     } catch (error) {
-      errorHandler(error);
+      const message = await errorHandler(error);
+      dispatch(turnAlertOn(message));
     }
   };
   return (

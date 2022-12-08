@@ -3,8 +3,10 @@ import { createSlice } from "@reduxjs/toolkit";
 //modal initial state
 const initialState = {
   isActive: false,
+  isAlertActive: false,
   fileId: "",
   modalMode: "",
+  alertModalContent: "",
 };
 
 //create slice
@@ -20,6 +22,13 @@ const modalSlice = createSlice({
     turnOff: (state) => {
       state.isActive = false;
     },
+    turnAlertOn: (state, action) => {
+      state.alertModalContent = action.payload;
+      state.isAlertActive = true;
+    },
+    turnAlertOff: (state) => {
+      state.isAlertActive = false;
+    },
     // set file id for modal
     setFileId: (state, action) => {
       state.fileId = action.payload;
@@ -32,5 +41,14 @@ const modalSlice = createSlice({
 });
 //export reducer, actions
 const { reducer, actions } = modalSlice;
-export const { turnOff, turnOn, setFiles, setFileId, setModalMode } = actions;
+export const {
+  turnOff,
+  turnOn,
+  setFiles,
+  setFileId,
+  setModalMode,
+  setAlertModalContent,
+  turnAlertOff,
+  turnAlertOn,
+} = actions;
 export default reducer;

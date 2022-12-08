@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
+
 import useInput from "../hooks/useInput";
-import { turnOff } from "../context/modalSlice";
+import { turnOff, turnAlertOn } from "../context/modalSlice";
 import Api from "../utils/api";
 import { errorHandler } from "../utils/error-handler";
 import { changeFilePasswordSchema } from "../validation/validationSchema";
@@ -50,11 +51,16 @@ export const ModalChangePassword = ({ handleCancelButtonClick }) => {
       setFileRepeatPassword("");
       //alert user that password was changed successfully
       const { originalName } = response?.data;
-      alert(`${originalName} 파일 비밀번호가 성공적으로 변경되었습니다.`);
+      dispatch(
+        turnAlertOn(
+          `${originalName} 파일 비밀번호가 성공적으로 변경되었습니다.`
+        )
+      );
       //reset fileId value and make modal inactive to clear modal
       dispatch(turnOff());
     } catch (error) {
-      errorHandler(error);
+      const message = await errorHandler(error);
+      dispatch(turnAlertOn(message));
     }
   };
 
