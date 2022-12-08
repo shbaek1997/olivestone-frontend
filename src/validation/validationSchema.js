@@ -2,8 +2,33 @@ import * as yup from "yup";
 //schemas using yup validation library
 // login ,download, upload, change password schemas
 const loginSchema = yup.object({
-  email: yup.string().required("email이 입력되지 않았습니다."),
+  email: yup
+    .string()
+    .email("email 형식이 올바르지 않습니다.")
+    .required("email이 입력되지 않았습니다."),
   password: yup.string().required("비밀번호가 입력되지 않았습니다."),
+});
+
+const registerSchema = yup.object().shape({
+  email: yup
+    .string()
+    .required("email이 입력되지 않았습니다.")
+    .email("올바른 email 형식이 아닙니다."),
+  fullname: yup
+    .string()
+    .min(2, "이름은 최소 2글자입니다.")
+    .required("이름이 입력되지 않았습니다."),
+  password: yup
+    .string()
+    .min(8, "비밀번호는 최소 8글자입니다.")
+    .required("비밀번호가 입력되지 않았습니다."),
+  passwordRepeat: yup
+    .string()
+    .oneOf(
+      [yup.ref("password"), null],
+      "비밀번호와 비밀번호 확인이 일치하지 않습니다."
+    )
+    .required("비밀번호 확인이 입력되지 않았습니다."),
 });
 
 const downloadFileSchema = yup.object({
@@ -47,6 +72,7 @@ const changeFilePasswordSchema = yup.object().shape({
 });
 export {
   loginSchema,
+  registerSchema,
   downloadFileSchema,
   uploadFileSchema,
   changeFilePasswordSchema,

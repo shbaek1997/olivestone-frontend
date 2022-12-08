@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import useInput from "../hooks/useInput";
 import Api from "../utils/api";
 import { turnAlertOn } from "../context/modalSlice";
+import { registerSchema } from "../validation/validationSchema";
 import { errorHandler } from "../utils/error-handler";
 import { StyledForm, StyledButton, StyledInput } from "../style/style";
 
@@ -20,12 +21,12 @@ export const RegisterForm = () => {
       e.preventDefault();
       // validate upload password, password repeat, valid period
       ///나중에 validation 추가...
-      //   await uploadFileSchema.validate({
-      //     file,
-      //     uploadPassword,
-      //     uploadPasswordRepeat,
-      //     validPeriod,
-      //   });
+      await registerSchema.validate({
+        email,
+        fullname,
+        password,
+        passwordRepeat,
+      });
       //create new form data
       // add key/value to form data as api is required
       // api post request
