@@ -1,5 +1,10 @@
 import { useDispatch } from "react-redux";
-import { setModalMode, setFileId, turnOn } from "../context/modalSlice";
+import {
+  setModalMode,
+  setFileId,
+  turnOn,
+  turnAlertOn,
+} from "../context/modalSlice";
 import Api from "../utils/api";
 import downloadFile from "../utils/downloadFile";
 import { errorHandler } from "../utils/error-handler";
@@ -35,7 +40,8 @@ const FileInfo = ({ originalName, _id, expireDate, createdAt }) => {
       });
       downloadFile(response);
     } catch (error) {
-      errorHandler(error);
+      const message = await errorHandler(error);
+      dispatch(turnAlertOn(message));
     }
   };
   //data editing for dates

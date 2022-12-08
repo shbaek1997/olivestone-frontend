@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import useInput from "../hooks/useInput";
+import { turnAlertOn } from "../context/modalSlice";
 import { userLogin } from "../context/authSlice";
 import { loginSchema } from "../validation/validationSchema";
 import { StyledForm, StyledButton, StyledInput } from "../style/style";
@@ -28,7 +29,10 @@ export const LogInForm = () => {
     } catch (error) {
       //alert error (different to other forms because we use await dispatch for login only)
       // error is string for dispatch error, error.message for login schema validation error
-      typeof error === "string" ? alert(error) : alert(error.message);
+      // typeof error === "string" ? alert(error) : alert(error.message);
+      typeof error === "string"
+        ? dispatch(turnAlertOn(error))
+        : dispatch(turnAlertOn(error.message));
     }
   };
   return (

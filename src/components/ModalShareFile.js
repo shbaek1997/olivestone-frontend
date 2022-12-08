@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { turnOff } from "../context/modalSlice";
+import { turnOff, turnAlertOn } from "../context/modalSlice";
 import { errorHandler } from "../utils/error-handler";
 import { HOME_PAGE } from "../config/variables";
 import {
@@ -27,11 +27,12 @@ export const ModalShareFile = ({ handleCancelButtonClick }) => {
       //copy url to clipboard
       await window.navigator.clipboard.writeText(COPY_URL);
       //alert user
-      alert("클립보드에 복사하였습니다");
+      dispatch(turnAlertOn("클립보드에 복사하였습니다"));
       //make modal inactive
       dispatch(turnOff());
     } catch (error) {
-      errorHandler(error);
+      const message = await errorHandler(error);
+      dispatch(turnAlertOn(message));
     }
   };
   return (

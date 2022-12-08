@@ -1,11 +1,14 @@
+import { useDispatch } from "react-redux";
 import useInput from "../hooks/useInput";
 import Api from "../utils/api";
 import downloadFile from "../utils/downloadFile";
 import { errorHandler } from "../utils/error-handler";
 import { downloadFileSchema } from "../validation/validationSchema";
 import { StyledForm, StyledButton, StyledInput } from "../style/style";
+import { turnAlertOn } from "../context/modalSlice";
 //download page
 export function DownloadForm() {
+  const dispatch = useDispatch();
   //first search if file Id is present in uri query
   const downloadFileId = new URLSearchParams(window.location.search).get(
     "fileId"
@@ -46,7 +49,8 @@ export function DownloadForm() {
       //convert file downloaded to blob format
       downloadFile(response);
     } catch (error) {
-      errorHandler(error);
+      const message = await errorHandler(error);
+      dispatch(turnAlertOn(message));
     }
   };
 

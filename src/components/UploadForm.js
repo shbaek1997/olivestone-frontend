@@ -1,6 +1,8 @@
 import { useState, useRef } from "react";
+import { useDispatch } from "react-redux";
 import useInput from "../hooks/useInput";
 import Api from "../utils/api";
+import { turnAlertOn } from "../context/modalSlice";
 import { errorHandler } from "../utils/error-handler";
 import { uploadFileSchema } from "../validation/validationSchema";
 import {
@@ -21,6 +23,7 @@ export const UploadForm = () => {
     setUploadPasswordRepeat,
     handleChangeUploadPasswordRepeat,
   ] = useInput("");
+  const dispatch = useDispatch();
 
   //state for upload successful and to show file ID of uploaded file
   const [uploadSuccess, setUploadSuccess] = useState(false);
@@ -36,6 +39,7 @@ export const UploadForm = () => {
   const handleUploadSubmit = async (e) => {
     try {
       e.preventDefault();
+
       //get file from file input
       const file = fileInputRef.current.files[0];
       // validate upload password, password repeat, valid period
@@ -65,14 +69,17 @@ export const UploadForm = () => {
       setValidPeriod(7);
       //get file name uploaded from response and alert user
       const uploadedFile = response.data.file;
-      alert(
-        `${uploadedFile.originalName} 파일이 성공적으로 업로드 되었습니다. 현재 같이 저장한 비밀번호와 파일 아이디를 기억해주세요`
+      dispatch(
+        turnAlertOn(
+          `${uploadedFile.originalName} 파일이 성공적으로 업로드 되었습니다. 현재 같이 저장한 비밀번호와 파일 아이디를 기억해주세요`
+        )
       );
       // set upload success true to show user, uploaded file id
       setUploadSuccess(true);
       setUploadedFileId(uploadedFile._id);
     } catch (error) {
-      errorHandler(error);
+      const message = await errorHandler(error);
+      dispatch(turnAlertOn(message));
     }
   };
 
@@ -83,7 +90,9 @@ export const UploadForm = () => {
       onSubmit={handleUploadSubmit}
       acceptCharset="UTF-8"
     >
-      <label htmlFor="file-input">Upload file</label>
+      <label htmlFor="file-input">
+        Upload file<div>Click me</div>
+      </label>
       <StyledFileInput
         id="file-input"
         ref={fileInputRef}
