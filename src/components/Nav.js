@@ -1,7 +1,9 @@
+import ReactDOM from "react-dom";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from "../context/authSlice";
 import { toggleDarkMode } from "../context/darkModeSlice";
+import AlertModal from "./AlertModal";
 import {
   sortFilesAlph,
   sortFilesAlphReverse,
@@ -21,6 +23,10 @@ import {
   FILE_TYPE,
 } from "../config/variables";
 import { StyledNavBar, StyledSelect, StyledNavButton } from "../style/style";
+
+const PopupModal = () => {
+  return ReactDOM.createPortal(<AlertModal></AlertModal>, document.body);
+};
 // navigation bar for all pages
 export const NavBar = () => {
   //navigate
@@ -87,6 +93,7 @@ export const NavBar = () => {
   // so if you are in download page, the download button does not show in the nav bar
   return isLoggedIn ? (
     <StyledNavBar>
+      <PopupModal></PopupModal>
       <StyledNavButton
         onClick={() => {
           dispatch(toggleDarkMode());
@@ -139,6 +146,7 @@ export const NavBar = () => {
     </StyledNavBar>
   ) : (
     <StyledNavBar>
+      <PopupModal></PopupModal>
       <StyledNavButton
         onClick={() => {
           dispatch(toggleDarkMode());
