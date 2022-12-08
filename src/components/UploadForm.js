@@ -90,9 +90,7 @@ export const UploadForm = () => {
       onSubmit={handleUploadSubmit}
       acceptCharset="UTF-8"
     >
-      <label htmlFor="file-input">
-        Upload file<div>Click me</div>
-      </label>
+      <label htmlFor="file-input">Upload file</label>
       <StyledFileInput
         id="file-input"
         ref={fileInputRef}
