@@ -3,10 +3,13 @@ import { turnOff } from "../context/modalSlice";
 import { ModalChangePassword } from "./ModalChangePassword";
 import { ModalShareFile } from "./ModalShareFile";
 import { ModalDeleteFile } from "./ModalDeleteFile";
+import { ModalDeleteUser } from "./ModalDeleteUser";
 import {
   CHANGE_PASSWORD_BUTTON_NAME,
   DELETE_FILE_BUTTON_NAME,
   SHARE_FILE_BUTTON_NAME,
+  DELETE_USER_BUTTON_NAME,
+  CHANGE_ROLE_BUTTON_NAME,
 } from "../config/variables";
 import { StyledFileModal } from "../style/style";
 //File Modal component
@@ -26,7 +29,6 @@ const FileModal = () => {
   // depending on the mode of modal, the content of modal changes..
   return (
     <StyledFileModal
-      id="file-password-modal"
       // if darkmode, modal gets class "dark"
       className={isDarkMode && "dark"}
       // if modal is active we display flex else modal display is none
@@ -46,6 +48,16 @@ const FileModal = () => {
         <ModalDeleteFile
           handleCancelButtonClick={handleCancelButtonClick}
         ></ModalDeleteFile>
+      )}
+      {/* {modalMode === CHANGE_ROLE_BUTTON_NAME && (
+        <ModalChangeRole
+          handleCancelButtonClick={handleCancelButtonClick}
+        ></ModalChangeRole>
+      )}*/}
+      {modalMode === DELETE_USER_BUTTON_NAME && (
+        <ModalDeleteUser
+          handleCancelButtonClick={handleCancelButtonClick}
+        ></ModalDeleteUser>
       )}
     </StyledFileModal>
   );
