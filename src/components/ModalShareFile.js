@@ -16,7 +16,7 @@ export const ModalShareFile = ({ handleCancelButtonClick }) => {
   const dispatch = useDispatch();
 
   // use selector to get file Id
-  const fileId = useSelector((state) => state.modal.fileId);
+  const fileId = useSelector((state) => state.modal.id);
 
   //copy url variable for share file mode
   const COPY_URL = `${HOME_PAGE}/?fileId=${fileId}`;

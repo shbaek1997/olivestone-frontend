@@ -17,7 +17,7 @@ export const ModalChangePassword = ({ handleCancelButtonClick }) => {
   //dispatch for redux
   const dispatch = useDispatch();
   // use selector to get file Id
-  const fileId = useSelector((state) => state.modal.fileId);
+  const fileId = useSelector((state) => state.modal.id);
 
   //states and handler for password form submission
   //set new file password and password repeat in modal form

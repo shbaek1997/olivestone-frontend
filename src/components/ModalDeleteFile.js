@@ -14,7 +14,7 @@ export const ModalDeleteFile = ({ handleCancelButtonClick }) => {
   //dispatch for redux
   const dispatch = useDispatch();
   // use selector to get states- file id, files
-  const fileId = useSelector((state) => state.modal.fileId);
+  const fileId = useSelector((state) => state.modal.id);
   const files = useSelector((state) => state.files.files);
   const handleDeleteFileButtonClick = async (event) => {
     try {
