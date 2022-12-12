@@ -95,6 +95,10 @@ export const StyledFileButton = styled.button`
     background-color: ${MIDDLE_COLOR};
     cursor: pointer;
   }
+  &.super-user:hover {
+    cursor: not-allowed;
+    background-color: ${DARK_COLOR};
+  }
   &.long-button {
     width: 150px;
   }
@@ -178,6 +182,10 @@ export const StyledPage = styled.div`
       background-color: white;
       cursor: pointer;
       color: ${DARK_COLOR};
+    }
+    &.super-user:hover {
+      cursor: not-allowed;
+      background-color: ${MIDDLE_COLOR};
     }
   }
 

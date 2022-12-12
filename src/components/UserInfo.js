@@ -17,6 +17,7 @@ const UserInfo = ({ _id, fullname, email, role, createdAt }) => {
   const loggedInUserRole = useSelector((state) => state.auth.role);
   const isUserAdmin = loggedInUserRole === "admin";
   const isRoleSuperUser = role === "super-user";
+  const classes = isRoleSuperUser ? "long-button super-user" : "long-button";
   //dispatch to handle actions for modal
   const dispatch = useDispatch();
   const handleButtonClick = (event) => {
@@ -44,7 +45,7 @@ const UserInfo = ({ _id, fullname, email, role, createdAt }) => {
         <StyledFileButton
           name={DELETE_USER_BUTTON_NAME}
           onClick={handleButtonClick}
-          className="long-button"
+          className={classes}
         >
           Delete Account
         </StyledFileButton>
@@ -60,7 +61,7 @@ const UserInfo = ({ _id, fullname, email, role, createdAt }) => {
         <StyledTableDiv>{role}</StyledTableDiv>
         <StyledFileButton
           name={CHANGE_ROLE_BUTTON_NAME}
-          className="long-button"
+          className={classes}
           onClick={handleButtonClick}
           disabled={isRoleSuperUser}
         >
@@ -68,7 +69,7 @@ const UserInfo = ({ _id, fullname, email, role, createdAt }) => {
         </StyledFileButton>
         <StyledFileButton
           name={DELETE_USER_BUTTON_NAME}
-          className="long-button"
+          className={classes}
           onClick={handleButtonClick}
           disabled={isRoleSuperUser}
         >
