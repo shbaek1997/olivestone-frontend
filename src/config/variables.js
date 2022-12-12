@@ -1,10 +1,14 @@
 //API
-export const BASE_URL = "http://localhost:80/api";
-
+// export const BASE_URL = "http://localhost:80/api";
+// export const BASE_URL = "http://192.168.10.228:80/api";
+export const BASE_URL = "http://localhost:5000/api";
 //Modal name values
 export const CHANGE_PASSWORD_BUTTON_NAME = "change-password";
 export const SHARE_FILE_BUTTON_NAME = "copy-link";
 export const DELETE_FILE_BUTTON_NAME = "delete-file";
+//modal users
+export const CHANGE_ROLE_BUTTON_NAME = "change-role";
+export const DELETE_USER_BUTTON_NAME = "delete-user";
 
 //copy clipboard homepage
 export const HOME_PAGE = "http://localhost:80";
