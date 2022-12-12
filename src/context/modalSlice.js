@@ -7,6 +7,7 @@ const initialState = {
   id: "",
   modalMode: "",
   alertModalContent: "",
+  clickedUserRole: "",
 };
 
 //create slice
@@ -33,6 +34,9 @@ const modalSlice = createSlice({
     setId: (state, action) => {
       state.id = action.payload;
     },
+    setClickedUserRole: (state, action) => {
+      state.clickedUserRole = action.payload;
+    },
     //set modal mode
     setModalMode: (state, action) => {
       state.modalMode = action.payload;
@@ -49,5 +53,6 @@ export const {
   setAlertModalContent,
   turnAlertOff,
   turnAlertOn,
+  setClickedUserRole,
 } = actions;
 export default reducer;

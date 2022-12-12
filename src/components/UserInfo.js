@@ -1,5 +1,10 @@
 // import { useDispatch } from "react-redux";
-import { setModalMode, setId, turnOn } from "../context/modalSlice";
+import {
+  setModalMode,
+  setId,
+  turnOn,
+  setClickedUserRole,
+} from "../context/modalSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { StyledTableDiv, StyledFileButton } from "../style/style";
 import {
@@ -16,11 +21,10 @@ const UserInfo = ({ _id, fullname, email, role, createdAt }) => {
   const dispatch = useDispatch();
   const handleButtonClick = (event) => {
     const mode = event.target.name;
-    console.log(event.target);
-    console.log(mode);
     const userId = _id;
     //dispatch file Id, mode of modal, and turn on the modal
     dispatch(setId(userId));
+    dispatch(setClickedUserRole(role));
     dispatch(setModalMode(mode));
     dispatch(turnOn());
   };
