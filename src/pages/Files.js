@@ -6,7 +6,7 @@ import { fetchUserByJWT } from "../context/authSlice";
 import { setFiles } from "../context/fileSlice";
 import Api from "../utils/api";
 import FileInfo from "../components/FileInfo";
-import FileModal from "../components/FileModal";
+import FileModal from "../components/PopupModal";
 import { NavBar } from "../components/Nav";
 import { Loading } from "../components/Loading";
 import Pagination from "../components/Pagination";
@@ -94,6 +94,7 @@ export function Files() {
     "Share File",
     "Delete File",
   ];
+  const isFilesListEmpty = files.length === 0;
   //inside styled page, we have two classes that impact style of file page
   // if loading, we show loading page
   // else we show nav bar + table headers + file info + pagination at bottom
@@ -106,41 +107,61 @@ export function Files() {
       ) : (
         <>
           <NavBar></NavBar>
-
-          <StyledFileContainer>
-            {tableHeaderTitles.map((title) => {
-              return (
-                <StyledTableHeader
-                  key={title}
-                  className={isDarkMode && "dark-header"}
-                >
-                  {title}
-                </StyledTableHeader>
-              );
-            })}
-            {/* we render file info by using info from files array, slice part is pagination logic */}
-            {files
-              .map(({ originalName, _id, expireDate, createdAt }) => {
-                return (
-                  <FileInfo
-                    key={_id}
-                    originalName={originalName}
-                    _id={_id}
-                    createdAt={createdAt}
-                    expireDate={expireDate}
-                  ></FileInfo>
-                );
-              })
-              .slice((page - 1) * itemsCountPerPage, page * itemsCountPerPage)}
-          </StyledFileContainer>
-          <StyledPaginationContainer className={isDarkMode && "dark"}>
-            <Pagination
-              page={page}
-              itemsCountPerPage={itemsCountPerPage}
-              setOnChangeHandler={handlePagination}
-              count={files.length}
-            ></Pagination>
-          </StyledPaginationContainer>
+          {isFilesListEmpty ? (
+            <>
+              <h2
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  height: "50%",
+                }}
+              >
+                Sorry, users you can view are empty
+              </h2>
+            </>
+          ) : (
+            <>
+              {" "}
+              <StyledFileContainer>
+                {tableHeaderTitles.map((title) => {
+                  return (
+                    <StyledTableHeader
+                      key={title}
+                      className={isDarkMode && "dark-header"}
+                    >
+                      {title}
+                    </StyledTableHeader>
+                  );
+                })}
+                {/* we render file info by using info from files array, slice part is pagination logic */}
+                {files
+                  .map(({ originalName, _id, expireDate, createdAt }) => {
+                    return (
+                      <FileInfo
+                        key={_id}
+                        originalName={originalName}
+                        _id={_id}
+                        createdAt={createdAt}
+                        expireDate={expireDate}
+                      ></FileInfo>
+                    );
+                  })
+                  .slice(
+                    (page - 1) * itemsCountPerPage,
+                    page * itemsCountPerPage
+                  )}
+              </StyledFileContainer>
+              <StyledPaginationContainer className={isDarkMode && "dark"}>
+                <Pagination
+                  page={page}
+                  itemsCountPerPage={itemsCountPerPage}
+                  setOnChangeHandler={handlePagination}
+                  count={files.length}
+                ></Pagination>
+              </StyledPaginationContainer>
+            </>
+          )}
         </>
       )}
       {/*Modal component here */}
