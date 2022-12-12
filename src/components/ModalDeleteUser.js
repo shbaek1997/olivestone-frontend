@@ -1,6 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
 import { turnOff, turnAlertOn } from "../context/modalSlice";
-import { setFiles } from "../context/fileSlice";
 import Api from "../utils/api";
 import { errorHandler } from "../utils/error-handler";
 import {
