@@ -1,6 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
 import { turnOff, turnAlertOn } from "../context/modalSlice";
-import { setFiles } from "../context/fileSlice";
 import Api from "../utils/api";
 import { errorHandler } from "../utils/error-handler";
 import {
@@ -8,29 +7,26 @@ import {
   StyledButtonContainer,
   StyledButton,
 } from "../style/style";
+import { setUsers } from "../context/userSlice";
 
 // Modal content for deleting file
-export const ModalDeleteFile = ({ handleCancelButtonClick }) => {
+export const ModalDeleteUser = ({ handleCancelButtonClick }) => {
   //dispatch for redux
   const dispatch = useDispatch();
   // use selector to get states- file id, files
-  const fileId = useSelector((state) => state.modal.id);
-  const files = useSelector((state) => state.files.files);
-  const handleDeleteFileButtonClick = async (event) => {
+  const userId = useSelector((state) => state.modal.id);
+  const users = useSelector((state) => state.users.users);
+  const handleDeleteUserButtonClick = async (event) => {
     try {
       //expire file on the server-side
       const api = Api();
-      const response = await api.patch(`files/expireDate/${fileId}`, {
-        headers: { "Content-Type": "application/json" },
-      });
+      const response = await api.delete(`users/${userId}`);
       //filter files after deleting
-      const newFiles = files.filter((file) => file._id !== fileId);
-      dispatch(setFiles(newFiles));
+      const newUsers = users.filter((user) => user._id !== userId);
+      dispatch(setUsers(newUsers));
       //alert user
-      const { originalName } = response?.data;
-      dispatch(
-        turnAlertOn(`${originalName} 파일이 성공적으로 삭제되었습니다.`)
-      );
+      const { fullname } = response?.data;
+      dispatch(turnAlertOn(`${fullname}님이 성공적으로 회원 탈퇴 되었습니다.`));
       //turn off modal
       dispatch(turnOff());
     } catch (error) {
@@ -45,7 +41,7 @@ export const ModalDeleteFile = ({ handleCancelButtonClick }) => {
         You will not be able to revert this change
       </h3>
       <StyledButtonContainer>
-        <StyledButton onClick={handleDeleteFileButtonClick}>
+        <StyledButton onClick={handleDeleteUserButtonClick}>
           Delete
         </StyledButton>
         <StyledButton onClick={handleCancelButtonClick}>Cancel</StyledButton>

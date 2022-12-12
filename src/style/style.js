@@ -95,7 +95,11 @@ export const StyledFileButton = styled.button`
     background-color: ${MIDDLE_COLOR};
     cursor: pointer;
   }
-  &.change-password-button {
+  &.super-user:hover {
+    cursor: not-allowed;
+    background-color: ${DARK_COLOR};
+  }
+  &.long-button {
     width: 150px;
   }
 `;
@@ -138,6 +142,15 @@ export const StyledFileContainer = styled.div`
   grid-template-columns: 250px 1fr 100px 100px 150px 100px 100px;
   width: 90%;
 `;
+export const StyledUserContainer = styled.div`
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 250px 100px 1fr 100px 100px 150px 150px;
+  &.admin {
+    grid-template-columns: 250px 100px 1fr 100px 100px 150px;
+  }
+  width: 90%;
+`;
 
 export const StyledNavBar = styled.div`
   display: flex;
@@ -169,6 +182,10 @@ export const StyledPage = styled.div`
       background-color: white;
       cursor: pointer;
       color: ${DARK_COLOR};
+    }
+    &.super-user:hover {
+      cursor: not-allowed;
+      background-color: ${MIDDLE_COLOR};
     }
   }
 
@@ -202,7 +219,7 @@ export const StyledNavButton = styled.button`
 `;
 
 //file modal
-export const StyledFileModal = styled.div`
+export const StyledPopupModal = styled.div`
   position: absolute;
   display: flex;
   flex-direction: column;

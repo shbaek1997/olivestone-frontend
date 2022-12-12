@@ -3,29 +3,31 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchUserByJWT } from "../context/authSlice";
-import { setFiles } from "../context/fileSlice";
 import Api from "../utils/api";
-import FileInfo from "../components/FileInfo";
-import FileModal from "../components/PopupModal";
+import UserInfo from "../components/UserInfo";
+import UserModal from "../components/PopupModal";
 import { NavBar } from "../components/Nav";
 import { Loading } from "../components/Loading";
 import Pagination from "../components/Pagination";
 import {
   StyledPage,
-  StyledFileContainer,
+  StyledUserContainer,
   StyledTableHeader,
   StyledPaginationContainer,
 } from "../style/style";
+import { setUsers } from "../context/userSlice";
 // create Modal and attach to body, so it is outside of files page
 // send file id, is modal active props, and setPropsFunc to change state of those props in the child components
 const Modal = () => {
-  return ReactDOM.createPortal(<FileModal></FileModal>, document.body);
+  return ReactDOM.createPortal(<UserModal></UserModal>, document.body);
 };
 
-export function Files() {
+export function ManageUsers() {
   //set file id and modal active, dark mode state
   const isActive = useSelector((state) => state.modal.isActive);
-  const files = useSelector((state) => state.files.files);
+  // users state
+  const users = useSelector((state) => state.users.users);
+  const role = useSelector((state) => state.auth.role);
   const isDarkMode = useSelector((state) => state.darkMode.isActive);
   // settings for pagination
   const [page, setPage] = useState(1);
@@ -39,20 +41,28 @@ export function Files() {
   const dispatch = useDispatch();
   // set is loading state
   const [isLoading, setIsLoading] = useState(true);
+  const isUserSuper = role === "super-user";
+  const isUserAdmin = role === "admin";
 
   useEffect(() => {
     // set login value async function check for user token and see if user is logged in
     // if not logged in, it redirects user back to home and "/files" route is protected
     // get all non expired files from the server and set files
-    const getFile = async () => {
+    const getUsers = async () => {
       try {
-        // api get request to get all valid files
         const api = Api();
-        const response = await api.get("/files/all");
-        const { data } = response;
-        const responseFiles = data.files;
-        // set files by dispatching action
-        dispatch(setFiles([...responseFiles]));
+        let usersFound = [];
+        if (isUserAdmin) {
+          const response = await api.get("/users/basic-users");
+          const { data } = response;
+          usersFound = data.users;
+        }
+        if (isUserSuper) {
+          const response = await api.get("/users/all");
+          const { data } = response;
+          usersFound = data.users;
+        }
+        dispatch(setUsers(usersFound));
         //set loading false
         setIsLoading(false);
         return;
@@ -65,14 +75,14 @@ export function Files() {
         //check user log in
         await dispatch(fetchUserByJWT()).unwrap();
         // get file
-        getFile();
+        getUsers();
       } catch (error) {
         //failure redirects to login
-        navigate("/login");
+        navigate("/");
       }
     };
     fetchUserAndGetFile();
-  }, [dispatch, navigate]);
+  }, [dispatch, navigate, isUserAdmin, isUserSuper]);
   // dark-light mode class and active class for modal
   let classList = [];
   if (isDarkMode) {
@@ -84,21 +94,24 @@ export function Files() {
   //get combined classes for dark mode and modal active
   //styled page classes change page blur and colors
   const classes = classList.join(" ");
+  const pageClass = isUserAdmin ? "admin" : "super-user";
   // table header inner content as an array
-  const tableHeaderTitles = [
-    "File ID",
-    "File Name",
-    "Upload Date",
-    "Expire Date",
-    "Change Password",
-    "Share File",
-    "Delete File",
-  ];
-  const isFilesListEmpty = files.length === 0;
+  const tableHeaderTitles = isUserAdmin
+    ? ["User ID", "Name", "Email", "Join Date", "Role", "Delete User"]
+    : [
+        "User ID",
+        "Name",
+        "Email",
+        "Join Date",
+        "Role",
+        "Change Role",
+        "Delete User",
+      ];
   //inside styled page, we have two classes that impact style of file page
   // if loading, we show loading page
   // else we show nav bar + table headers + file info + pagination at bottom
   // the modal is outside of styled page and is attached to body - portal component
+  const isUsersListEmpty = users.length === 0;
   return (
     <StyledPage id="file-page" className={classes}>
       {/* if loading we show "loading..." else we show file page */}
@@ -107,7 +120,7 @@ export function Files() {
       ) : (
         <>
           <NavBar></NavBar>
-          {isFilesListEmpty ? (
+          {isUsersListEmpty ? (
             <>
               <h2
                 style={{
@@ -122,8 +135,7 @@ export function Files() {
             </>
           ) : (
             <>
-              {" "}
-              <StyledFileContainer>
+              <StyledUserContainer className={pageClass}>
                 {tableHeaderTitles.map((title) => {
                   return (
                     <StyledTableHeader
@@ -135,29 +147,30 @@ export function Files() {
                   );
                 })}
                 {/* we render file info by using info from files array, slice part is pagination logic */}
-                {files
-                  .map(({ originalName, _id, expireDate, createdAt }) => {
+                {users
+                  .map(({ fullname, email, _id, createdAt, role }) => {
                     return (
-                      <FileInfo
+                      <UserInfo
                         key={_id}
-                        originalName={originalName}
+                        fullname={fullname}
+                        email={email}
                         _id={_id}
                         createdAt={createdAt}
-                        expireDate={expireDate}
-                      ></FileInfo>
+                        role={role}
+                      ></UserInfo>
                     );
                   })
                   .slice(
                     (page - 1) * itemsCountPerPage,
                     page * itemsCountPerPage
                   )}
-              </StyledFileContainer>
+              </StyledUserContainer>
               <StyledPaginationContainer className={isDarkMode && "dark"}>
                 <Pagination
                   page={page}
                   itemsCountPerPage={itemsCountPerPage}
                   setOnChangeHandler={handlePagination}
-                  count={files.length}
+                  count={users.length}
                 ></Pagination>
               </StyledPaginationContainer>
             </>

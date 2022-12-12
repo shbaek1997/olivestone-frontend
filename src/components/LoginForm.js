@@ -9,7 +9,7 @@ import { StyledForm, StyledButton, StyledInput } from "../style/style";
 //login form component
 export const LogInForm = () => {
   //set inputs for username, password
-  const [username, setUsername, handleChangeUsername] = useInput("");
+  const [email, setEmail, handleChangeEmail] = useInput("");
   const [password, setPassword, handleChangePassword] = useInput("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -18,12 +18,12 @@ export const LogInForm = () => {
     try {
       e.preventDefault();
       //validate username, password format
-      await loginSchema.validate({ username, password });
+      await loginSchema.validate({ email, password });
       // dispatch login action
-      await dispatch(userLogin({ username, password })).unwrap();
+      await dispatch(userLogin({ email, password })).unwrap();
       //if login success, set username, password back to empty string
       // navigate to upload page
-      setUsername("");
+      setEmail("");
       setPassword("");
       navigate("/upload");
     } catch (error) {
@@ -37,11 +37,11 @@ export const LogInForm = () => {
   };
   return (
     <StyledForm method="post" onSubmit={handleLoginSubmit}>
-      <label>Username</label>
+      <label>Email</label>
       <StyledInput
         type="text"
-        value={username}
-        onChange={handleChangeUsername}
+        value={email}
+        onChange={handleChangeEmail}
       ></StyledInput>
       <label>Password</label>
       <StyledInput

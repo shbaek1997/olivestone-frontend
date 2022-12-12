@@ -11,11 +11,11 @@ export const fetchUserByJWT = createAsyncThunk("auth/checkJWT", async () => {
 //create async thunk for user login
 export const userLogin = createAsyncThunk(
   "auth/login",
-  async ({ username, password }, thunkAPI) => {
+  async ({ email, password }, thunkAPI) => {
     try {
       const api = Api();
       const response = await api.post("users/login", {
-        username,
+        email,
         password,
       });
       //if successful , we set jwt token in sessionStorage
@@ -39,6 +39,7 @@ export const userLogout = createAsyncThunk("auth/logout", async () => {
 // set initial state
 const initialState = {
   isLoggedIn: false,
+  role: "basic-user",
 };
 
 //slice name: auth
@@ -48,19 +49,24 @@ const authSlice = createSlice({
   initialState,
   extraReducers: (builder) => {
     builder.addCase(fetchUserByJWT.fulfilled, (state, action) => {
+      const { role } = action.payload.user;
       state.isLoggedIn = true;
+      state.role = role;
     });
     builder.addCase(fetchUserByJWT.rejected, (state, action) => {
       state.isLoggedIn = false;
     });
     builder.addCase(userLogin.fulfilled, (state, action) => {
       state.isLoggedIn = true;
+      const { role } = action.payload;
+      state.role = role;
     });
     builder.addCase(userLogin.rejected, (state, action) => {
       state.isLoggedIn = false;
     });
     builder.addCase(userLogout.fulfilled, (state, action) => {
       state.isLoggedIn = false;
+      state.role = "basic-user";
     });
   },
 });

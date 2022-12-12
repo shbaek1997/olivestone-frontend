@@ -3,14 +3,18 @@ import { turnOff } from "../context/modalSlice";
 import { ModalChangePassword } from "./ModalChangePassword";
 import { ModalShareFile } from "./ModalShareFile";
 import { ModalDeleteFile } from "./ModalDeleteFile";
+import { ModalDeleteUser } from "./ModalDeleteUser";
+import { ModalChangeRole } from "./ModalChangeRole";
 import {
   CHANGE_PASSWORD_BUTTON_NAME,
   DELETE_FILE_BUTTON_NAME,
   SHARE_FILE_BUTTON_NAME,
+  DELETE_USER_BUTTON_NAME,
+  CHANGE_ROLE_BUTTON_NAME,
 } from "../config/variables";
-import { StyledFileModal } from "../style/style";
+import { StyledPopupModal } from "../style/style";
 //File Modal component
-const FileModal = () => {
+const PopupModal = () => {
   //dispatch for redux
   const dispatch = useDispatch();
   // use selector to get states
@@ -25,8 +29,7 @@ const FileModal = () => {
   //if modal is active, we display modal, else we display none
   // depending on the mode of modal, the content of modal changes..
   return (
-    <StyledFileModal
-      id="file-password-modal"
+    <StyledPopupModal
       // if darkmode, modal gets class "dark"
       className={isDarkMode && "dark"}
       // if modal is active we display flex else modal display is none
@@ -47,8 +50,18 @@ const FileModal = () => {
           handleCancelButtonClick={handleCancelButtonClick}
         ></ModalDeleteFile>
       )}
-    </StyledFileModal>
+      {modalMode === CHANGE_ROLE_BUTTON_NAME && (
+        <ModalChangeRole
+          handleCancelButtonClick={handleCancelButtonClick}
+        ></ModalChangeRole>
+      )}
+      {modalMode === DELETE_USER_BUTTON_NAME && (
+        <ModalDeleteUser
+          handleCancelButtonClick={handleCancelButtonClick}
+        ></ModalDeleteUser>
+      )}
+    </StyledPopupModal>
   );
 };
 
-export default FileModal;
+export default PopupModal;

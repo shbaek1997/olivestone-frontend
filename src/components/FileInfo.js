@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import {
   setModalMode,
-  setFileId,
+  setId,
   turnOn,
   turnAlertOn,
 } from "../context/modalSlice";
@@ -25,7 +25,7 @@ const FileInfo = ({ originalName, _id, expireDate, createdAt }) => {
     const mode = event.target.name;
     const fileId = _id;
     //dispatch file Id, mode of modal, and turn on the modal
-    dispatch(setFileId(fileId));
+    dispatch(setId(fileId));
     dispatch(setModalMode(mode));
     dispatch(turnOn());
   };
@@ -33,7 +33,7 @@ const FileInfo = ({ originalName, _id, expireDate, createdAt }) => {
   const handleFileNameClick = async (event) => {
     try {
       const fileId = _id;
-      dispatch(setFileId(fileId));
+      dispatch(setId(fileId));
       const api = Api();
       const response = await api.get(`files/download/${fileId}`, {
         responseType: "blob",
@@ -59,7 +59,7 @@ const FileInfo = ({ originalName, _id, expireDate, createdAt }) => {
       <StyledTableDiv>{expireDateToString}</StyledTableDiv>
       <StyledFileButton
         name={CHANGE_PASSWORD_BUTTON_NAME}
-        className={"change-password-button"}
+        className={"long-button"}
         onClick={handleButtonClick}
       >
         Change Password
