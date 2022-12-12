@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchUserByJWT } from "../context/authSlice";
 import Api from "../utils/api";
 import UserInfo from "../components/UserInfo";
-import FileModal from "../components/FileModal";
+import UserModal from "../components/PopupModal";
 import { NavBar } from "../components/Nav";
 import { Loading } from "../components/Loading";
 import Pagination from "../components/Pagination";
@@ -19,7 +19,7 @@ import { setUsers } from "../context/userSlice";
 // create Modal and attach to body, so it is outside of files page
 // send file id, is modal active props, and setPropsFunc to change state of those props in the child components
 const Modal = () => {
-  return ReactDOM.createPortal(<FileModal></FileModal>, document.body);
+  return ReactDOM.createPortal(<UserModal></UserModal>, document.body);
 };
 
 export function ManageUsers() {
@@ -111,6 +111,7 @@ export function ManageUsers() {
   // if loading, we show loading page
   // else we show nav bar + table headers + file info + pagination at bottom
   // the modal is outside of styled page and is attached to body - portal component
+  const isUsersListEmpty = users.length === 0;
   return (
     <StyledPage id="file-page" className={classes}>
       {/* if loading we show "loading..." else we show file page */}
@@ -119,54 +120,61 @@ export function ManageUsers() {
       ) : (
         <>
           <NavBar></NavBar>
-
-          <StyledUserContainer className={pageClass}>
-            {tableHeaderTitles.map((title) => {
-              return (
-                <StyledTableHeader
-                  key={title}
-                  className={isDarkMode && "dark-header"}
-                >
-                  {title}
-                </StyledTableHeader>
-              );
-            })}
-            {/* we render file info by using info from files array, slice part is pagination logic */}
-            {users.map(({ fullname, email, _id, createdAt, role }) => {
-              return (
-                <UserInfo
-                  key={_id}
-                  fullname={fullname}
-                  email={email}
-                  _id={_id}
-                  createdAt={createdAt}
-                  role={role}
-                ></UserInfo>
-              );
-            })}
-
-            {/* {files
-              .map(({ originalName, _id, expireDate, createdAt }) => {
-                return (
-                  <FileInfo
-                    key={_id}
-                    originalName={originalName}
-                    _id={_id}
-                    createdAt={createdAt}
-                    expireDate={expireDate}
-                  ></FileInfo>
-                );
-              })
-              .slice((page - 1) * itemsCountPerPage, page * itemsCountPerPage)} */}
-          </StyledUserContainer>
-          <StyledPaginationContainer className={isDarkMode && "dark"}>
-            <Pagination
-              page={page}
-              itemsCountPerPage={itemsCountPerPage}
-              setOnChangeHandler={handlePagination}
-              count={users.length}
-            ></Pagination>
-          </StyledPaginationContainer>
+          {isUsersListEmpty ? (
+            <>
+              <h2
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  height: "50%",
+                }}
+              >
+                Sorry, users you can view are empty
+              </h2>
+            </>
+          ) : (
+            <>
+              <StyledUserContainer className={pageClass}>
+                {tableHeaderTitles.map((title) => {
+                  return (
+                    <StyledTableHeader
+                      key={title}
+                      className={isDarkMode && "dark-header"}
+                    >
+                      {title}
+                    </StyledTableHeader>
+                  );
+                })}
+                {/* we render file info by using info from files array, slice part is pagination logic */}
+                {users
+                  .map(({ fullname, email, _id, createdAt, role }) => {
+                    return (
+                      <UserInfo
+                        key={_id}
+                        fullname={fullname}
+                        email={email}
+                        _id={_id}
+                        createdAt={createdAt}
+                        role={role}
+                      ></UserInfo>
+                    );
+                  })
+                  .slice(
+                    (page - 1) * itemsCountPerPage,
+                    page * itemsCountPerPage
+                  )}
+              </StyledUserContainer>
+              <StyledPaginationContainer className={isDarkMode && "dark"}>
+                <Pagination
+                  page={page}
+                  itemsCountPerPage={itemsCountPerPage}
+                  setOnChangeHandler={handlePagination}
+                  count={users.length}
+                ></Pagination>
+              </StyledPaginationContainer>
+            </>
+          )}
         </>
       )}
       {/*Modal component here */}
