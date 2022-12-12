@@ -95,7 +95,7 @@ export const StyledFileButton = styled.button`
     background-color: ${MIDDLE_COLOR};
     cursor: pointer;
   }
-  &.change-password-button {
+  &.long-button {
     width: 150px;
   }
 `;
@@ -136,6 +136,15 @@ export const StyledFileContainer = styled.div`
   display: grid;
   grid-gap: 20px;
   grid-template-columns: 250px 1fr 100px 100px 150px 100px 100px;
+  width: 90%;
+`;
+export const StyledUserContainer = styled.div`
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 250px 100px 1fr 100px 100px 150px 150px;
+  &.admin {
+    grid-template-columns: 250px 100px 1fr 100px 100px 150px;
+  }
   width: 90%;
 `;
 
@@ -202,7 +211,7 @@ export const StyledNavButton = styled.button`
 `;
 
 //file modal
-export const StyledFileModal = styled.div`
+export const StyledPopupModal = styled.div`
   position: absolute;
   display: flex;
   flex-direction: column;
