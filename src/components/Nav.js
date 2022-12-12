@@ -14,6 +14,12 @@ import {
   sortFilesUploadDateReverse,
 } from "../context/fileSlice";
 import {
+  sortUsersEmailAlph,
+  sortUsersNameAlph,
+  sortUsersRoleAlph,
+  sortUsersUploadDate,
+} from "../context/userSlice";
+import {
   ALPHABETICAL,
   ALPHABETICAL_REVERSE,
   UPLOAD_DATE,
@@ -21,6 +27,10 @@ import {
   EXPIRE_DATE,
   EXPIRE_DATE_REVERSE,
   FILE_TYPE,
+  FULLNAME,
+  EMAIL,
+  ROLE,
+  JOIN_DATE,
 } from "../config/variables";
 import { StyledNavBar, StyledSelect, StyledNavButton } from "../style/style";
 
@@ -53,6 +63,7 @@ export const NavBar = () => {
   };
   //get states - files, isLoggedIn, isDarkMode
   const files = useSelector((state) => state.files.files);
+  const users = useSelector((state) => state.users.users);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const isAdmin = useSelector(
     (state) => state.auth.role === "admin" || state.auth.role === "super-user"
@@ -85,6 +96,27 @@ export const NavBar = () => {
         break;
       case FILE_TYPE:
         dispatch(sortFilesMimeType(files));
+        break;
+      //do nothing for default
+      default:
+    }
+  };
+  const handleSelectChangeUsers = (event) => {
+    //selected value in select options
+    const selectedValue = event.target.value;
+    // for each value, sort files with the chosen method
+    switch (selectedValue) {
+      case FULLNAME:
+        dispatch(sortUsersNameAlph(users));
+        break;
+      case EMAIL:
+        dispatch(sortUsersEmailAlph(users));
+        break;
+      case ROLE:
+        dispatch(sortUsersRoleAlph(users));
+        break;
+      case JOIN_DATE:
+        dispatch(sortUsersUploadDate(users));
         break;
       //do nothing for default
       default:
@@ -124,6 +156,15 @@ export const NavBar = () => {
         >
           Manage Users
         </StyledNavButton>
+      )}
+      {isAdmin && isPathUsers && (
+        <StyledSelect onChange={handleSelectChangeUsers}>
+          <option>-- Sort --</option>
+          <option>{FULLNAME}</option>
+          <option>{EMAIL}</option>
+          <option>{ROLE}</option>
+          <option>{JOIN_DATE}</option>
+        </StyledSelect>
       )}
 
       {isPathFiles && (
