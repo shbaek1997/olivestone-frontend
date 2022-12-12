@@ -41,6 +41,7 @@ export const NavBar = () => {
   const isPathDownload = pathName === "/";
   const isPathLogin = pathName === "/login";
   const isPathRegister = pathName === "/register";
+  const isPathUsers = pathName === "/users";
   // dispatch
   const dispatch = useDispatch();
   // handle logout button click
@@ -113,6 +114,15 @@ export const NavBar = () => {
           }}
         >
           Register a new user
+        </StyledNavButton>
+      )}
+      {isAdmin && !isPathUsers && (
+        <StyledNavButton
+          onClick={() => {
+            navigate("/users");
+          }}
+        >
+          Manage Users
         </StyledNavButton>
       )}
 
