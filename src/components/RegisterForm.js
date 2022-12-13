@@ -40,12 +40,13 @@ export const RegisterForm = () => {
       const { user } = response.data;
       const newUser = user.fullname;
       dispatch(turnAlertOn(`${newUser}님이 회원가입에 성공하였습니다.`));
-      await api.post("users/register/email", { email });
-      // upload success, so reset input fields
       setPassword("");
       setPasswordRepeat("");
       setEmail("");
       setFullname("");
+      await api.post("users/register/email", { email });
+      // upload success, so reset input fields
+
       //get file name uploaded from response and alert user
 
       // set upload success true to show user, uploaded file id
