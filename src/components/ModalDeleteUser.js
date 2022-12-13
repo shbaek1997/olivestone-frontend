@@ -25,7 +25,8 @@ export const ModalDeleteUser = ({ handleCancelButtonClick }) => {
       const newUsers = users.filter((user) => user._id !== userId);
       dispatch(setUsers(newUsers));
       //alert user
-      const { fullname } = response?.data;
+      const { user } = response.data;
+      const { fullname } = user;
       dispatch(turnAlertOn(`${fullname}님이 성공적으로 회원 탈퇴 되었습니다.`));
       //turn off modal
       dispatch(turnOff());
