@@ -73,7 +73,12 @@ export function ManageUsers() {
     const fetchUserAndGetFile = async () => {
       try {
         //check user log in
-        await dispatch(fetchUserByJWT()).unwrap();
+        const response = await dispatch(fetchUserByJWT()).unwrap();
+        const { user } = response;
+        const { role } = user;
+        if (role === "basic-user") {
+          throw new Error("permission not allowed");
+        }
         // get file
         getUsers();
       } catch (error) {
