@@ -1,9 +1,7 @@
-import { useSelector, useDispatch } from "react-redux";
-import { turnAlertOff } from "../context/modalSlice";
+import { useSelector } from "react-redux";
 import { StyledAlertModal, StyledHeader, StyledButton } from "../style/style";
 //File Modal component
-const AlertModal = () => {
-  const dispatch = useDispatch();
+const AlertModal = ({ confirmHandler }) => {
   //dispatch for redux
   const isDarkMode = useSelector((state) => state.darkMode.isActive);
   const isAlertActive = useSelector((state) => state.modal.isAlertActive);
@@ -21,13 +19,7 @@ const AlertModal = () => {
     >
       <StyledHeader>Message</StyledHeader>
       <h3 style={{ color: "white" }}>{alertMessage}</h3>
-      <StyledButton
-        onClick={() => {
-          dispatch(turnAlertOff());
-        }}
-      >
-        Ok
-      </StyledButton>
+      <StyledButton onClick={confirmHandler}>Ok</StyledButton>
     </StyledAlertModal>
   );
 };

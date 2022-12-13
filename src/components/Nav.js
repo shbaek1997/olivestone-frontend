@@ -1,6 +1,7 @@
 import ReactDOM from "react-dom";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { turnAlertOff } from "../context/modalSlice";
 import { userLogout } from "../context/authSlice";
 import { toggleDarkMode } from "../context/darkModeSlice";
 import AlertModal from "./AlertModal";
@@ -35,7 +36,14 @@ import {
 import { StyledNavBar, StyledSelect, StyledNavButton } from "../style/style";
 
 const PopupModal = () => {
-  return ReactDOM.createPortal(<AlertModal></AlertModal>, document.body);
+  const dispatch = useDispatch();
+  const confirmHandler = () => {
+    dispatch(turnAlertOff());
+  };
+  return ReactDOM.createPortal(
+    <AlertModal confirmHandler={confirmHandler}></AlertModal>,
+    document.body
+  );
 };
 // navigation bar for all pages
 export const NavBar = () => {
