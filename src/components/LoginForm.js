@@ -4,6 +4,7 @@ import useInput from "../hooks/useInput";
 import { turnAlertOn } from "../context/modalSlice";
 import { userLogin } from "../context/authSlice";
 import { loginSchema } from "../validation/validationSchema";
+import { HOME_PAGE } from "../config/variables";
 import { StyledForm, StyledButton, StyledInput } from "../style/style";
 
 //login form component
@@ -52,6 +53,12 @@ export const LogInForm = () => {
       <StyledButton type="submit" onSubmit={handleLoginSubmit}>
         Log in
       </StyledButton>
+      <a
+        href={`${HOME_PAGE}/reset-password`}
+        style={{ marginLeft: "100px", marginTop: "20px", color: "white" }}
+      >
+        Forgot Password
+      </a>
     </StyledForm>
   );
 };
