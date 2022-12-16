@@ -102,11 +102,20 @@ export function ManageUsers() {
   const pageClass = isUserAdmin ? "admin" : "super-user";
   // table header inner content as an array
   const tableHeaderTitles = isUserAdmin
-    ? ["User ID", "Name", "Email", "Join Date", "Role", "Delete User"]
+    ? [
+        "User ID",
+        "Name",
+        "Email",
+        "Email Verified",
+        "Join Date",
+        "Role",
+        "Delete User",
+      ]
     : [
         "User ID",
         "Name",
         "Email",
+        "Email Verified",
         "Join Date",
         "Role",
         "Change Role",
@@ -153,18 +162,31 @@ export function ManageUsers() {
                 })}
                 {/* we render file info by using info from files array, slice part is pagination logic */}
                 {users
-                  .map(({ fullname, email, _id, createdAt, role }) => {
-                    return (
-                      <UserInfo
-                        key={_id}
-                        fullname={fullname}
-                        email={email}
-                        _id={_id}
-                        createdAt={createdAt}
-                        role={role}
-                      ></UserInfo>
-                    );
-                  })
+                  .map(
+                    ({
+                      fullname,
+                      email,
+                      _id,
+                      createdAt,
+                      role,
+                      emailVerified,
+                    }) => {
+                      const verificationStatus = emailVerified
+                        ? "Verified"
+                        : "Not verified";
+                      return (
+                        <UserInfo
+                          key={_id}
+                          fullname={fullname}
+                          email={email}
+                          emailVerified={verificationStatus}
+                          _id={_id}
+                          createdAt={createdAt}
+                          role={role}
+                        ></UserInfo>
+                      );
+                    }
+                  )
                   .slice(
                     (page - 1) * itemsCountPerPage,
                     page * itemsCountPerPage

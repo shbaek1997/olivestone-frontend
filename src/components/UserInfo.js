@@ -13,7 +13,7 @@ import {
 } from "../config/variables";
 
 //file info component shown on table
-const UserInfo = ({ _id, fullname, email, role, createdAt }) => {
+const UserInfo = ({ _id, fullname, email, role, createdAt, emailVerified }) => {
   const loggedInUserRole = useSelector((state) => state.auth.role);
   const isUserAdmin = loggedInUserRole === "admin";
   const isRoleSuperUser = role === "super-user";
@@ -40,6 +40,7 @@ const UserInfo = ({ _id, fullname, email, role, createdAt }) => {
         <StyledTableDiv>{_id}</StyledTableDiv>
         <StyledTableDiv>{fullname}</StyledTableDiv>
         <StyledTableDiv>{email}</StyledTableDiv>
+        <StyledTableDiv>{emailVerified}</StyledTableDiv>
         <StyledTableDiv>{joinDateToString}</StyledTableDiv>
         <StyledTableDiv>{role}</StyledTableDiv>
         <StyledFileButton
@@ -57,6 +58,7 @@ const UserInfo = ({ _id, fullname, email, role, createdAt }) => {
         <StyledTableDiv>{_id}</StyledTableDiv>
         <StyledTableDiv>{fullname}</StyledTableDiv>
         <StyledTableDiv>{email}</StyledTableDiv>
+        <StyledTableDiv>{emailVerified}</StyledTableDiv>
         <StyledTableDiv>{joinDateToString}</StyledTableDiv>
         <StyledTableDiv>{role}</StyledTableDiv>
         <StyledFileButton
