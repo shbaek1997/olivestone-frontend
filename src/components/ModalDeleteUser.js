@@ -18,6 +18,7 @@ export const ModalDeleteUser = ({ handleCancelButtonClick }) => {
   const users = useSelector((state) => state.users.users);
   const handleDeleteUserButtonClick = async (event) => {
     try {
+      event.preventDefault();
       //expire file on the server-side
       const api = Api();
       const response = await api.delete(`users/${userId}`);
@@ -33,8 +34,31 @@ export const ModalDeleteUser = ({ handleCancelButtonClick }) => {
     } catch (error) {
       const message = await errorHandler(error);
       dispatch(turnAlertOn(message));
+      dispatch(turnOff());
     }
   };
+  const handleDeleteUserAndFilesButtonClick = async (event) => {
+    try {
+      event.preventDefault();
+      const api = Api();
+      await api.patch(`files/${userId}`);
+      const userResponse = await api.delete(`users/${userId}`);
+      const newUsers = users.filter((user) => user._id !== userId);
+      dispatch(setUsers(newUsers));
+      const { user } = userResponse.data;
+      const { fullname } = user;
+      dispatch(
+        turnAlertOn(
+          `${fullname}님이 성공적으로 회원 탈퇴 되었고, 회원의 파일들도 같이 삭제되었습니다.`
+        )
+      );
+      dispatch(turnOff());
+    } catch (error) {
+      const message = await errorHandler(error);
+      dispatch(turnAlertOn(message));
+    }
+  };
+
   return (
     <>
       <StyledHeader>Are you sure?</StyledHeader>
@@ -43,7 +67,10 @@ export const ModalDeleteUser = ({ handleCancelButtonClick }) => {
       </h3>
       <StyledButtonContainer>
         <StyledButton onClick={handleDeleteUserButtonClick}>
-          Delete
+          Delete User Only
+        </StyledButton>
+        <StyledButton onClick={handleDeleteUserAndFilesButtonClick}>
+          Delete User and Files
         </StyledButton>
         <StyledButton onClick={handleCancelButtonClick}>Cancel</StyledButton>
       </StyledButtonContainer>
