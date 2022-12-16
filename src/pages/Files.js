@@ -88,6 +88,7 @@ export function Files() {
   const tableHeaderTitles = [
     "File ID",
     "File Name",
+    "Uploader Email",
     "Upload Date",
     "Expire Date",
     "Change Password",
@@ -117,7 +118,7 @@ export function Files() {
                   height: "50%",
                 }}
               >
-                Sorry, users you can view are empty
+                Sorry, files empty!
               </h2>
             </>
           ) : (
@@ -136,17 +137,26 @@ export function Files() {
                 })}
                 {/* we render file info by using info from files array, slice part is pagination logic */}
                 {files
-                  .map(({ originalName, _id, expireDate, createdAt }) => {
-                    return (
-                      <FileInfo
-                        key={_id}
-                        originalName={originalName}
-                        _id={_id}
-                        createdAt={createdAt}
-                        expireDate={expireDate}
-                      ></FileInfo>
-                    );
-                  })
+                  .map(
+                    ({
+                      originalName,
+                      _id,
+                      expireDate,
+                      createdAt,
+                      uploaderEmail,
+                    }) => {
+                      return (
+                        <FileInfo
+                          key={_id}
+                          originalName={originalName}
+                          _id={_id}
+                          createdAt={createdAt}
+                          expireDate={expireDate}
+                          uploaderEmail={uploaderEmail}
+                        ></FileInfo>
+                      );
+                    }
+                  )
                   .slice(
                     (page - 1) * itemsCountPerPage,
                     page * itemsCountPerPage
