@@ -16,7 +16,13 @@ import {
 import { StyledTableDiv, StyledFileButton } from "../style/style";
 
 //file info component shown on table
-const FileInfo = ({ originalName, _id, expireDate, createdAt }) => {
+const FileInfo = ({
+  originalName,
+  _id,
+  expireDate,
+  createdAt,
+  uploaderEmail,
+}) => {
   //dispatch to handle actions for modal
   const dispatch = useDispatch();
   //handle table button click (password, share, delete),
@@ -55,6 +61,7 @@ const FileInfo = ({ originalName, _id, expireDate, createdAt }) => {
       <StyledTableDiv className={"original-name"} onClick={handleFileNameClick}>
         {originalName}
       </StyledTableDiv>
+      <StyledTableDiv>{uploaderEmail}</StyledTableDiv>
       <StyledTableDiv>{uploadedDateToString}</StyledTableDiv>
       <StyledTableDiv>{expireDateToString}</StyledTableDiv>
       <StyledFileButton
