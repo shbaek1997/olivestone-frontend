@@ -58,6 +58,12 @@ const filesSlice = createSlice({
       );
       state.files = [...mimeTypeSortedFiles];
     },
+    sortUploader: (state, action) => {
+      const uploaderSortedFiles = [...action.payload].sort(
+        compareService.compareUploader
+      );
+      state.files = [...uploaderSortedFiles];
+    },
   },
 });
 //export reducer, actions
@@ -71,5 +77,6 @@ export const {
   sortFilesExpireDate,
   sortFilesExpireDateReverse,
   sortFilesMimeType,
+  sortUploader,
 } = actions;
 export default reducer;

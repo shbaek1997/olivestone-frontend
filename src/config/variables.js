@@ -11,7 +11,7 @@ export const CHANGE_ROLE_BUTTON_NAME = "change-role";
 export const DELETE_USER_BUTTON_NAME = "delete-user";
 
 //copy clipboard homepage
-export const HOME_PAGE = "http://localhost:80";
+export const HOME_PAGE = "http://localhost:3000";
 
 //sorting table options (files)
 export const ALPHABETICAL = "Alphabetical";
@@ -21,6 +21,8 @@ export const UPLOAD_DATE_REVERSE = "Upload date reverse";
 export const EXPIRE_DATE = "Expire date";
 export const EXPIRE_DATE_REVERSE = "Expire date reverse";
 export const FILE_TYPE = "File type";
+export const UPLOADER = "Uploader";
+
 //sorting table options (users)
 export const FULLNAME = "Name";
 export const EMAIL = "Email";

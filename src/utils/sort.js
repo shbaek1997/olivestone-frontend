@@ -90,4 +90,13 @@ export default class CompareFunctions {
     }
     return 0;
   };
+  compareUploader = (a, b) => {
+    if (a.uploaderEmail > b.uploaderEmail) {
+      return 1;
+    }
+    if (b.uploaderEmail > a.uploaderEmail) {
+      return -1;
+    }
+    return 0;
+  };
 }

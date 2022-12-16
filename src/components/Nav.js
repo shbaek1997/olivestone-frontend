@@ -13,6 +13,7 @@ import {
   sortFilesMimeType,
   sortFilesUploadDate,
   sortFilesUploadDateReverse,
+  sortUploader,
 } from "../context/fileSlice";
 import {
   sortUsersEmailAlph,
@@ -32,6 +33,7 @@ import {
   EMAIL,
   ROLE,
   JOIN_DATE,
+  UPLOADER,
 } from "../config/variables";
 import { StyledNavBar, StyledSelect, StyledNavButton } from "../style/style";
 
@@ -104,6 +106,9 @@ export const NavBar = () => {
         break;
       case FILE_TYPE:
         dispatch(sortFilesMimeType(files));
+        break;
+      case UPLOADER:
+        dispatch(sortUploader(files));
         break;
       //do nothing for default
       default:
@@ -185,6 +190,7 @@ export const NavBar = () => {
           <option>{EXPIRE_DATE}</option>
           <option>{EXPIRE_DATE_REVERSE}</option>
           <option>{FILE_TYPE}</option>
+          <option>{UPLOADER}</option>
         </StyledSelect>
       )}
       {!isPathUpload && (
