@@ -74,7 +74,7 @@ export const StyledForm = styled.form`
 export const StyledTableDiv = styled.div`
   display: flex;
   align-items: center;
-
+  padding: 0px 0px 0px 8px;
   &.original-name:hover {
     color: ${MIDDLE_COLOR};
     cursor: pointer;
@@ -139,15 +139,15 @@ export const StyledTableHeader = styled.div`
 export const StyledFileContainer = styled.div`
   display: grid;
   grid-gap: 20px;
-  grid-template-columns: 250px 1fr 100px 100px 150px 100px 100px;
+  grid-template-columns: 250px 1fr 300px 100px 100px 150px 100px 100px;
   width: 90%;
 `;
 export const StyledUserContainer = styled.div`
   display: grid;
   grid-gap: 20px;
-  grid-template-columns: 250px 100px 1fr 100px 100px 150px 150px;
+  grid-template-columns: 250px 100px 1fr 100px 100px 100px 150px 150px;
   &.admin {
-    grid-template-columns: 250px 100px 1fr 100px 100px 150px;
+    grid-template-columns: 250px 100px 1fr 100px 100px 100px 150px;
   }
   width: 90%;
 `;
