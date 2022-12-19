@@ -42,7 +42,7 @@ export const Validation = () => {
   };
   return (
     <StyledPage
-      style={{ justifyContent: "center" }}
+      style={{ justifyContent: "center", backgroundColor: "rgb(30, 30, 30)" }}
       className={isDarkMode && "dark"}
     >
       <StyledButton onClick={onClickHandler} style={{ width: "200px" }}>

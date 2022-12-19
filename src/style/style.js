@@ -128,6 +128,7 @@ export const StyledSelect = styled.select`
 export const StyledTableHeader = styled.div`
   display: flex;
   border-bottom: 2px solid black;
+  align-items: center;
   padding: 10px;
   font-weight: bold;
   font-size: 18px;
@@ -171,7 +172,6 @@ export const StyledPage = styled.div`
     pointer-events: none;
   }
   &.dark {
-    background-color: rgb(30, 30, 30);
     color: white;
   }
   &.dark button,
