@@ -70,10 +70,41 @@ const changeFilePasswordSchema = yup.object().shape({
     )
     .required("비밀번호 확인이 입력되지 않았습니다."),
 });
+
+const changeUserNameSchema = yup.object({
+  name: yup
+    .string()
+    .min(2, "이름은 최소 2글자입니다.")
+    .required("이름이 입력되지 않았습니다."),
+  password: yup.string().required("비밀번호가 입력되지 않았습니다."),
+});
+
+const changeUserPasswordSchema = yup.object().shape({
+  newPassword: yup
+    .string()
+    .min(8, "비밀번호는 최소 8글자입니다.")
+    .required("비밀번호가 입력되지 않았습니다."),
+  newPasswordRepeat: yup
+    .string()
+    .oneOf(
+      [yup.ref("newPassword"), null],
+      "비밀번호와 비밀번호 확인이 일치하지 않습니다."
+    )
+    .required("비밀번호 확인이 입력되지 않았습니다."),
+  oldPassword: yup
+    .string()
+    .notOneOf(
+      [yup.ref("newPassword"), null],
+      "새 비밀번호는 현재 비밀번호와 같을 수 없습니다."
+    )
+    .required("현재 비밀번호가 입력되지 않았습니다."),
+});
 export {
   loginSchema,
   registerSchema,
   downloadFileSchema,
   uploadFileSchema,
   changeFilePasswordSchema,
+  changeUserNameSchema,
+  changeUserPasswordSchema,
 };
