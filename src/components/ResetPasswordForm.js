@@ -23,7 +23,7 @@ export const ResetPasswordForm = ({ isTokenValid, user }) => {
     try {
       e.preventDefault();
       //validate id and password format
-      await resetPasswordEmailSchema({ email });
+      await resetPasswordEmailSchema.validate({ email });
       const api = Api();
       dispatch(turnAlertOn("Trying to send reset email..."));
       const response = await api.post("users/reset-password", { email });
@@ -43,7 +43,7 @@ export const ResetPasswordForm = ({ isTokenValid, user }) => {
     try {
       e.preventDefault();
       const userId = user._id;
-      await resetPasswordPasswordSchema({ password, passwordRepeat });
+      await resetPasswordPasswordSchema.validate({ password, passwordRepeat });
       const api = Api();
       await api.patch(`users/${userId}/reset-password/password`, {
         password,
