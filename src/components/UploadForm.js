@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import { useDispatch } from "react-redux";
 import useInput from "../hooks/useInput";
 import Api from "../utils/api";
@@ -24,10 +24,6 @@ export const UploadForm = () => {
     handleChangeUploadPasswordRepeat,
   ] = useInput("");
   const dispatch = useDispatch();
-
-  //state for upload successful and to show file ID of uploaded file
-  const [uploadSuccess, setUploadSuccess] = useState(false);
-  const [uploadedFileId, setUploadedFileId] = useState("");
 
   //use Ref for input type file
   const fileInputRef = useRef(null);
@@ -71,12 +67,9 @@ export const UploadForm = () => {
       const uploadedFile = response.data.file;
       dispatch(
         turnAlertOn(
-          `${uploadedFile.originalName} 파일이 성공적으로 업로드 되었습니다. 현재 같이 저장한 비밀번호와 파일 아이디를 기억해주세요`
+          `${uploadedFile.originalName} 파일이 성공적으로 업로드 되었습니다. 파일 페이지에서 확인할 수 있습니다.`
         )
       );
-      // set upload success true to show user, uploaded file id
-      setUploadSuccess(true);
-      setUploadedFileId(uploadedFile._id);
     } catch (error) {
       const message = await errorHandler(error);
       dispatch(turnAlertOn(message));
@@ -123,12 +116,6 @@ export const UploadForm = () => {
         onChange={handleValidPeriod}
         required
       ></StyledInput>
-      {uploadSuccess && (
-        <div>
-          <div>생성된 아이디 값과 비밀번호를 기억해주세요.</div>
-          <div>파일 아이디: {uploadedFileId}</div>{" "}
-        </div>
-      )}
       <StyledButton type="submit">Upload File</StyledButton>
       {/* show uploaded file id to the user after successfully uploading a file */}
     </StyledForm>
