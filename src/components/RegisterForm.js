@@ -39,7 +39,11 @@ export const RegisterForm = () => {
       });
       const { user } = response.data;
       const newUser = user.fullname;
-      dispatch(turnAlertOn(`${newUser}님이 회원가입에 성공하였습니다.`));
+      dispatch(
+        turnAlertOn(
+          `${newUser}님이 회원가입에 성공하였습니다. 이메일 인증을 해주세요!`
+        )
+      );
       setPassword("");
       setPasswordRepeat("");
       setEmail("");
