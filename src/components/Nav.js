@@ -62,6 +62,7 @@ export const NavBar = () => {
   const isPathLogin = pathName === "/login";
   const isPathRegister = pathName === "/register";
   const isPathUsers = pathName === "/users";
+  const isPathProfile = pathName === "/profile";
   // dispatch
   const dispatch = useDispatch();
   // handle logout button click
@@ -192,6 +193,15 @@ export const NavBar = () => {
           <option>{FILE_TYPE}</option>
           <option>{UPLOADER}</option>
         </StyledSelect>
+      )}
+      {!isPathProfile && (
+        <StyledNavButton
+          onClick={() => {
+            navigate("/profile");
+          }}
+        >
+          Edit Profile
+        </StyledNavButton>
       )}
       {!isPathUpload && (
         <StyledNavButton

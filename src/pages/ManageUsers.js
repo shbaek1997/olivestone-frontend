@@ -83,7 +83,7 @@ export function ManageUsers() {
         getUsers();
       } catch (error) {
         //failure redirects to login
-        navigate("/");
+        navigate("/login");
       }
     };
     fetchUserAndGetFile();
