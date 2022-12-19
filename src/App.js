@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { Login } from "./pages/Login";
 import { Upload } from "./pages/Upload";
 import { Download } from "./pages/Download";
@@ -11,6 +12,12 @@ import { ResetPassword } from "./pages/ResetPassword";
 function App() {
   //default home = download page
   // use browser router to switch between pages
+  const isDarkMode = useSelector((state) => state.darkMode.isActive);
+  if (isDarkMode) {
+    document.body.classList.add("dark");
+  } else {
+    document.body.classList.remove("dark");
+  }
   return (
     <div className="App">
       <BrowserRouter>

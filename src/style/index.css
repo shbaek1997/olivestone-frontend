@@ -9,8 +9,11 @@ body {
   height:100vh;
   justify-content: center;
   align-items: center;
+  background-color: white;
 }
-
+body.dark{
+  background-color: rgb(30,30,30);
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
