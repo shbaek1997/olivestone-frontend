@@ -9,6 +9,7 @@ import { NotFound } from "./pages/NotFound";
 import { ManageUsers } from "./pages/ManageUsers";
 import { Validation } from "./pages/Validation";
 import { ResetPassword } from "./pages/ResetPassword";
+import { Profile } from "./pages/Profile";
 function App() {
   //default home = download page
   // use browser router to switch between pages
@@ -28,6 +29,10 @@ function App() {
             path="/reset-password"
             element={<ResetPassword></ResetPassword>}
           ></Route>
+          <Route path="/profile" element={<Profile></Profile>}>
+            <Route path="name" element={<Profile></Profile>}></Route>
+            <Route path="password" element={<Profile></Profile>}></Route>
+          </Route>
           <Route path="/upload" element={<Upload></Upload>}></Route>
           <Route path="/files" element={<Files></Files>}></Route>
           <Route path="/users" element={<ManageUsers></ManageUsers>}></Route>
