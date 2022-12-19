@@ -5,6 +5,10 @@ import { errorHandler } from "../utils/error-handler";
 import { StyledForm, StyledButton, StyledInput } from "../style/style";
 import { turnAlertOff, turnAlertOn } from "../context/modalSlice";
 import { useNavigate } from "react-router-dom";
+import {
+  resetPasswordEmailSchema,
+  resetPasswordPasswordSchema,
+} from "../validation/validationSchema";
 //download page
 export const ResetPasswordForm = ({ isTokenValid, user }) => {
   const dispatch = useDispatch();
@@ -19,13 +23,7 @@ export const ResetPasswordForm = ({ isTokenValid, user }) => {
     try {
       e.preventDefault();
       //validate id and password format
-      ///////////
-      //   await downloadFileSchema.validate({
-      //     fileId,
-      //     filePassword: downloadPassword,
-      //   });
-      ////////
-      //request post api for downloading the file, response should be blob
+      await resetPasswordEmailSchema({ email });
       const api = Api();
       dispatch(turnAlertOn("Trying to send reset email..."));
       const response = await api.post("users/reset-password", { email });
@@ -44,8 +42,8 @@ export const ResetPasswordForm = ({ isTokenValid, user }) => {
   const handleResetPasswordSubmit = async (e) => {
     try {
       e.preventDefault();
-      console.log(user);
       const userId = user._id;
+      await resetPasswordPasswordSchema({ password, passwordRepeat });
       const api = Api();
       await api.patch(`users/${userId}/reset-password/password`, {
         password,

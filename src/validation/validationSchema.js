@@ -99,6 +99,28 @@ const changeUserPasswordSchema = yup.object().shape({
     )
     .required("현재 비밀번호가 입력되지 않았습니다."),
 });
+
+const resetPasswordEmailSchema = yup.object().shape({
+  email: yup
+    .string()
+    .email("email 형식이 올바르지 않습니다.")
+    .required("email이 입력되지 않았습니다."),
+});
+
+const resetPasswordPasswordSchema = yup.object().shape({
+  password: yup
+    .string()
+    .min(8, "비밀번호는 최소 8글자입니다.")
+    .required("비밀번호가 입력되지 않았습니다."),
+  passwordRepeat: yup
+    .string()
+    .oneOf(
+      [yup.ref("password"), null],
+      "비밀번호와 비밀번호 확인이 일치하지 않습니다."
+    )
+    .required("비밀번호 확인이 입력되지 않았습니다."),
+});
+
 export {
   loginSchema,
   registerSchema,
@@ -107,4 +129,6 @@ export {
   changeFilePasswordSchema,
   changeUserNameSchema,
   changeUserPasswordSchema,
+  resetPasswordEmailSchema,
+  resetPasswordPasswordSchema,
 };

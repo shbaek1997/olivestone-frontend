@@ -36,7 +36,7 @@ export function Profile() {
     };
     checkUserLogin();
   }, [dispatch, navigate]);
-  const headerTitle = "Profile";
+  const headerTitle = "Edit Profile";
 
   //if loading show loading component else show log in form
   return isLoading ? (
