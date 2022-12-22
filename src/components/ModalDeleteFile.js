@@ -41,9 +41,7 @@ export const ModalDeleteFile = ({ handleCancelButtonClick }) => {
   return (
     <>
       <StyledHeader>Are you sure?</StyledHeader>
-      <h3 style={{ color: "white" }}>
-        You will not be able to revert this change
-      </h3>
+      <h3 style={{ color: "white" }}>파일을 삭제하면 되돌릴 수 없습니다.</h3>
       <StyledButtonContainer>
         <StyledButton onClick={handleDeleteFileButtonClick}>
           Delete

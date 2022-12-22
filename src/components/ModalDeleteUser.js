@@ -62,9 +62,7 @@ export const ModalDeleteUser = ({ handleCancelButtonClick }) => {
   return (
     <>
       <StyledHeader>Are you sure?</StyledHeader>
-      <h3 style={{ color: "white" }}>
-        You will not be able to revert this change
-      </h3>
+      <h3 style={{ color: "white" }}>유저를 탈퇴시키면 되돌릴 수 없습니다.</h3>
       <StyledButtonContainer>
         <StyledButton onClick={handleDeleteUserButtonClick}>
           Delete User Only

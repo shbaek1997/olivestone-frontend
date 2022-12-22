@@ -19,8 +19,8 @@ export const ModalChangeRole = ({ handleCancelButtonClick }) => {
   const selectedUserRole = useSelector((state) => state.modal.clickedUserRole);
   const isSelectedUserAdmin = selectedUserRole === "admin";
   const headerMessage = isSelectedUserAdmin
-    ? `This will change the selected user to "BASIC-USER"`
-    : `This will change the selected user to "ADMIN"`;
+    ? `이 유저를 "BASIC-USER" 권한으로 변경하시겠습니까?`
+    : `이 유저를"ADMIN" 권한으로 변경하시겠습니까?`;
   const handleChangeRoleButtonClick = async (event) => {
     try {
       //expire file on the server-side

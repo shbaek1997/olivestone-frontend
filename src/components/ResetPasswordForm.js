@@ -25,7 +25,7 @@ export const ResetPasswordForm = ({ isTokenValid, user }) => {
       //validate id and password format
       await resetPasswordEmailSchema.validate({ email });
       const api = Api();
-      dispatch(turnAlertOn("Trying to send reset email..."));
+      dispatch(turnAlertOn("비밀번호 재설정 이메일 발송 중 ..."));
       const response = await api.post("users/reset-password", { email });
       dispatch(turnAlertOff());
       const { data } = response;
