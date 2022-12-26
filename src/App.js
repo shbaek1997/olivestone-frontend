@@ -13,6 +13,7 @@ import { Profile } from "./pages/Profile";
 function App() {
   //default home = download page
   // use browser router to switch between pages
+  //check dark mode - add or remove "dark" class to the body
   const isDarkMode = useSelector((state) => state.darkMode.isActive);
   if (isDarkMode) {
     document.body.classList.add("dark");
