@@ -1,41 +1,43 @@
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { turnAlertOn } from "../context/modalSlice";
 import useInput from "../hooks/useInput";
 import Api from "../utils/api";
-import { turnAlertOn } from "../context/modalSlice";
-import { changeUserNameSchema } from "../validation/validationSchema";
 import { errorHandler } from "../utils/error-handler";
+import { changeUserNameSchema } from "../validation/validationSchema";
 import { StyledForm, StyledButton, StyledInput } from "../style/style";
 
-//login form component
+//form content for edit profile name
 export const EditProfileNameForm = () => {
-  //set inputs for username, password
   const [name, setName, handleChangeName] = useInput("");
   const [password, setPassword, handleChangePassword] = useInput("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  //handle login submit
+  // handler for change name form submit
   const handleChangeNameSubmit = async (e) => {
     try {
       e.preventDefault();
-
+      //validate form - name and currrent password
       await changeUserNameSchema.validate({ name, password });
-      //use Api here
+      //use Api to get user ID
       const api = Api();
       const response = await api.get("users/auth");
       const { user } = response.data;
       const userId = user._id;
-      const nameResponse = await api.patch(`/users/${userId}/change-name`, {
+      // use Api to change name of the user
+      await api.patch(`/users/${userId}/change-name`, {
         name,
         password,
       });
-      console.log(nameResponse);
-      // navigate to upload page
+      // if successful, alert user that name changed successfully
       dispatch(turnAlertOn(`${name}으로 이름이 성공적으로 변경되었습니다.`));
+      // reset form
       setName("");
       setPassword("");
+      // go back home
       navigate("/");
     } catch (error) {
+      //pop up alert modal if error
       const message = await errorHandler(error);
       dispatch(turnAlertOn(message));
     }

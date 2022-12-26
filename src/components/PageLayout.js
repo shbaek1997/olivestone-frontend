@@ -10,9 +10,10 @@ import {
 // children prop to insert child components
 // header title changes the header of the form
 export const PageLayout = ({ children, headerTitle }) => {
-  //check dark mode
+  //check dark mode, alert active
   const isDarkMode = useSelector((state) => state.darkMode.isActive);
   const isAlertActive = useSelector((state) => state.modal.isAlertActive);
+  //get combined classes for dark mode and alert active
   let classList = [];
   if (isDarkMode) {
     classList.push("dark");
@@ -20,12 +21,10 @@ export const PageLayout = ({ children, headerTitle }) => {
   if (isAlertActive) {
     classList.push("active");
   }
-  //get combined classes for dark mode and modal active
-  //styled page classes change page blur and colors
+
   const classes = classList.join(" ");
 
   return (
-    //if dark mode, page gets class "dark"
     <StyledPage className={classes}>
       <NavBar></NavBar>
       <StyledContainer>

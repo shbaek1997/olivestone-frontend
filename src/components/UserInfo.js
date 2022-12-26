@@ -1,39 +1,42 @@
-// import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   setModalMode,
   setId,
   turnOn,
   setClickedUserRole,
 } from "../context/modalSlice";
-import { useSelector, useDispatch } from "react-redux";
-import { StyledTableDiv, StyledFileButton } from "../style/style";
 import {
   CHANGE_ROLE_BUTTON_NAME,
   DELETE_USER_BUTTON_NAME,
 } from "../config/variables";
+import { StyledTableDiv, StyledFileButton } from "../style/style";
 
-//file info component shown on table
+//user info component shown on table
 const UserInfo = ({ _id, fullname, email, role, createdAt, emailVerified }) => {
+  //get role of the user logged in
   const loggedInUserRole = useSelector((state) => state.auth.role);
+  //check is user admin, is user super-user
   const isUserAdmin = loggedInUserRole === "admin";
   const isRoleSuperUser = role === "super-user";
+  //set classes for buttons (buttons need to be long, so long-button class is added as default)
   const classes = isRoleSuperUser ? "long-button super-user" : "long-button";
-  //dispatch to handle actions for modal
   const dispatch = useDispatch();
+  //handle button click
   const handleButtonClick = (event) => {
+    //set modal mode
     const mode = event.target.name;
     const userId = _id;
-    //dispatch file Id, mode of modal, and turn on the modal
+    //set user Id, set user role, set modal mode, turn alert on
     dispatch(setId(userId));
     dispatch(setClickedUserRole(role));
     dispatch(setModalMode(mode));
     dispatch(turnOn());
   };
-  //click on file name on table trigger file download
   //data editing for dates
-  //convert expire date and upload date to YY-MM-DD format
+  //convert join date to YY-MM-DD format
   const joinDateToString = createdAt.toString().slice(0, 10);
-
+  //if user is super-user, there is change role button
+  //the buttons of super-user data shown on user table are disabled - super user should never be deleted/ role should not change
   if (isUserAdmin) {
     return (
       <>

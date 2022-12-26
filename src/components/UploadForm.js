@@ -1,8 +1,8 @@
 import { useRef } from "react";
 import { useDispatch } from "react-redux";
+import { turnAlertOn } from "../context/modalSlice";
 import useInput from "../hooks/useInput";
 import Api from "../utils/api";
-import { turnAlertOn } from "../context/modalSlice";
 import { errorHandler } from "../utils/error-handler";
 import { uploadFileSchema } from "../validation/validationSchema";
 import {
@@ -14,7 +14,7 @@ import {
 
 //Upload Form
 export const UploadForm = () => {
-  // set password , password repeat, valid period for upload file +on change handlers
+  // set password , password repeat, valid period for upload file
   const [uploadPassword, setUploadPassword, handleChangeUploadPassword] =
     useInput("");
   const [validPeriod, setValidPeriod, handleValidPeriod] = useInput(7);
@@ -31,7 +31,7 @@ export const UploadForm = () => {
   const resetFileInput = () => {
     fileInputRef.current.value = "";
   };
-  // handle uploda submit
+  // handle upload submit
   const handleUploadSubmit = async (e) => {
     try {
       e.preventDefault();
@@ -47,13 +47,13 @@ export const UploadForm = () => {
       });
       //create new form data
       let formData = new FormData();
-      // add key/value to form data as api is required
+      // add key/value to form data
       formData.append("password", uploadPassword);
       formData.append("passwordRepeat", uploadPasswordRepeat);
       formData.append("validPeriod", validPeriod);
       // adding file last is important for multer middleware to work
       formData.append("file", file);
-      // api post request
+      // use api post request to upload file to server
       const api = Api();
       const response = await api.post("files/upload", formData, {
         headers: { "Content-Type": "multipart/form-data; charset=UTF-8" },
@@ -71,6 +71,7 @@ export const UploadForm = () => {
         )
       );
     } catch (error) {
+      //pop up alert modal if error
       const message = await errorHandler(error);
       dispatch(turnAlertOn(message));
     }
@@ -117,7 +118,6 @@ export const UploadForm = () => {
         required
       ></StyledInput>
       <StyledButton type="submit">Upload File</StyledButton>
-      {/* show uploaded file id to the user after successfully uploading a file */}
     </StyledForm>
   );
 };

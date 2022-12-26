@@ -1,5 +1,10 @@
 import { useDispatch } from "react-redux";
 import {
+  CHANGE_PASSWORD_BUTTON_NAME,
+  DELETE_FILE_BUTTON_NAME,
+  SHARE_FILE_BUTTON_NAME,
+} from "../config/variables";
+import {
   setModalMode,
   setId,
   turnOn,
@@ -8,14 +13,9 @@ import {
 import Api from "../utils/api";
 import downloadFile from "../utils/downloadFile";
 import { errorHandler } from "../utils/error-handler";
-import {
-  CHANGE_PASSWORD_BUTTON_NAME,
-  DELETE_FILE_BUTTON_NAME,
-  SHARE_FILE_BUTTON_NAME,
-} from "../config/variables";
 import { StyledTableDiv, StyledFileButton } from "../style/style";
 
-//file info component shown on table
+//file info component shown on table (one row)
 const FileInfo = ({
   originalName,
   _id,
@@ -23,14 +23,13 @@ const FileInfo = ({
   createdAt,
   uploaderEmail,
 }) => {
-  //dispatch to handle actions for modal
   const dispatch = useDispatch();
   //handle table button click (password, share, delete),
   // mode is the name of the button
   const handleButtonClick = (event) => {
     const mode = event.target.name;
     const fileId = _id;
-    //dispatch file Id, mode of modal, and turn on the modal
+    //set file Id, modal mode and turn on modal
     dispatch(setId(fileId));
     dispatch(setModalMode(mode));
     dispatch(turnOn());
@@ -40,12 +39,15 @@ const FileInfo = ({
     try {
       const fileId = _id;
       dispatch(setId(fileId));
+      // use Api to download file
       const api = Api();
       const response = await api.get(`files/download/${fileId}`, {
         responseType: "blob",
       });
+      //download file
       downloadFile(response);
     } catch (error) {
+      //pop up alert modal if error
       const message = await errorHandler(error);
       dispatch(turnAlertOn(message));
     }
@@ -58,6 +60,7 @@ const FileInfo = ({
   return (
     <>
       <StyledTableDiv>{_id}</StyledTableDiv>
+      {/* add class original-name to highlight text on hover. */}
       <StyledTableDiv className={"original-name"} onClick={handleFileNameClick}>
         {originalName}
       </StyledTableDiv>

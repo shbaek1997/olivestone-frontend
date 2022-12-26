@@ -1,37 +1,34 @@
 import { useDispatch } from "react-redux";
+import { turnAlertOn } from "../context/modalSlice";
 import useInput from "../hooks/useInput";
 import Api from "../utils/api";
 import downloadFile from "../utils/downloadFile";
 import { errorHandler } from "../utils/error-handler";
 import { downloadFileSchema } from "../validation/validationSchema";
 import { StyledForm, StyledButton, StyledInput } from "../style/style";
-import { turnAlertOn } from "../context/modalSlice";
-//download page
+
+//form content for downloading files
 export function DownloadForm() {
   const dispatch = useDispatch();
-  //first search if file Id is present in uri query
+  // search current url for file Id
   const downloadFileId = new URLSearchParams(window.location.search).get(
     "fileId"
   );
-  //set file ID state and onChange handlers.
-  //set file id as uri query param or as empty string;
   const [fileId, setFileId, handleChangeFileId] = useInput(
     downloadFileId ?? ""
   );
-  //set download password state, onChange handler
   const [downloadPassword, setDownloadPassword, handleChangeDownloadPassword] =
     useInput("");
-
-  // download submit logic
+  //submit handler for download form
   const handleDownloadSubmit = async (e) => {
     try {
       e.preventDefault();
-      //validate id and password format
+      // check data format for download form
       await downloadFileSchema.validate({
         fileId,
         filePassword: downloadPassword,
       });
-      //request post api for downloading the file, response should be blob
+      // use API for downloading files
       const api = Api();
       const response = await api.post(
         "files/download",
@@ -43,12 +40,13 @@ export function DownloadForm() {
           responseType: "blob",
         }
       );
-      // successful response, so reset file id and download password fields.
+      // reset form
       setFileId("");
       setDownloadPassword("");
-      //convert file downloaded to blob format
+      // download file
       downloadFile(response);
     } catch (error) {
+      //pop up alert modal if error
       const message = await errorHandler(error);
       dispatch(turnAlertOn(message));
     }

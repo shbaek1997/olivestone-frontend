@@ -11,22 +11,21 @@ import {
 
 // Modal content for deleting file
 export const ModalDeleteFile = ({ handleCancelButtonClick }) => {
-  //dispatch for redux
   const dispatch = useDispatch();
-  // use selector to get states- file id, files
   const fileId = useSelector((state) => state.modal.id);
   const files = useSelector((state) => state.files.files);
+  //handler for clicking delete file button
   const handleDeleteFileButtonClick = async (event) => {
     try {
-      //expire file on the server-side
+      //expire file + delete file in server directory on the server-side
       const api = Api();
       const response = await api.patch(`files/expireDate/${fileId}`, {
         headers: { "Content-Type": "application/json" },
       });
-      //filter files after deleting
+      //filter files after deleting to re-render files page
       const newFiles = files.filter((file) => file._id !== fileId);
       dispatch(setFiles(newFiles));
-      //alert user
+      //alert user that the file was deleted successfully
       const { originalName } = response?.data;
       dispatch(
         turnAlertOn(`${originalName} 파일이 성공적으로 삭제되었습니다.`)
@@ -34,6 +33,7 @@ export const ModalDeleteFile = ({ handleCancelButtonClick }) => {
       //turn off modal
       dispatch(turnOff());
     } catch (error) {
+      //pop up alert modal if error
       const message = await errorHandler(error);
       dispatch(turnAlertOn(message));
     }

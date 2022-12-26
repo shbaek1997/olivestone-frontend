@@ -1,7 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
-
-import useInput from "../hooks/useInput";
 import { turnOff, turnAlertOn } from "../context/modalSlice";
+import useInput from "../hooks/useInput";
 import Api from "../utils/api";
 import { errorHandler } from "../utils/error-handler";
 import { changeFilePasswordSchema } from "../validation/validationSchema";
@@ -12,15 +11,10 @@ import {
   StyledHeader,
 } from "../style/style";
 
-//modal content for change file password
-export const ModalChangePassword = ({ handleCancelButtonClick }) => {
-  //dispatch for redux
+//modal content for changing file password
+export const ModalChangeFilePassword = ({ handleCancelButtonClick }) => {
   const dispatch = useDispatch();
-  // use selector to get file Id
   const fileId = useSelector((state) => state.modal.id);
-
-  //states and handler for password form submission
-  //set new file password and password repeat in modal form
   const [filePassword, setFilePassword, handleChangeFilePassword] =
     useInput("");
   const [
@@ -28,16 +22,17 @@ export const ModalChangePassword = ({ handleCancelButtonClick }) => {
     setFileRepeatPassword,
     handleChangeFileRepeatPassword,
   ] = useInput("");
-  //handle modal submit for change password
+
+  //handler for change file password form submit
   const handleModalPasswordSubmit = async (event) => {
     try {
       event.preventDefault();
-      //validate password, repeat password formats
+      // validate form format for file password, file password repeat
       await changeFilePasswordSchema.validate({
         filePassword,
         filePasswordRepeat: fileRepeatPassword,
       });
-      //patch exisiting file with new password using patch api request
+      // use api to patch file password
       const api = Api();
       const response = await api.patch(
         `files/password/${fileId}`,
@@ -46,19 +41,20 @@ export const ModalChangePassword = ({ handleCancelButtonClick }) => {
           headers: { "Content-Type": "application/json" },
         }
       );
-      //after successful request, we reset input fields
+      // reset form
       setFilePassword("");
       setFileRepeatPassword("");
-      //alert user that password was changed successfully
+      // notify user that file password changed succesfully
       const { originalName } = response?.data;
       dispatch(
         turnAlertOn(
           `${originalName} 파일 비밀번호가 성공적으로 변경되었습니다.`
         )
       );
-      //reset fileId value and make modal inactive to clear modal
+      //turn off modal
       dispatch(turnOff());
     } catch (error) {
+      //pop up alert modal if error
       const message = await errorHandler(error);
       dispatch(turnAlertOn(message));
     }

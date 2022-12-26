@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { turnOff, turnAlertOn } from "../context/modalSlice";
+import { setUsers } from "../context/userSlice";
 import Api from "../utils/api";
 import { errorHandler } from "../utils/error-handler";
 import {
@@ -7,44 +8,47 @@ import {
   StyledButtonContainer,
   StyledButton,
 } from "../style/style";
-import { setUsers } from "../context/userSlice";
 
-// Modal content for deleting file
+// Modal content for deleting a user
 export const ModalDeleteUser = ({ handleCancelButtonClick }) => {
-  //dispatch for redux
   const dispatch = useDispatch();
-  // use selector to get states- file id, files
   const userId = useSelector((state) => state.modal.id);
   const users = useSelector((state) => state.users.users);
+  //handle clicking delete user button (userOnly)
   const handleDeleteUserButtonClick = async (event) => {
     try {
       event.preventDefault();
-      //expire file on the server-side
+      //delete user data using api
       const api = Api();
       const response = await api.delete(`users/${userId}`);
-      //filter files after deleting
+      //filter users after deleting
       const newUsers = users.filter((user) => user._id !== userId);
       dispatch(setUsers(newUsers));
-      //alert user
+      //alert user that the user was successfully deleted
       const { user } = response.data;
       const { fullname } = user;
       dispatch(turnAlertOn(`${fullname}님이 성공적으로 회원 탈퇴 되었습니다.`));
       //turn off modal
       dispatch(turnOff());
     } catch (error) {
+      //pop-up alert modal if error
       const message = await errorHandler(error);
       dispatch(turnAlertOn(message));
-      dispatch(turnOff());
     }
   };
+  // handle button click for delete user + user uploaded files
   const handleDeleteUserAndFilesButtonClick = async (event) => {
     try {
       event.preventDefault();
+      //use api to patch files uploaded by the selected user (expire on server + delete files in server dir)
       const api = Api();
       await api.patch(`files/${userId}`);
+      //use api to delete selected user data
       const userResponse = await api.delete(`users/${userId}`);
+      //filter users after deleting
       const newUsers = users.filter((user) => user._id !== userId);
       dispatch(setUsers(newUsers));
+      //alert user that user deletion + files deletion were successful
       const { user } = userResponse.data;
       const { fullname } = user;
       dispatch(
@@ -52,8 +56,10 @@ export const ModalDeleteUser = ({ handleCancelButtonClick }) => {
           `${fullname}님이 성공적으로 회원 탈퇴 되었고, 회원의 파일들도 같이 삭제되었습니다.`
         )
       );
+      //turn off modal
       dispatch(turnOff());
     } catch (error) {
+      //pop-up alert modal if error
       const message = await errorHandler(error);
       dispatch(turnAlertOn(message));
     }

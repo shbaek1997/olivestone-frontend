@@ -1,10 +1,9 @@
 import ReactDOM from "react-dom";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { turnAlertOff } from "../context/modalSlice";
-import { userLogout } from "../context/authSlice";
-import { toggleDarkMode } from "../context/darkModeSlice";
 import AlertModal from "./AlertModal";
+import { userLogout } from "../context/authSlice";
+import { turnAlertOff } from "../context/modalSlice";
 import {
   sortFilesAlph,
   sortFilesAlphReverse,
@@ -21,6 +20,7 @@ import {
   sortUsersRoleAlph,
   sortUsersUploadDate,
 } from "../context/userSlice";
+import { toggleDarkMode } from "../context/darkModeSlice";
 import {
   ALPHABETICAL,
   ALPHABETICAL_REVERSE,
@@ -37,8 +37,11 @@ import {
 } from "../config/variables";
 import { StyledNavBar, StyledSelect, StyledNavButton } from "../style/style";
 
+// Create popup modal component with confirm handler as prop
+// Popup modal for alerting users with pop up message
 const PopupModal = () => {
   const dispatch = useDispatch();
+  //confirm handler turn off alert
   const confirmHandler = () => {
     dispatch(turnAlertOff());
   };
@@ -63,8 +66,8 @@ export const NavBar = () => {
   const isPathRegister = pathName === "/register";
   const isPathUsers = pathName === "/users";
   const isPathProfile = pathName === "/profile";
-  // dispatch
   const dispatch = useDispatch();
+
   // handle logout button click
   const handleLogout = () => {
     //dispatch logout action
@@ -72,7 +75,7 @@ export const NavBar = () => {
     // go to login page
     navigate("/login");
   };
-  //get states - files, isLoggedIn, isDarkMode
+  //get states - files, users, isLoggedIn,  isAdmin, isDarkMode
   const files = useSelector((state) => state.files.files);
   const users = useSelector((state) => state.users.users);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -115,10 +118,11 @@ export const NavBar = () => {
       default:
     }
   };
+  //handle select change for sorting users
   const handleSelectChangeUsers = (event) => {
     //selected value in select options
     const selectedValue = event.target.value;
-    // for each value, sort files with the chosen method
+    // for each value, sort users with the chosen method
     switch (selectedValue) {
       case FULLNAME:
         dispatch(sortUsersNameAlph(users));
@@ -137,11 +141,7 @@ export const NavBar = () => {
     }
   };
   // actual nav bar structure
-  //check login, dark mode and path of the page
-  //if logged in - dark mode button, sort button, upload button, download button, logout button
-  //not logged in -dark mode button , download button, login button
-  // the boolean checks for the current page,
-  // so if you are in download page, the download button does not show in the nav bar
+  // check for login, user type, dark mode, path of current page etc..
   return isLoggedIn ? (
     <StyledNavBar>
       <PopupModal></PopupModal>

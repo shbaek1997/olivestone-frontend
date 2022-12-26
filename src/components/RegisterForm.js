@@ -1,35 +1,32 @@
 import { useDispatch } from "react-redux";
+import { turnAlertOn } from "../context/modalSlice";
 import useInput from "../hooks/useInput";
 import Api from "../utils/api";
-import { turnAlertOn } from "../context/modalSlice";
-import { registerSchema } from "../validation/validationSchema";
 import { errorHandler } from "../utils/error-handler";
+import { registerSchema } from "../validation/validationSchema";
 import { StyledForm, StyledButton, StyledInput } from "../style/style";
 
-//Upload Form
+//Register Form
 export const RegisterForm = () => {
-  // set password , password repeat, valid period for upload file +on change handlers
-  const [password, setPassword, handleChangePassword] = useInput("");
+  // set input variables -email, full name, password, password repeat
   const [email, setEmail, handleChangeEmail] = useInput("");
   const [fullname, setFullname, handleChangeFullname] = useInput("");
+  const [password, setPassword, handleChangePassword] = useInput("");
   const [passwordRepeat, setPasswordRepeat, handleChangePasswordRepeat] =
     useInput("");
   const dispatch = useDispatch();
-  // handle register submit
+  // handler for register form submission
   const handleRegisterSubmit = async (e) => {
     try {
       e.preventDefault();
-      // validate upload password, password repeat, valid period
-      ///나중에 validation 추가...
+      // validate data
       await registerSchema.validate({
         email,
         fullname,
         password,
         passwordRepeat,
       });
-      //create new form data
-      // add key/value to form data as api is required
-      // api post request
+      // register user in db using api
       const api = Api();
       const response = await api.post("users/register", {
         email,
@@ -37,24 +34,24 @@ export const RegisterForm = () => {
         password,
         passwordRepeat,
       });
+      // created user info
       const { user } = response.data;
       const newUser = user.fullname;
+      // notify user that sign-up was successful
       dispatch(
         turnAlertOn(
           `${newUser}님이 회원가입에 성공하였습니다. 이메일 인증을 해주세요!`
         )
       );
+      // reset input fields
       setPassword("");
       setPasswordRepeat("");
       setEmail("");
       setFullname("");
+      // send confirmation email
       await api.post("users/register/email", { email });
-      // upload success, so reset input fields
-
-      //get file name uploaded from response and alert user
-
-      // set upload success true to show user, uploaded file id
     } catch (error) {
+      //pop up alert modal if error
       const message = await errorHandler(error);
       dispatch(turnAlertOn(message));
     }

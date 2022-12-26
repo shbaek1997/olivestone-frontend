@@ -1,21 +1,17 @@
 import { useDispatch, useSelector } from "react-redux";
 import { turnOff, turnAlertOn } from "../context/modalSlice";
-import { errorHandler } from "../utils/error-handler";
 import { HOME_PAGE } from "../config/variables";
+import { errorHandler } from "../utils/error-handler";
 import {
   StyledForm,
   StyledHeader,
   StyledInput,
   StyledButton,
 } from "../style/style";
-//dispatch for redux
 
 //Modal content for share files
 export const ModalShareFile = ({ handleCancelButtonClick }) => {
-  //dispatch for redux
   const dispatch = useDispatch();
-
-  // use selector to get file Id
   const fileId = useSelector((state) => state.modal.id);
 
   //copy url variable for share file mode
@@ -28,9 +24,10 @@ export const ModalShareFile = ({ handleCancelButtonClick }) => {
       await window.navigator.clipboard.writeText(COPY_URL);
       //alert user
       dispatch(turnAlertOn("클립보드에 복사하였습니다"));
-      //make modal inactive
+      //turn off modal
       dispatch(turnOff());
     } catch (error) {
+      //pop-up alert modal if error
       const message = await errorHandler(error);
       dispatch(turnAlertOn(message));
     }

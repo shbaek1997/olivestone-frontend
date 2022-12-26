@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { StyledPage } from "../style/style";
 
-//Loading component
+//Loading page component
 export const Loading = () => {
   //get dark mode state
   const isDarkMode = useSelector((state) => state.darkMode.isActive);

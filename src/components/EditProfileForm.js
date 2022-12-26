@@ -1,8 +1,10 @@
-import { StyledForm, StyledButton } from "../style/style";
 import { useNavigate } from "react-router-dom";
-//download page
+import { StyledForm, StyledButton } from "../style/style";
+
+// first form the user see on the edit profile page
 export function EditProfileForm() {
   const navigate = useNavigate();
+  //two options - edit name/ edit password
   return (
     <StyledForm
       onSubmit={(e) => {

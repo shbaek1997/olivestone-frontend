@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { turnOff } from "../context/modalSlice";
-import { ModalChangePassword } from "./ModalChangePassword";
+import { ModalChangeFilePassword } from "./ModalChangeFilePassword";
 import { ModalShareFile } from "./ModalShareFile";
 import { ModalDeleteFile } from "./ModalDeleteFile";
 import { ModalDeleteUser } from "./ModalDeleteUser";
@@ -13,11 +13,10 @@ import {
   CHANGE_ROLE_BUTTON_NAME,
 } from "../config/variables";
 import { StyledPopupModal } from "../style/style";
-//File Modal component
+//Files and Users pop-up modal component
 const PopupModal = () => {
-  //dispatch for redux
   const dispatch = useDispatch();
-  // use selector to get states
+  //get states
   const modalMode = useSelector((state) => state.modal.modalMode);
   const isActive = useSelector((state) => state.modal.isActive);
   const isDarkMode = useSelector((state) => state.darkMode.isActive);
@@ -36,9 +35,9 @@ const PopupModal = () => {
       style={isActive ? { display: "flex" } : { display: "none" }}
     >
       {modalMode === CHANGE_PASSWORD_BUTTON_NAME && (
-        <ModalChangePassword
+        <ModalChangeFilePassword
           handleCancelButtonClick={handleCancelButtonClick}
-        ></ModalChangePassword>
+        ></ModalChangeFilePassword>
       )}
       {modalMode === SHARE_FILE_BUTTON_NAME && (
         <ModalShareFile

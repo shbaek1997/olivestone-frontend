@@ -1,20 +1,15 @@
 import { useSelector } from "react-redux";
 import { StyledAlertModal, StyledHeader, StyledButton } from "../style/style";
-//File Modal component
+// AlertModal is replacing the alert function
 const AlertModal = ({ confirmHandler }) => {
-  //dispatch for redux
   const isDarkMode = useSelector((state) => state.darkMode.isActive);
   const isAlertActive = useSelector((state) => state.modal.isAlertActive);
   const alertMessage = useSelector((state) => state.modal.alertModalContent);
-
-  //if modal is active, we display modal, else we display none
-  // depending on the mode of modal, the content of modal changes..
   return (
     <StyledAlertModal
-      // if darkmode, modal gets class "dark"
+      // if it is dark mode, modal style is dark
       className={isDarkMode && "dark"}
-      // if modal is active we display flex else modal display is none
-      //   style={isActive ? { display: "flex" } : { display: "none" }}
+      // if alert modal is active, we display the alert modal
       style={isAlertActive ? { display: "flex" } : { display: "none" }}
     >
       <StyledHeader>Message</StyledHeader>
