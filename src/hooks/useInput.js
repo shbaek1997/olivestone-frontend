@@ -1,5 +1,5 @@
 import { useState } from "react";
-//custom hook to set value, setValue, onChangeHandler
+//custom hook to set [value, setValue, onChangeHandler]
 // onChangeHandler just setValue as e.target.value
 const useInput = (initialValue = null) => {
   const [value, setValue] = useState(initialValue);

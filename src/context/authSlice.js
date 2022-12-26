@@ -43,12 +43,13 @@ const initialState = {
 };
 
 //slice name: auth
-//actions: change isLoggedIn state
+//actions: change isLoggedIn state, change user role
 const authSlice = createSlice({
   name: "auth",
   initialState,
   extraReducers: (builder) => {
     builder.addCase(fetchUserByJWT.fulfilled, (state, action) => {
+      //get user role
       const { role } = action.payload.user;
       state.isLoggedIn = true;
       state.role = role;
@@ -57,8 +58,8 @@ const authSlice = createSlice({
       state.isLoggedIn = false;
     });
     builder.addCase(userLogin.fulfilled, (state, action) => {
-      state.isLoggedIn = true;
       const { role } = action.payload;
+      state.isLoggedIn = true;
       state.role = role;
     });
     builder.addCase(userLogin.rejected, (state, action) => {

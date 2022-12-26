@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 //get initial state from local storage
-const initialDarkMode = JSON.parse(localStorage.getItem("dark-mode")) || false;
+const initialDarkMode = JSON.parse(localStorage.getItem("dark-mode")) ?? false;
 //modal initial state
 const initialState = {
   isActive: initialDarkMode,

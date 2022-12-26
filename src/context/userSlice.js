@@ -11,10 +11,11 @@ const usersSlice = createSlice({
   name: "users",
   initialState,
   reducers: {
-    //set files
+    //set users
     setUsers: (state, action) => {
       state.users = [...action.payload];
     },
+    //sort users
     sortUsersNameAlph: (state, action) => {
       const alphNameSortedUsers = [...action.payload].sort(
         compareService.compareAlphUserName

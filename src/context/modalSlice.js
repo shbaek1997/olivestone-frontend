@@ -23,17 +23,20 @@ const modalSlice = createSlice({
     turnOff: (state) => {
       state.isActive = false;
     },
+    // turn on alert modal
     turnAlertOn: (state, action) => {
       state.alertModalContent = action.payload;
       state.isAlertActive = true;
     },
+    // turn off alert modal
     turnAlertOff: (state) => {
       state.isAlertActive = false;
     },
-    // set file id for modal
+    // set any (file or user) id for modal
     setId: (state, action) => {
       state.id = action.payload;
     },
+    //set role of clicked user in user info page
     setClickedUserRole: (state, action) => {
       state.clickedUserRole = action.payload;
     },
