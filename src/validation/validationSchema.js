@@ -1,6 +1,6 @@
 import * as yup from "yup";
-//schemas using yup validation library
-// login ,download, upload, change password schemas
+//form submission schemas using yup validation library
+//login
 const loginSchema = yup.object({
   email: yup
     .string()
@@ -8,7 +8,7 @@ const loginSchema = yup.object({
     .required("email이 입력되지 않았습니다."),
   password: yup.string().required("비밀번호가 입력되지 않았습니다."),
 });
-
+//sign up
 const registerSchema = yup.object().shape({
   email: yup
     .string()
@@ -30,7 +30,7 @@ const registerSchema = yup.object().shape({
     )
     .required("비밀번호 확인이 입력되지 않았습니다."),
 });
-
+//download file
 const downloadFileSchema = yup.object({
   fileId: yup
     .string()
@@ -38,7 +38,7 @@ const downloadFileSchema = yup.object({
     .required(),
   filePassword: yup.string().required("파일 비밀번호가 입력되지 않았습니다."),
 });
-
+//upload file
 const uploadFileSchema = yup.object().shape({
   file: yup.mixed().required("선택된 파일이 없습니다."),
   uploadPassword: yup
@@ -57,6 +57,7 @@ const uploadFileSchema = yup.object().shape({
     .positive("유효기간은 음수일 수 없습니다.")
     .required("유효기간은 필수로 입력되어야 합니다."),
 });
+// change file password
 const changeFilePasswordSchema = yup.object().shape({
   filePassword: yup
     .string()
@@ -70,7 +71,7 @@ const changeFilePasswordSchema = yup.object().shape({
     )
     .required("비밀번호 확인이 입력되지 않았습니다."),
 });
-
+//change user's name
 const changeUserNameSchema = yup.object({
   name: yup
     .string()
@@ -78,7 +79,7 @@ const changeUserNameSchema = yup.object({
     .required("이름이 입력되지 않았습니다."),
   password: yup.string().required("비밀번호가 입력되지 않았습니다."),
 });
-
+//change user's password
 const changeUserPasswordSchema = yup.object().shape({
   newPassword: yup
     .string()
@@ -100,13 +101,14 @@ const changeUserPasswordSchema = yup.object().shape({
     .required("현재 비밀번호가 입력되지 않았습니다."),
 });
 
+//reset user's password - before token (only email)
 const resetPasswordEmailSchema = yup.object().shape({
   email: yup
     .string()
     .email("email 형식이 올바르지 않습니다.")
     .required("email이 입력되지 않았습니다."),
 });
-
+// reset user's password - after token (password + repeat)
 const resetPasswordPasswordSchema = yup.object().shape({
   password: yup
     .string()
