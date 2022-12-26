@@ -1,5 +1,5 @@
-import ReactDOM from "react-dom";
 import { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchUserByJWT } from "../context/authSlice";
@@ -17,11 +17,12 @@ import {
   StyledPaginationContainer,
 } from "../style/style";
 // create Modal and attach to body, so it is outside of files page
-// send file id, is modal active props, and setPropsFunc to change state of those props in the child components
+// File modal component
 const Modal = () => {
   return ReactDOM.createPortal(<FileModal></FileModal>, document.body);
 };
 
+//Files page
 export function Files() {
   //set file id and modal active, dark mode state
   const isActive = useSelector((state) => state.modal.isActive);
@@ -33,16 +34,12 @@ export function Files() {
   const handlePagination = (event) => {
     setPage(event);
   };
-  //navigate to navigate between pages
   const navigate = useNavigate();
-  //dispatch
   const dispatch = useDispatch();
   // set is loading state
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // set login value async function check for user token and see if user is logged in
-    // if not logged in, it redirects user back to home and "/files" route is protected
     // get all non expired files from the server and set files
     const getFile = async () => {
       try {
@@ -56,10 +53,9 @@ export function Files() {
         //set loading false
         setIsLoading(false);
         return;
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     };
+    //check user login + get files from server
     const fetchUserAndGetFile = async () => {
       try {
         //check user log in
@@ -71,8 +67,10 @@ export function Files() {
         navigate("/login");
       }
     };
+    // use function fetchUserAndGetFile
     fetchUserAndGetFile();
   }, [dispatch, navigate]);
+
   // dark-light mode class and active class for modal
   let classList = [];
   if (isDarkMode) {
@@ -82,7 +80,6 @@ export function Files() {
     classList.push("active");
   }
   //get combined classes for dark mode and modal active
-  //styled page classes change page blur and colors
   const classes = classList.join(" ");
   // table header inner content as an array
   const tableHeaderTitles = [
@@ -96,10 +93,9 @@ export function Files() {
     "Delete File",
   ];
   const isFilesListEmpty = files.length === 0;
-  //inside styled page, we have two classes that impact style of file page
-  // if loading, we show loading page
-  // else we show nav bar + table headers + file info + pagination at bottom
-  // the modal is outside of styled page and is attached to body - portal component
+  //in files page
+  //if loading, show loading
+  // else show files
   return (
     <StyledPage id="file-page" className={classes}>
       {/* if loading we show "loading..." else we show file page */}
@@ -108,6 +104,7 @@ export function Files() {
       ) : (
         <>
           <NavBar></NavBar>
+          {/* if file is empty we show file empty, else we show files */}
           {isFilesListEmpty ? (
             <>
               <h2
@@ -123,7 +120,6 @@ export function Files() {
             </>
           ) : (
             <>
-              {" "}
               <StyledFileContainer>
                 {tableHeaderTitles.map((title) => {
                   return (
@@ -174,7 +170,6 @@ export function Files() {
           )}
         </>
       )}
-      {/*Modal component here */}
       <Modal></Modal>
     </StyledPage>
   );

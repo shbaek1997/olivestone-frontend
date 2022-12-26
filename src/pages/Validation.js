@@ -1,31 +1,40 @@
 import ReactDOM from "react-dom";
-import { turnAlertOff } from "../context/modalSlice";
-import { turnAlertOn } from "../context/modalSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { turnAlertOff, turnAlertOn } from "../context/modalSlice";
 import AlertModal from "../components/AlertModal";
 import Api from "../utils/api";
-import { useSelector, useDispatch } from "react-redux";
 import { StyledButton, StyledPage } from "../style/style";
-import { useNavigate } from "react-router-dom";
 
+// modal for email confirmation button
 const ValidationModal = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  //confirm handler for pop up modal
   const confirmHandler = () => {
+    //turn off modal
     dispatch(turnAlertOff());
+    //go to login after clicking the button
     navigate("/login");
   };
+  //new alert modal for email confirmation
   return ReactDOM.createPortal(
     <AlertModal confirmHandler={confirmHandler}></AlertModal>,
     document.body
   );
 };
+// email validation page
 export const Validation = () => {
+  //get token from url params
   const url = new URLSearchParams(window.location.search);
   const token = url.get("token");
+  //check dark mode
   const isDarkMode = useSelector((state) => state.darkMode.isActive);
   const dispatch = useDispatch();
+  //handler for clicking confirmation button
   const onClickHandler = async () => {
     try {
+      //check email validation using api
       const api = Api();
       await api.get(`/users/verify?token=${token}`);
       dispatch(turnAlertOn(" 인증되었습니다."));

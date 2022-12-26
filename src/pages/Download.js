@@ -6,13 +6,11 @@ import { fetchUserByJWT } from "../context/authSlice";
 
 //download page
 export function Download() {
-  //dispatch
   const dispatch = useDispatch();
   // check user login by checking jwt for nav bar
   useEffect(() => {
     dispatch(fetchUserByJWT());
   }, [dispatch]);
-
   return (
     <PageLayout headerTitle="Download">
       <DownloadForm></DownloadForm>

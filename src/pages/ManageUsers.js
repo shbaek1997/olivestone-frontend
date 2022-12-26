@@ -1,8 +1,9 @@
-import ReactDOM from "react-dom";
 import { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchUserByJWT } from "../context/authSlice";
+import { setUsers } from "../context/userSlice";
 import Api from "../utils/api";
 import UserInfo from "../components/UserInfo";
 import UserModal from "../components/PopupModal";
@@ -15,17 +16,16 @@ import {
   StyledTableHeader,
   StyledPaginationContainer,
 } from "../style/style";
-import { setUsers } from "../context/userSlice";
-// create Modal and attach to body, so it is outside of files page
-// send file id, is modal active props, and setPropsFunc to change state of those props in the child components
+
+// create User Modal and attach to body, so it is outside of files page
 const Modal = () => {
   return ReactDOM.createPortal(<UserModal></UserModal>, document.body);
 };
 
+//manage users page
 export function ManageUsers() {
-  //set file id and modal active, dark mode state
+  //use selector to get modal active, current user role, dark mode and users state
   const isActive = useSelector((state) => state.modal.isActive);
-  // users state
   const users = useSelector((state) => state.users.users);
   const role = useSelector((state) => state.auth.role);
   const isDarkMode = useSelector((state) => state.darkMode.isActive);
@@ -35,58 +35,59 @@ export function ManageUsers() {
   const handlePagination = (event) => {
     setPage(event);
   };
-  //navigate to navigate between pages
   const navigate = useNavigate();
-  //dispatch
   const dispatch = useDispatch();
   // set is loading state
   const [isLoading, setIsLoading] = useState(true);
+  //check logged in user's role
   const isUserSuper = role === "super-user";
   const isUserAdmin = role === "admin";
 
   useEffect(() => {
-    // set login value async function check for user token and see if user is logged in
-    // if not logged in, it redirects user back to home and "/files" route is protected
-    // get all non expired files from the server and set files
+    //get users data from server
     const getUsers = async () => {
       try {
+        //use api to get users
+        // set users differently depending on the current user's role
         const api = Api();
         let usersFound = [];
+        //if user is just admin - get basic users only
         if (isUserAdmin) {
           const response = await api.get("/users/basic-users");
           const { data } = response;
           usersFound = data.users;
         }
+        // if user is super-user- get all users
         if (isUserSuper) {
           const response = await api.get("/users/all");
           const { data } = response;
           usersFound = data.users;
         }
+        //set users by dispatch
         dispatch(setUsers(usersFound));
         //set loading false
         setIsLoading(false);
         return;
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     };
-    const fetchUserAndGetFile = async () => {
+    const fetchUserAndGetUsers = async () => {
       try {
         //check user log in
         const response = await dispatch(fetchUserByJWT()).unwrap();
         const { user } = response;
         const { role } = user;
+        // if role is basic-user, the user should not be allowed in manage users page
         if (role === "basic-user") {
-          throw new Error("permission not allowed");
+          throw new Error("해당 페이지의 접근 권한이 없습니다.");
         }
-        // get file
+        // get users
         getUsers();
       } catch (error) {
         //failure redirects to login
         navigate("/login");
       }
     };
-    fetchUserAndGetFile();
+    fetchUserAndGetUsers();
   }, [dispatch, navigate, isUserAdmin, isUserSuper]);
   // dark-light mode class and active class for modal
   let classList = [];
@@ -97,10 +98,11 @@ export function ManageUsers() {
     classList.push("active");
   }
   //get combined classes for dark mode and modal active
-  //styled page classes change page blur and colors
   const classes = classList.join(" ");
+  //set class for the page
   const pageClass = isUserAdmin ? "admin" : "super-user";
   // table header inner content as an array
+  // table header should be different for admin users and super-user
   const tableHeaderTitles = isUserAdmin
     ? [
         "User ID",
@@ -121,12 +123,11 @@ export function ManageUsers() {
         "Change Role",
         "Delete User",
       ];
-  //inside styled page, we have two classes that impact style of file page
-  // if loading, we show loading page
-  // else we show nav bar + table headers + file info + pagination at bottom
-  // the modal is outside of styled page and is attached to body - portal component
+
+  //check if users list is empty
   const isUsersListEmpty = users.length === 0;
   return (
+    //if loading show loading page, then check logged in user's role and render page accordingly
     <StyledPage id="file-page" className={classes}>
       {/* if loading we show "loading..." else we show file page */}
       {isLoading ? (
@@ -134,6 +135,7 @@ export function ManageUsers() {
       ) : (
         <>
           <NavBar></NavBar>
+          {/* check if users list is empty */}
           {isUsersListEmpty ? (
             <>
               <h2
@@ -149,6 +151,7 @@ export function ManageUsers() {
             </>
           ) : (
             <>
+              {/* set table headers */}
               <StyledUserContainer className={pageClass}>
                 {tableHeaderTitles.map((title) => {
                   return (

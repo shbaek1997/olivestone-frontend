@@ -1,11 +1,11 @@
-//import
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { fetchUserByJWT } from "../context/authSlice";
 import { PageLayout } from "../components/PageLayout";
 import { LogInForm } from "../components/LoginForm";
 import { Loading } from "../components/Loading";
-import { fetchUserByJWT } from "../context/authSlice";
+
 //Login page
 export function Login() {
   const dispatch = useDispatch();
@@ -17,8 +17,9 @@ export function Login() {
   useEffect(() => {
     const checkUserLogin = async () => {
       try {
-        //dispatch no error => loggedin
+        //dispatch fetch user
         await dispatch(fetchUserByJWT()).unwrap();
+        // success means already logged in, so redirect to upload
         navigate("/upload");
       } catch (error) {
         //not loggedIn

@@ -1,44 +1,42 @@
-//import
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
+import { fetchUserByJWT } from "../context/authSlice";
 import { PageLayout } from "../components/PageLayout";
 import { Loading } from "../components/Loading";
-import { fetchUserByJWT } from "../context/authSlice";
 import { EditProfileForm } from "../components/EditProfileForm";
 import { EditProfileNameForm } from "../components/EditProfileNameForm";
 import { EditProfilePasswordForm } from "../components/EditProfilePassword";
-//Login page
+
+//change profile page
 export function Profile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // loading state
+  // is loading state
   const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
-  // Get path
+  //get path name
   const pathName = location.pathname;
   const isPathDefault = pathName === "/profile";
   const isPathName = pathName === "/profile/name";
   const isPathPassword = pathName === "/profile/password";
-  // check for user login and redirect to upload if logged in
-  // else set loading to false
+
   useEffect(() => {
     const checkUserLogin = async () => {
       try {
-        //dispatch no error => loggedin
+        //check user login
         await dispatch(fetchUserByJWT()).unwrap();
+        //set loading to false
         setIsLoading(false);
       } catch (error) {
-        //not loggedIn
-
+        //if not logged in, redirect to login page
         navigate("/login");
       }
     };
     checkUserLogin();
   }, [dispatch, navigate]);
   const headerTitle = "Edit Profile";
-
-  //if loading show loading component else show log in form
+  //depending on the path of current page, we show different forms
   return isLoading ? (
     <Loading></Loading>
   ) : (
