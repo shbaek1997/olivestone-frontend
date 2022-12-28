@@ -4,6 +4,7 @@ import useInput from "../hooks/useInput";
 import Api from "../utils/api";
 import { errorHandler } from "../utils/error-handler";
 import { registerSchema } from "../validation/validationSchema";
+import { PasswordInput } from "./PasswordInput";
 import { StyledForm, StyledButton, StyledInput } from "../style/style";
 
 //Register Form
@@ -80,22 +81,27 @@ export const RegisterForm = () => {
         onChange={handleChangeFullname}
         required
       ></StyledInput>
-      <label htmlFor="password-input">Password</label>
-      <StyledInput
-        id="password-input"
-        type="password"
-        value={password}
-        onChange={handleChangePassword}
-        required
-      ></StyledInput>
-      <label htmlFor="password-repeat-input">Confirm Password</label>
+      <PasswordInput
+        title="Password"
+        inputId={"password-input"}
+        passwordValue={password}
+        onChangePasswordHandler={handleChangePassword}
+      ></PasswordInput>
+      <PasswordInput
+        title={"Confirm Password"}
+        inputId={"password-repeat-input"}
+        passwordValue={passwordRepeat}
+        onChangePasswordHandler={handleChangePasswordRepeat}
+      ></PasswordInput>
+
+      {/* <label htmlFor="password-repeat-input">Confirm Password</label>
       <StyledInput
         id="password-repeat-input"
         type="password"
         value={passwordRepeat}
         onChange={handleChangePasswordRepeat}
         required
-      ></StyledInput>
+      ></StyledInput> */}
       <StyledButton type="submit">Sign Up</StyledButton>
     </StyledForm>
   );

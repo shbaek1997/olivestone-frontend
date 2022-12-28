@@ -5,6 +5,7 @@ import useInput from "../hooks/useInput";
 import Api from "../utils/api";
 import { errorHandler } from "../utils/error-handler";
 import { uploadFileSchema } from "../validation/validationSchema";
+import { PasswordInput } from "./PasswordInput";
 import {
   StyledForm,
   StyledButton,
@@ -92,22 +93,18 @@ export const UploadForm = () => {
         type="file"
         required
       ></StyledFileInput>
-      <label htmlFor="file-password-input">File Password</label>
-      <StyledInput
-        id="file-password-input"
-        type="password"
-        value={uploadPassword}
-        onChange={handleChangeUploadPassword}
-        required
-      ></StyledInput>
-      <label htmlFor="file-password-repeat-input">Confirm File Password</label>
-      <StyledInput
-        id="file-password-repeat-input"
-        type="password"
-        value={uploadPasswordRepeat}
-        onChange={handleChangeUploadPasswordRepeat}
-        required
-      ></StyledInput>
+      <PasswordInput
+        title={"File Password"}
+        inputId={"file-password-input"}
+        passwordValue={uploadPassword}
+        onChangePasswordHandler={handleChangeUploadPassword}
+      ></PasswordInput>
+      <PasswordInput
+        title={"Confirm File Password"}
+        inputId={"file-password-repeat-input"}
+        passwordValue={uploadPasswordRepeat}
+        onChangePasswordHandler={handleChangeUploadPasswordRepeat}
+      ></PasswordInput>
       <label htmlFor="valid-days-input">Valid for ( in days )</label>
       <StyledInput
         id="valid-days-input"

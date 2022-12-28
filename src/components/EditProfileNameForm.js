@@ -5,6 +5,7 @@ import useInput from "../hooks/useInput";
 import Api from "../utils/api";
 import { errorHandler } from "../utils/error-handler";
 import { changeUserNameSchema } from "../validation/validationSchema";
+import { PasswordInput } from "./PasswordInput";
 import { StyledForm, StyledButton, StyledInput } from "../style/style";
 
 //form content for edit profile name
@@ -51,13 +52,19 @@ export const EditProfileNameForm = () => {
         value={name}
         onChange={handleChangeName}
       ></StyledInput>
-      <label htmlFor="current-password-input">Current Password</label>
+      <PasswordInput
+        title={"Current Password"}
+        inputId={"current-password-input"}
+        passwordValue={password}
+        onChangePasswordHandler={handleChangePassword}
+      ></PasswordInput>
+      {/* <label htmlFor="current-password-input">Current Password</label>
       <StyledInput
         id="current-password-input"
         type="password"
         value={password}
         onChange={handleChangePassword}
-      ></StyledInput>
+      ></StyledInput> */}
       <StyledButton type="submit">Change Name</StyledButton>
     </StyledForm>
   );
