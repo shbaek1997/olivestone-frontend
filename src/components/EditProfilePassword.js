@@ -5,7 +5,8 @@ import useInput from "../hooks/useInput";
 import Api from "../utils/api";
 import { errorHandler } from "../utils/error-handler";
 import { changeUserPasswordSchema } from "../validation/validationSchema";
-import { StyledForm, StyledButton, StyledInput } from "../style/style";
+import { PasswordInput } from "./PasswordInput";
+import { StyledForm, StyledButton } from "../style/style";
 
 export const EditProfilePasswordForm = () => {
   const [newPassword, setNewPassword, handleChangeNewPassword] = useInput("");
@@ -54,27 +55,24 @@ export const EditProfilePasswordForm = () => {
   };
   return (
     <StyledForm method="post" onSubmit={handleChangePasswordSubmit}>
-      <label htmlFor="new-password-input">New Password</label>
-      <StyledInput
-        id="new-password-input"
-        type="password"
-        value={newPassword}
-        onChange={handleChangeNewPassword}
-      ></StyledInput>
-      <label htmlFor="new-password-repeat-input">Confirm New Password</label>
-      <StyledInput
-        id="new-password-repeat-input"
-        type="password"
-        value={newPasswordRepeat}
-        onChange={handleChangeNewPasswordRepeat}
-      ></StyledInput>
-      <label htmlFor="old-password-input">Current Password</label>
-      <StyledInput
-        id="old-password-input"
-        type="password"
-        value={oldPassword}
-        onChange={handleChangeOldPassword}
-      ></StyledInput>
+      <PasswordInput
+        title={"New Password"}
+        inputId={"new-password-input"}
+        passwordValue={newPassword}
+        onChangePasswordHandler={handleChangeNewPassword}
+      ></PasswordInput>
+      <PasswordInput
+        title={"Confirm New Password"}
+        inputId={"new-password-repeat-input"}
+        passwordValue={newPasswordRepeat}
+        onChangePasswordHandler={handleChangeNewPasswordRepeat}
+      ></PasswordInput>
+      <PasswordInput
+        title={"Current Password"}
+        inputId={"old-password-input"}
+        passwordValue={oldPassword}
+        onChangePasswordHandler={handleChangeOldPassword}
+      ></PasswordInput>
       <StyledButton type="submit">Change Password</StyledButton>
     </StyledForm>
   );

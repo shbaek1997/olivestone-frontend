@@ -5,6 +5,7 @@ import { userLogin } from "../context/authSlice";
 import { turnAlertOn } from "../context/modalSlice";
 import useInput from "../hooks/useInput";
 import { loginSchema } from "../validation/validationSchema";
+import { PasswordInput } from "./PasswordInput";
 import { StyledForm, StyledButton, StyledInput } from "../style/style";
 
 //login form component
@@ -43,12 +44,12 @@ export const LogInForm = () => {
         value={email}
         onChange={handleChangeEmail}
       ></StyledInput>
-      <label>Password</label>
-      <StyledInput
-        type="password"
-        value={password}
-        onChange={handleChangePassword}
-      ></StyledInput>
+      <PasswordInput
+        title={"Password"}
+        inputId={"password-input"}
+        passwordValue={password}
+        onChangePasswordHandler={handleChangePassword}
+      ></PasswordInput>
       <StyledButton type="submit" onSubmit={handleLoginSubmit}>
         Log in
       </StyledButton>

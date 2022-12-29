@@ -4,12 +4,8 @@ import useInput from "../hooks/useInput";
 import Api from "../utils/api";
 import { errorHandler } from "../utils/error-handler";
 import { changeFilePasswordSchema } from "../validation/validationSchema";
-import {
-  StyledForm,
-  StyledInput,
-  StyledButton,
-  StyledHeader,
-} from "../style/style";
+import { PasswordInput } from "./PasswordInput";
+import { StyledForm, StyledButton, StyledHeader } from "../style/style";
 
 //modal content for changing file password
 export const ModalChangeFilePassword = ({ handleCancelButtonClick }) => {
@@ -64,24 +60,18 @@ export const ModalChangeFilePassword = ({ handleCancelButtonClick }) => {
     <>
       <StyledForm onSubmit={handleModalPasswordSubmit}>
         <StyledHeader>Change Password</StyledHeader>
-        <label htmlFor="file-password-input">Enter new file password</label>
-        <StyledInput
-          id="file-password-input"
-          type={"password"}
-          required
-          value={filePassword}
-          onChange={handleChangeFilePassword}
-        ></StyledInput>
-        <label htmlFor="file-password-repeat-input">
-          Confirm new file password
-        </label>
-        <StyledInput
-          id="file-password-repeat-input"
-          type={"password"}
-          required
-          value={fileRepeatPassword}
-          onChange={handleChangeFileRepeatPassword}
-        ></StyledInput>
+        <PasswordInput
+          title={"Enter new file password"}
+          inputId={"file-password-input"}
+          passwordValue={filePassword}
+          onChangePasswordHandler={handleChangeFilePassword}
+        ></PasswordInput>
+        <PasswordInput
+          title={"Password"}
+          inputId={"file-password-repeat-input"}
+          passwordValue={fileRepeatPassword}
+          onChangePasswordHandler={handleChangeFileRepeatPassword}
+        ></PasswordInput>
         <StyledButton>Change</StyledButton>
       </StyledForm>
       <StyledButton onClick={handleCancelButtonClick}>Cancel</StyledButton>

@@ -5,6 +5,7 @@ import Api from "../utils/api";
 import downloadFile from "../utils/downloadFile";
 import { errorHandler } from "../utils/error-handler";
 import { downloadFileSchema } from "../validation/validationSchema";
+import { PasswordInput } from "./PasswordInput";
 import { StyledForm, StyledButton, StyledInput } from "../style/style";
 
 //form content for downloading files
@@ -61,13 +62,19 @@ export function DownloadForm() {
         onChange={handleChangeFileId}
         value={fileId}
       ></StyledInput>
-      <label htmlFor="file-password-input">File Password</label>
+      <PasswordInput
+        title={"File Password"}
+        inputId={"file-password-input"}
+        passwordValue={downloadPassword}
+        onChangePasswordHandler={handleChangeDownloadPassword}
+      ></PasswordInput>
+      {/* <label htmlFor="file-password-input">File Password</label>
       <StyledInput
         id="file-password-input"
         type="password"
         onChange={handleChangeDownloadPassword}
         value={downloadPassword}
-      ></StyledInput>
+      ></StyledInput> */}
       <StyledButton type="submit">Download File</StyledButton>
     </StyledForm>
   );

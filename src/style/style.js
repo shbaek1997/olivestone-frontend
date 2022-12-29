@@ -31,13 +31,28 @@ export const StyledInput = styled.input`
   padding: 10px;
   border: 4px solid white;
   box-shadow: 0px 0px 5px rgb(60, 60, 60);
-  &:last-of-type {
-    margin-bottom: 40px;
-  }
   &:focus {
     outline: none;
     border-color: ${MIDDLE_COLOR};
   }
+`;
+
+export const StyledPasswordInput = styled.input`
+  width: 90%;
+  margin: 10px;
+  padding: 10px;
+  border: 4px solid white;
+  box-shadow: 0px 0px 5px rgb(60, 60, 60);
+  &:focus {
+    outline: none;
+    border-color: ${MIDDLE_COLOR};
+  }
+`;
+export const StyledPasswordDiv = styled.div`
+  position: relative;
+  marginbottom: 0px;
+  margin: 0px;
+  padding: 0px;
 `;
 
 export const StyledContainer = styled.div`

@@ -8,6 +8,7 @@ import {
   resetPasswordEmailSchema,
   resetPasswordPasswordSchema,
 } from "../validation/validationSchema";
+import { PasswordInput } from "./PasswordInput";
 import { StyledForm, StyledButton, StyledInput } from "../style/style";
 
 //reset password form component
@@ -79,20 +80,18 @@ export const ResetPasswordForm = ({ isTokenValid, user }) => {
 
   return isTokenValid ? (
     <StyledForm method="post" onSubmit={handleResetPasswordSubmit}>
-      <label htmlFor="password-input">Password</label>
-      <StyledInput
-        id="password-input"
-        type="password"
-        onChange={handleChangePassword}
-        value={password}
-      ></StyledInput>
-      <label htmlFor="password-repeat-input">Confirm Password</label>
-      <StyledInput
-        id="password-repeat-input"
-        type="password"
-        onChange={handleChangePasswordRepeat}
-        value={passwordRepeat}
-      ></StyledInput>
+      <PasswordInput
+        title={"Password"}
+        inputId={"password-input"}
+        passwordValue={password}
+        onChangePasswordHandler={handleChangePassword}
+      ></PasswordInput>
+      <PasswordInput
+        title={"Confirm Password"}
+        inputId={"password-repeat-input"}
+        passwordValue={passwordRepeat}
+        onChangePasswordHandler={handleChangePasswordRepeat}
+      ></PasswordInput>
       <StyledButton type="submit">Reset Password</StyledButton>
     </StyledForm>
   ) : (
